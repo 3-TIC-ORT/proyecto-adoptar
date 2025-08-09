@@ -2,21 +2,44 @@ body {
     background-color: #c8f1f8;
     font-family:'Poppins', sans-serif;
 }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 #titulo{
 text-align: center;
+margin-top: 30px;
+}
+h4{
+    position: relative;
+    top: 40px;
+    margin-left: 20px;
+    font-weight: 100;
+    line-height: 3;
+    opacity: 100;
+    cursor: default;
+}
+h4:hover{
+    color:#3165A5;
+    cursor: pointer;
 }
 #home{
+     font-weight: 100;
     position: absolute;
     font-size: 30px;
-    margin-top: -60px;
-    margin-left:150px;
+    top: 30px;
+    left:186px;
 }
 #Iconofiltrar {
     position: absolute;
     width: 30px;
     height: 30px;
-    top: 22px;
+    top: 30px;
     right: 200px;
+}
+#Iconofiltrar:hover{
+    cursor: pointer;
 }
 .circulo {
   position: absolute;
@@ -27,19 +50,52 @@ right: 750px;
   background-color: #3165A5;
   border-radius: 50%;
 }
+.circulo:hover{ 
+    border-color: black;
+    border-style: solid;
+    border-width: 2px;
+}
 .circuloperfil {
     position: absolute;
     width: 40px;
     height: 40px;
-    top: 18px;
+    top: 26px;
     left: 1600px;
     background-color: black;
     border-radius: 50%;
+    cursor: pointer;
 }
 .linea {
     height: 1px;
     background-color: black;
-    left: 200px;
-    width: 1690px;
-margin-top: -290px;
+    left: 168px;
+    width: 100%;
+    margin-top: -300px;
+}
+.rayasfiltro {
+  display: block;
+  width: 50px;
+  height: 30px;
+  top: -70px;
+  margin-left: -70px;
+  position: relative;
+  cursor: pointer;
+  left: 100px;
+}
+.rayasfiltro #raya1, #raya2, #raya3 {
+  position: absolute;
+  background-color: black;
+  content: '';
+  border-radius: 5px;
+  width: 50px;
+  height: 5px;
+}
+.rayasfiltro #raya2 {
+  top: 10px;
+}
+.rayasfiltro #raya3 {
+  top: 20px;
+}
+#rayasfiltro{
+    display: none;
 }
