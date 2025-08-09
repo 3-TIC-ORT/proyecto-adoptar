@@ -6,9 +6,17 @@ body {
 text-align: center;
 }
 #home{
+    position: absolute;
     font-size: 50px;
-    top: 56px;
-    left:px;
+    top: 25px;
+    left:150px;
+}
+#Iconofiltrar {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    top: 30px;
+    right: 200px;
 }
 .circulo {
   position: absolute;
@@ -31,6 +39,7 @@ right: 750px;
 .linea {
     height: 1px;
     background-color: black;
-    width: 100%;
-    top: 100px;
+    left: 200px;
+    width: 1690px;
+    margin-top: -400px;
 }
