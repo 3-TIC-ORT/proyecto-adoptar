@@ -11,18 +11,21 @@ body {
 text-align: center;
 margin-top: 30px;
 }
-h4{
+.menu-item {
     position: relative;
     top: 40px;
     margin-left: 20px;
     font-weight: 100;
     line-height: 3;
-    opacity: 100;
+    opacity: 0;
     cursor: default;
 }
-h4:hover{
-    color:#3165A5;
+.menu-item.show {
+    opacity: 1;
     cursor: pointer;
+}
+.menu-item:hover{
+    color:#3165A5;
 }
 #home{
      font-weight: 100;
@@ -43,7 +46,8 @@ h4:hover{
 }
 .circulo {
   position: absolute;
-right: 750px;
+    left: 50%;
+    transform: translateX(-50%);
  bottom: 50px; 
   width: 100px;
   height: 100px;
