@@ -43,7 +43,7 @@ transform: translateX(-50%);
 #Correo:hover, #Contraseña:hover{
     text-decoration: underline;
 background-color: rgb(194, 208, 208);
-    cursor: pointer;
+    cursor: text;
 }
 #Olvidastecontraseña{
 position: absolute;
