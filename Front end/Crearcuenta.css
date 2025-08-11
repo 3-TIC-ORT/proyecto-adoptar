@@ -1,4 +1,4 @@
- body {
+body {
     background-color: #c8f1f8;
     font-family:'Poppins', sans-serif;
 }
@@ -7,7 +7,7 @@
     padding: 0;
     box-sizing: border-box;
 }
-#Ingresar{
+#Crear{
 position: absolute;
 text-align: center;
 top: 220px;
@@ -52,33 +52,20 @@ transform: translateX(-50%);
             border: 1px solid #3165A5;
             background-color: white;
         }
-#Olvidastecontraseña{
+#Sicuenta{
 position: absolute;
 text-align: center;
-top: 520px;
+top: 530px;
 left: 50%;
 transform: translateX(-50%);
     font-size: medium;
     color: #3165A5;
     cursor: pointer;
 }
-#Olvidastecontraseña:hover{
+#Sicuenta:hover{
     text-decoration: underline;
 }
-#Nocuenta{
-position: absolute;
-text-align: center;
-top: 560px;
-left: 50%;
-transform: translateX(-50%);
-    font-size: medium;
-    color: #3165A5;
-    cursor: pointer;
-}
-#Nocuenta:hover{
-    text-decoration: underline;
-}
-#Iniciar-sesion{
+#Crear-cuenta{
 position: absolute;
 text-align: center;
 top: 440px;
@@ -92,7 +79,7 @@ transform: translateX(-50%);
     border: none;
     border-radius: 3px;
 }
-#Iniciar-sesion:hover{
+#Crear-cuenta:hover{
     cursor: pointer;
     background-color: #1f4f7a;
 }

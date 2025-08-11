@@ -20,13 +20,6 @@ margin-top: 30px;
     opacity: 0;
     cursor: default;
 }
-.menu-item.show {
-    opacity: 1;
-    cursor: pointer;
-}
-.menu-item:hover{
-    color:#3165A5;
-}
 #home{
      font-weight: 100;
     position: absolute;
@@ -69,6 +62,7 @@ z-index: 2;
     border-style: solid;
     border-width: 2px;
     background-color: #1f4f7a;
+    cursor: pointer;
 }
 .circuloperfil {
     position: absolute;
@@ -80,10 +74,15 @@ z-index: 2;
     border-radius: 50%;
     cursor: pointer;
 }
+.circuloperfil:hover{
+    border-color: bisque;
+    border-style: solid;
+    border-width: 2px;
+}
 .linea {
+    position: relative;
     height: 1px;
     background-color: black;
-    left: 168px;
     width: 100%;
     margin-top: -300px;
 }
@@ -113,4 +112,12 @@ z-index: 2;
 }
 #rayasfiltro{
     display: none;
+}
+.menu-item.show {
+    opacity: 1;
+    cursor: pointer;
+}
+.menu-item:hover{
+    color:#3165A5;
+    text-decoration: underline;
 }
