@@ -20,7 +20,7 @@ top: 220px;
 #Correo{
     position:absolute;
     top: 310px;
-    left: 440px;
+    left: 570px;
     font-size:medium;
 }
 #sesión{
@@ -37,7 +37,7 @@ top: 220px;
     #Contraseña
 {position: absolute;
 top: 380px;
-left: 470px;
+left: 600px;
 font-size: medium;
 transform: translateX(-50%);
 }

@@ -11,3 +11,8 @@ document.addEventListener("click", (e) => {
         items.forEach(item => item.classList.remove("show"));
     }
 });
+
+let botonperfil = document.querySelector(".circuloperfil");
+botonperfil.addEventListener("click", () => {
+window.location.href = "file:///C:/Users/bruno/OneDrive/Documentos/GitHub/proyecto-adoptar/Front-end/Perfildeusuario/Perfildeusuario.html";
+});
