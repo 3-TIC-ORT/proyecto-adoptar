@@ -17,12 +17,6 @@ top: 220px;
     height: 50px;
     font-size: x-large;
 }
-#Correo{
-    position:absolute;
-    top: 310px;
-    left: 570px;
-    font-size:medium;
-}
 #sesión{
     position: absolute;
     top: 300px;
@@ -34,13 +28,6 @@ top: 220px;
         border: 1px solid #3165A5;
         background-color: white;
     }
-    #Contraseña
-{position: absolute;
-top: 380px;
-left: 600px;
-font-size: medium;
-transform: translateX(-50%);
-}
     #password{
         position: absolute;
         top: 370px;
