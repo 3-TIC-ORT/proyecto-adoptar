@@ -14,5 +14,9 @@ document.addEventListener("click", (e) => {
 
 let botonperfil = document.querySelector(".circuloperfil");
 botonperfil.addEventListener("click", () => {
-window.location.href = "file:///C:/Users/bruno/OneDrive/Documentos/GitHub/proyecto-adoptar/Front-end/Perfildeusuario/Perfildeusuario.html";
+window.location.href = "file:///C:/Users/50029728/Documents/GitHub/proyecto-adoptar/Front-end/Perfildeusuario/Perfildeusuario.html";
+});
+let botonformulario= document.querySelector(".circulo");
+botonformulario.addEventListener("click", () => {
+window.location.href = "file:///C:/Users/50029728/Documents/GitHub/proyecto-adoptar/Front-end/Formulario/Formulario.html";
 });
