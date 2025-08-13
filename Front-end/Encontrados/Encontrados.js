@@ -32,7 +32,7 @@ iradoptar.addEventListener("click", () => {
     irtransitar.addEventListener("click", () => {
         window.location.href = "file:///C:/Users/50029728/Documents/GitHub/proyecto-adoptar/Front-end/Paratransitar/Paratransitar.html";
         });
-    let irperdidos= document.getElementById("Encontrados");
+    let irperdidos= document.getElementById("Perdidos");
 irperdidos.addEventListener("click", () => {
     window.location.href = "file:///C:/Users/50029728/Documents/GitHub/proyecto-adoptar/Front-end/Perdidos/Perdidos.html";
          });
