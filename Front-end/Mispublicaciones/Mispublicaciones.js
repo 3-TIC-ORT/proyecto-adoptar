@@ -14,33 +14,33 @@ document.addEventListener("click", (e) => {
 
 let botonperfil = document.querySelector(".circuloperfil");
 botonperfil.addEventListener("click", () => {
-window.location.href = "file:///C:/Users/50029728/Documents/GitHub/proyecto-adoptar/Front-end/Perfildeusuario/Perfildeusuario.html";
+window.location.href = "../Perfildeusuario/Perfildeusuario.html";
 });
 let botonformulario= document.querySelector(".circulo");
 botonformulario.addEventListener("click", () => {
-window.location.href = "file:///C:/Users/50029728/Documents/GitHub/proyecto-adoptar/Front-end/Formulario/Formulario.html";
+window.location.href = "../Formulario/Formulario.html";
 });
 let irhome= document.getElementById("Home");
 irhome.addEventListener("click", () => {
-    window.location.href = "file:///C:/Users/50029728/Documents/GitHub/proyecto-adoptar/Front-end/Pantallaprincipal/Pantallaprincipal.html";
+    window.location.href = "../Pantallaprincipal/Pantallaprincipal.html";
     });
     let iradoptar= document.getElementById("Paraadoptar");
 iradoptar.addEventListener("click", () => {
-    window.location.href = "file:///C:/Users/50029728/Documents/GitHub/proyecto-adoptar/Front-end/Paraadoptar/Paraadoptar.html";
+    window.location.href = "../Paraadoptar/Paraadoptar.html";
     });
     let irtransitar= document.getElementById("Paratransitar");
     irtransitar.addEventListener("click", () => {
-        window.location.href = "file:///C:/Users/50029728/Documents/GitHub/proyecto-adoptar/Front-end/Paratransitar/Paratransitar.html";
+        window.location.href = "../Paratransitar/Paratransitar.html";
         });
     let irperdidos= document.getElementById("Perdidos");
 irperdidos.addEventListener("click", () => {
-    window.location.href = "file:///C:/Users/50029728/Documents/GitHub/proyecto-adoptar/Front-end/Perdidos/Perdidos.html";
+    window.location.href = "../Perdidos/Perdidos.html";
          });
      let irencontrados= document.getElementById("Encontrados");
     irencontrados.addEventListener("click", () => {
-    window.location.href = "file:///C:/Users/50029728/Documents/GitHub/proyecto-adoptar/Front-end/Encontrados/Encontrados.html";
+    window.location.href = "../Encontrados/Encontrados.html";
     });
       let irmisfavoritos= document.getElementById("Misfavoritos");
      irmisfavoritos.addEventListener("click", () => {
-    window.location.href = "file:///C:/Users/50029728/Documents/GitHub/proyecto-adoptar/Front-end/Misfavoritos/Misfavoritos.html";
+    window.location.href = "../Misfavoritos/Misfavoritos.html";
      });
