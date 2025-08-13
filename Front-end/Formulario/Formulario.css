@@ -94,3 +94,56 @@ position: absolute;
     left: 46%;
     width: 200px;
 }
+#EspacioTelefono{
+    position: absolute;
+    top: 520px;
+    left: 50%;
+    width: 300px;
+    transform: translateX(-50%);
+        height: 40px;
+        border-radius: 3px;
+        border: 1px solid #3165A5;
+        background-color: white;
+    }
+#Telefono{
+position: absolute;
+    top: 500px;
+    left: 44%;
+    width: 200px;
+}
+
+#EspacioEncontrado{
+    position: absolute;
+    top: 590px;
+    left: 50%;
+    width: 300px;
+    transform: translateX(-50%);
+        height: 40px;
+        border-radius: 3px;
+        border: 1px solid #3165A5;
+        background-color: white;
+    }
+#Encontrado{
+position: absolute;
+    top: 570px;
+    left: 43%;
+    width: 200px;
+}
+#foto{
+    position: absolute;
+    top: 650px;
+    left: 43%;
+    width: 200px;
+}
+#foto1{
+    position: absolute;
+    top: 650px;
+    left: 30%;
+    width: 200px;
+}
+#foto3{
+    position: absolute;
+    top: 650px;
+    left: 58%;
+    width: 200px;
+}
