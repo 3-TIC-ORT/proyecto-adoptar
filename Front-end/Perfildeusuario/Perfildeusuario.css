@@ -1,0 +1,46 @@
+.circuloperfil {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    top: 26px;
+    right: 100px;
+    background-color: black;
+    border-radius: 50%;
+    cursor: pointer;
+
+}
+.linea {
+    position: relative;
+    height: 1px;
+    background-color: black;
+    width: 100%;
+    top: 0px
+    }
+body{
+    background-color: #c8f1f8;
+    font-family:'Poppins', sans-serif;
+}
+#saludarusuario{
+    position: absolute;
+    top: 100px;
+    left: 0%;
+    width: 400px;  
+}
+#email{
+    position: absolute;
+    top: 150px;
+    left: 0%;
+    width: 400px;  
+}
+#ubicacion{
+    position: absolute;
+    top: 200px;
+    left: 0%;
+    width: 400px;  
+}
+#Teléfono{
+    position: absolute;
+    top: 250px;
+    left: 0%;
+    width: 400px; 
+}
