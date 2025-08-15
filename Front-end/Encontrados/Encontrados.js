@@ -22,7 +22,7 @@ window.location.href = "../Formulario/Formulario.html";
 });
 let irhome= document.getElementById("Home");
 irhome.addEventListener("click", () => {
-    window.location.href = "..Pantallaprincipal/Pantallaprincipal.html";
+    window.location.href = "../Pantallaprincipal/Pantallaprincipal.html";
     });
     let iradoptar= document.getElementById("Paraadoptar");
 iradoptar.addEventListener("click", () => {

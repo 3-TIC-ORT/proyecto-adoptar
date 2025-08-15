@@ -1,123 +1,110 @@
 body {
     background-color: #c8f1f8;
     font-family:'Poppins', sans-serif;
-}
-* {
     margin: 0;
-    padding: 0;
-    box-sizing: border-box;
 }
-#titulo{
-text-align: center;
-margin-top: 30px;
+.header {
+    width: 1000px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 40px;
 }
-.menu-item {
-    position: relative;
-    top: 40px;
-    margin-left: 20px;
+.header-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 100px;
+}
+.iconos {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 20px;
+}
+#titulo {
+    font-size: 24px;
+    font-weight: bold;
+}
+#home {
     font-weight: 100;
-    line-height: 3;
-    opacity: 0;
-    cursor: default;
-}
-#Paratransitar{
-     font-weight: 100;
-    position: absolute;
     font-size: 30px;
-    top: 30px;
-    left:186px;
 }
 #Iconofiltrar {
-    position: absolute;
     width: 30px;
     height: 30px;
-    top: 30px;
-    right: 200px;
-}
-#Iconofiltrar:hover{
-    cursor: pointer;
-}
-#mas{
-    position: absolute;
-    color: white;
-    bottom: 30px; 
-    left: 50%;
-    transform: translateX(-50%);
-font-size: 50px;
-z-index: 2;
-}
-.circulo {
-  position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
- bottom: 30px; 
-  width: 60px;
-  height: 60px;
-  background-color: #3165A5;
-  border-radius: 50%;
-  z-index: 1;
-}
-.circulo:hover{ 
-    border-color: black;
-    border-style: solid;
-    border-width: 2px;
-    background-color: #1f4f7a;
     cursor: pointer;
 }
 .circuloperfil {
-    position: absolute;
     width: 40px;
     height: 40px;
-    top: 26px;
-    right: 100px;
     background-color: black;
     border-radius: 50%;
     cursor: pointer;
 }
-.circuloperfil:hover{
-    border-color: bisque;
-    border-style: solid;
-    border-width: 2px;
+.circuloperfil:hover {
+    border: 2px solid bisque;
 }
 .linea {
-    position: relative;
     height: 1px;
     background-color: black;
     width: 100%;
-    margin-top: -320px;
 }
-.rayasfiltro {
-position: relative;
-  display: block;
-  width: 50px;
-  height: 30px;
-  top: -50px;
-  margin-left: -70px;
-  cursor: pointer;
-  left: 100px;
+.menu-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    height: 70vh;
+    padding-left: 20px;
+    gap: 40px;
 }
-.rayasfiltro #raya1, #raya2, #raya3 {
-  position: absolute;
-  background-color: black;
-  content: '';
-  border-radius: 5px;
-  width: 50px;
-  height: 5px;
-}
-.rayasfiltro #raya2 {
-  top: 10px;
-}
-.rayasfiltro #raya3 {
-  top: 20px;
-}
-#rayasfiltro{
-    display: none;
-}
-.menu-item.show {
-    opacity: 1;
+.menu-item {
+    font-weight: 100;
     cursor: pointer;
 }
-.menu-item:hover{
-    color:#3165A5;
+.menu-item:hover {
+    color: #3165A5;
     text-decoration: underline;
 }
+#mas {
+    position: fixed;
+    bottom: -53px; 
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-size: 50px;
+    z-index: 2;
+}
+.circulo {
+    position: fixed;
+    bottom: 30px; 
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 60px;
+    background-color: #3165A5;
+    border-radius: 50%;
+    z-index: 1;
+}
+.circulo:hover { 
+    border: 2px solid black;
+    background-color: #1f4f7a;
+    cursor: pointer;
+}
+.rayasfiltro {
+    display: block;
+    width: 50px;
+    height: 30px;
+    cursor: pointer;
+    position: relative;
+}
+.rayasfiltro span {
+    position: absolute;
+    background-color: black;
+    border-radius: 5px;
+    width: 50px;
+    height: 5px;
+}
+#raya2 { top: 10px; }
+#raya3 { top: 20px; }
