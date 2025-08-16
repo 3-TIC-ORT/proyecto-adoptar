@@ -5,40 +5,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulario</title>
     <link rel="stylesheet" href="formulario.css">
+    <script src = 'Formulario.js' defer></script>
 </head>
 <body>
     <h1 id="titulo">AdoptAR</h1>
     <div class="linea"></div>
-    <input type="text" id="sesión"/>
-    <h3 id="pregunta">Nombre de la mascota</h3>
-    <label for="categorias" id="preguntacategorias">Selecciona una categoría:</label>
-<select id="categorias" name="categorias">
-    <option value="Perro">Perro</option>
-    <option value="Gato">Gato</option>
-</select>
 
-<label for="categorias2" id="preguntacategorias2">Selecciona una categoría:</label>
-<select id="categorias2" name="categorias">
-    <option value="Paraadoptar">Para adoptar</option>
-    <option value="Paratransitar">Para transitar</option>
-    <option value="Perdidos">Perdidos</option>
-    <option value="Encontrados">Encontrados</option>
-</select>
-<label for="categorias3" id="preguntacategorias3">Tiene alguna enfermedad o problema/discapacidad:</label>
-<select id="categorias3" name="categorias">
-    <option value="si">si</option>
-    <option value="si">no</option>
-</select>
-<input type="text" id="Espaciodesccripcion"/>
-<h3 id="Descripcion">Descripcion</h3>
-<input type="text" id="EspacioTelefono"/>
-<h3 id="Telefono">Numero de telefono</h3>
-<input type="text" id="EspacioEncontrado"/>
-<h3 id="Encontrado">Donde fue encontrado</h3>
-<form action="subir.php" method="post" enctype="multipart/form-data">
-    <label id="foto1" for="foto">Selecciona una imagen:</label>
-    <input  type="file" name="foto" id="foto" accept="image/*" required>
-    <button id="foto3" type="submit">Subir imagen</button>
-  </form>
+    <div class="form-container">
+        <h3 id="pregunta">Nombre de la mascota</h3>
+        <input type="text" id="sesion"/>
+
+        <label for="categorias" id="preguntacategorias">Selecciona una categoría:</label>
+        <select id="categorias" name="categorias">
+            <option value="Perro">Perro</option>
+            <option value="Gato">Gato</option>
+        </select>
+
+        <label for="categorias2" id="preguntacategorias2">Selecciona una categoría:</label>
+        <select id="categorias2" name="categorias">
+            <option value="Paraadoptar">Para adoptar</option>
+            <option value="Paratransitar">Para transitar</option>
+            <option value="Perdidos">Perdidos</option>
+            <option value="Encontrados">Encontrados</option>
+        </select>
+
+        <label for="categorias3" id="preguntacategorias3">Tiene alguna enfermedad o problema/discapacidad:</label>
+        <select id="categorias3" name="categorias">
+            <option value="si">Sí</option>
+            <option value="no">No</option>
+        </select>
+
+        <h3 id="Descripcion">Descripción</h3>
+        <input type="text" id="Espaciodescripcion"/>
+
+        <h3 id="Telefono">Número de teléfono</h3>
+        <input type="text" id="EspacioTelefono"/>
+
+        <h3 id="Encontrado">Dónde fue encontrado</h3>
+        <input type="text" id="EspacioEncontrado"/>
+
+        <form action="subir.php" method="post" enctype="multipart/form-data" class="foto-form">
+            <label id="foto1" for="foto">Selecciona una imagen:</label>
+            <input type="file" name="foto" id="foto" accept="image/*" required>
+            <button id="foto3" type="submit">Subir imagen</button>
+        </form>
+    </div>
 </body>
 </html>
