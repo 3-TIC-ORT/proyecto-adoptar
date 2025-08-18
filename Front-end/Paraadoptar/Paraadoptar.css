@@ -16,12 +16,15 @@ body {
     justify-content: flex-start;
     align-items: center; 
     gap: 20px; 
+    flex-basis: 0;
+    flex-grow: 0.3;
 } 
 
 .header-center { 
     display: flex; 
     justify-content: center; 
-    align-items: center; 
+    align-items: center;
+    flex-grow: 100%; 
 } 
 
 .iconos { 
@@ -30,6 +33,8 @@ body {
     align-items: center; 
     gap: 50px;
     margin-right: 20px;
+    flex-basis: 0;
+    flex-grow: 0.3;
 }
 #titulo { 
     font-size: 40px; 
