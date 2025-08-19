@@ -11,6 +11,19 @@ document.addEventListener("click", (e) => {
         items.forEach(item => item.classList.remove("show"));
     }
 });
+let botonfiltros2 = document.querySelector("#Iconofiltrar");
+let items2 = document.querySelectorAll(".Selectores1");
+
+botonfiltros2.addEventListener("click", () => {
+    items2.forEach(item2 => {
+        item2.classList.toggle("show");
+    });
+});
+document.addEventListener("click", (e) => {
+    if (!botonfiltros.contains(e.target) && !e.target.classList.contains("menu-item")) {
+        items.forEach(item => item.classList.remove("show"));
+    }
+});
 
 let botonperfil = document.querySelector(".circuloperfil");
 botonperfil.addEventListener("click", () => {
