@@ -3,18 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perfildeusuario</title>
+    <title>Perfil de usuario</title>
+    <link rel="stylesheet" href="Perfildeusuario.css">
 </head>
 <body>
-    <link rel="stylesheet" href="Perfildeusuario.css">
     <h1>Perfil de usuario</h1>
     <p>Bienvenido a tu perfil de usuario.</p>
-    <div  class="circuloperfil"></div>
     <div class="linea"></div>
-    <h2 id="saludarusuario">Hola nombre usuario</h2>
-    <p id="email">email: X@gmail.com</p>
-    <p id="ubicacion">Ubicación: x</p>    
-    <p id="Teléfono">Teléfono: x</p>
+    <div class="contenedor">
+        <div class="Textos">
+            <h2 id="saludarusuario">Hola nombre usuario</h2>
+            <p id="email">Email: X@gmail.com</p>
+            <p id="ubicacion">Ubicación: x</p>    
+            <p id="telefono">Teléfono: x</p>
+        </div>
 
+        <div class="circuloperfil"> </div>
+            <form action="subir.php" method="post" enctype="multipart/form-data" class="foto-form">
+                <label id="foto1" for="foto">Selecciona una imagen:</label>
+                <input type="file" name="foto" id="foto" accept="image/*" required>
+            </form>
+      
+    </div>
 </body>
 </html>
