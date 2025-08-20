@@ -13,17 +13,39 @@
     <div class="contenedor">
         <div class="Textos">
             <h2 id="saludarusuario">Hola nombre usuario</h2>
+            <p id="NombreUsuario">Nombre: x</p> 
             <p id="email">Email: X@gmail.com</p>
             <p id="ubicacion">Ubicación: x</p>    
             <p id="telefono">Teléfono: x</p>
+            <p id="Añodenacimiento">Año de nacimiento: x</p>
+            <p id="DescripcionUsuario">Descripcion: x</p>
+            <form>
+                <label for="respuesta">¿Busca adoptar o buscar un perro en transito?</label>
+                <select name="respuesta" id="respuesta" required>
+                  <option value="">Seleccione...</option>
+                  <option value="si">Sí</option>
+                  <option value="no">No</option>
+                </select>
+                <button type="submit">Enviar</button>
+              </form>
+              <form>
+                <label for="respuesta1">¿Busca poner en adopcion al perro o poner en transito?</label>
+                <select name="respuesta" id="respuesta" required>
+                  <option value="">Seleccione...</option>
+                  <option value="si">Sí</option>
+                  <option value="no">No</option>
+                </select>
+                <button type="submit">Enviar</button>
+              </form>
         </div>
 
-        <div class="circuloperfil"> </div>
+        <div class="perfil-container">
+            <div class="circuloperfil"></div>
             <form action="subir.php" method="post" enctype="multipart/form-data" class="foto-form">
-                <label id="foto1" for="foto">Selecciona una imagen:</label>
+                <label for="foto">Selecciona una imagen:</label>
                 <input type="file" name="foto" id="foto" accept="image/*" required>
             </form>
-      
+        </div>            
     </div>
 </body>
 </html>

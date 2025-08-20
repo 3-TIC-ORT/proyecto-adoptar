@@ -24,15 +24,22 @@ body{
 }
 
 .circuloperfil {
-margin-right: 200px;
-    width: 250px;
-    height: 250px;
+    width: 240px;
+    height: 240px;
     background-color: black;
     border-radius: 50%;
     cursor: pointer;
+    margin-left: -65px;
+    position: relative;
+    top: -20px;
 }
 .foto-form{
-    position: absolute;
-    top: 400px;
-    right: 200px;
+   flex-direction: column;
 }
+.perfil-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
