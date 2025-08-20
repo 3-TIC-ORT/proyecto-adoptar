@@ -12,13 +12,29 @@ document.addEventListener("click", (e) => {
     }
 });
 let botonfiltros2 = document.querySelector("#Iconofiltrar");
-let items2 = document.querySelectorAll(".Selectores1");
+let items2 = document.querySelectorAll(".Selectores1",);
 
 botonfiltros2.addEventListener("click", () => {
     items2.forEach(item2 => {
         item2.classList.toggle("show");
     });
 });
+
+let items3 = document.querySelectorAll(".Selectores2",);
+
+botonfiltros2.addEventListener("click", () => {
+    items3.forEach(item3 => {
+        item3.classList.toggle("show");
+    });
+});
+let items4 = document.querySelectorAll(".Selectores3",);
+
+botonfiltros2.addEventListener("click", () => {
+    items4.forEach(item4 => {
+        item4.classList.toggle("show");
+    });
+});
+
 document.addEventListener("click", (e) => {
     if (!botonfiltros.contains(e.target) && !e.target.classList.contains("menu-item")) {
         items.forEach(item => item.classList.remove("show"));
