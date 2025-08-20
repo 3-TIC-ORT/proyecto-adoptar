@@ -153,43 +153,71 @@ width: 340px;
 } 
 .Selectores1{
     position: absolute;
-    top: 150px;
+    top: 230px;
     right: 50px;
     opacity: 0;
         cursor: pointer; 
         justify-content: space-between;
         align-items: flex-end;
-    }
-    .Selectores1.show{
-        opacity: 1;
-        font-weight: 80; 
-        cursor: pointer; 
-    }
-    .Selectores2{
-        position: absolute;
-        top: 280px;
-        right: 50px;
-        opacity: 0;
-            cursor: pointer; 
-            justify-content: space-between;
-            align-items: flex-end;
-        }
-     .Selectores2.show{
-            opacity: 1;
-            font-weight: 80; 
-            cursor: pointer; 
-        }
-        .Selectores3{
-            position: absolute;
-            top: 150px;
-            right: 150px;
-            opacity: 0;
-                cursor: pointer; 
-                justify-content: space-between;
-                align-items: flex-end;
-            }
-         .Selectores3.show{
-                opacity: 1;
-                font-weight: 80; 
-                cursor: pointer; 
-            }
+ }
+.Selectores1.show{
+opacity: 1;
+ font-weight: 80; 
+ cursor: pointer; 
+}
+.Selectores2{
+position: absolute;
+top: 360px;
+ right: 50px;
+opacity: 0;
+ cursor: pointer; 
+ justify-content: space-between;
+ align-items: flex-end;
+}
+.Selectores2.show{
+opacity: 1;
+font-weight: 80; 
+cursor: pointer; 
+}
+.Selectores3{
+ position: absolute;
+ top: 450px;
+right: 50px;
+opacity: 0;
+ cursor: pointer; 
+ justify-content: space-between;
+ align-items: flex-end;
+}
+.Selectores3.show{
+ opacity: 1;
+  font-weight: 80; 
+    cursor: pointer; 
+ }
+ .Selectores4{
+ position: absolute;
+top: 90px;
+right: 50px;
+opacity: 0;
+cursor: pointer; 
+justify-content: space-between;
+ align-items: flex-end;
+}
+.Selectores4.show{
+  opacity: 1;
+font-weight: 80; 
+cursor: pointer; 
+}
+.Selectores5{
+ position: absolute;
+top: 600px;
+right: 50px;
+opacity: 0;
+cursor: pointer; 
+justify-content: space-between;
+ align-items: flex-end;
+}
+.Selectores5.show{
+  opacity: 1;
+font-weight: 80; 
+cursor: pointer; 
+}
