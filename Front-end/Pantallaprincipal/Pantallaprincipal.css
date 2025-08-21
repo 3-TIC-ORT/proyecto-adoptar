@@ -99,7 +99,6 @@ width: 340px;
     text-decoration: underline; 
     cursor: pointer;
 } 
-
 #mas { 
     position: fixed; 
     bottom: -53px; 
@@ -221,3 +220,5 @@ width: 340px;
                font-weight: 80; 
                cursor: pointer; 
                }
+
+            
