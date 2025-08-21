@@ -34,6 +34,21 @@ botonfiltros2.addEventListener("click", () => {
         item4.classList.toggle("show");
     });
 });
+let items5 = document.querySelectorAll(".Selectores4",);
+
+botonfiltros2.addEventListener("click", () => {
+    items5.forEach(item5 => {
+        item5.classList.toggle("show");
+    });
+});
+
+let items6 = document.querySelectorAll(".Selectores5",);
+
+botonfiltros2.addEventListener("click", () => {
+    items6.forEach(item6 => {
+        item6.classList.toggle("show");
+    });
+});
 
 document.addEventListener("click", (e) => {
     if (!botonfiltros.contains(e.target) && !e.target.classList.contains("menu-item")) {
