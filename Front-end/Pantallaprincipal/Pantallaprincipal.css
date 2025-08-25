@@ -218,7 +218,36 @@ width: 340px;
                .Selectores5.show{
                  opacity: 1;
                font-weight: 80; 
-               cursor: pointer; 
-               }
-
+               cursor: pointer; }
+               .publicaciones {
+                width: 250px;
+                height: 250px;
+                display: flex;
+                flex-direction: column;  
+                align-items: center;      
+                justify-content: center;  
+                background-color: #F5F5DC; 
+                position: fixed;
+                top: 20%;     
+                left: 10%;    
+                transform: none; 
+                padding: 10px;
+                box-sizing: border-box;
+                border-radius: 10px;   
+                box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
+            }
+            
+            .publicacion img.foto {
+                width: 100px;  
+                height: 100px;
+                object-fit: cover;
+                border-radius: 5px;  
+                margin-bottom: 10px;
+            }
+            
+            .publicacion .descripcion {
+                text-align: center;
+                font-size: 14px;
+                color: #333;
+            }
             
