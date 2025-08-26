@@ -227,5 +227,46 @@ background-color:#e9e9e9
                font-weight: 80; 
                cursor: pointer; 
                }
-
+               .publicaciones {
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 200px;
+                padding: 20px;
+                margin-top: -350px;
+            }
+            
+            .publicaciongolden,
+            .publicacionbulldog {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                width: 200px;
+                background-color: #F5F5DC;
+                padding: 10px;
+                border-radius: 10px;
+                box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            }
+            
+            .publicaciongolden img,
+            .publicacionbulldog img {
+                width: 200px;
+                height: 175px;
+                object-fit: cover;
+                border-radius: 5px;
+                margin-bottom: 10px;
+            }
+            
+            .publicaciongolden .descripcion,
+            .publicacionbulldog .descripcion {
+                text-align: center;
+                font-size: 14px;
+                color: #333;
+            }
+            
+            .publicaciongolden:hover,
+            .publicacionbulldog:hover {
+                background-color: #66b2b2;
+            }
             
