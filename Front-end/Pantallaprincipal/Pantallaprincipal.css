@@ -237,7 +237,9 @@ background-color:#e9e9e9
             }
             
             .publicaciongolden,
-            .publicacionbulldog {
+            .publicacionbulldog, 
+            .publicacioncaniche
+             {
                 display: flex;
                 flex-direction: column;
                 align-items: center;
@@ -249,7 +251,9 @@ background-color:#e9e9e9
             }
             
             .publicaciongolden img,
-            .publicacionbulldog img {
+            .publicacionbulldog img,
+            .publicacioncaniche img
+            {
                 width: 200px;
                 height: 175px;
                 object-fit: cover;
@@ -258,14 +262,18 @@ background-color:#e9e9e9
             }
             
             .publicaciongolden .descripcion,
-            .publicacionbulldog .descripcion {
+            .publicacionbulldog .descripcion,
+            .publicacioncaniche .descripcion
+            {
                 text-align: center;
                 font-size: 14px;
                 color: #333;
             }
             
             .publicaciongolden:hover,
-            .publicacionbulldog:hover {
+            .publicacionbulldog:hover,
+            .publicacioncaniche:hover
+            {
                 background-color: #66b2b2;
             }
             
