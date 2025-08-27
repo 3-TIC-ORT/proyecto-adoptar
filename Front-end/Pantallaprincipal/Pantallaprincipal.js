@@ -88,3 +88,7 @@ irencontrados.addEventListener("click", () => {
     irmisfavoritos.addEventListener("click", () => {
     window.location.href = "../Misfavoritos/Misfavoritos.html";
     });
+    let irainfo = document.querySelector(".publicaciongolden")
+        irainfo.addEventListener("click", () => {
+    window.location.href = "../Infopublicacion/Infopublicacion.html";
+    });
