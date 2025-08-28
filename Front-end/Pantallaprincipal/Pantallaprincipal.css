@@ -239,11 +239,15 @@ background-color:#e9e9e9
                 gap: 200px;
                 padding: 20px;
                 margin-top: -350px;
+                grid-template-columns: repeat(3, 250px);
             }
             
             .publicaciongolden,
             .publicacionbulldog, 
-            .publicacioncaniche
+            .publicacioncaniche,
+            .publicacionbreton,
+            .publicacionpug,
+            .publicacioncorgi
              {
                 display: flex;
                 flex-direction: column;
@@ -257,7 +261,10 @@ background-color:#e9e9e9
             
             .publicaciongolden img,
             .publicacionbulldog img,
-            .publicacioncaniche img
+            .publicacioncaniche img,
+            .publicacionbreton img,
+            .publicacionpug img,
+            .publicacioncorgi img
             {
                 width: 200px;
                 height: 175px;
@@ -268,8 +275,11 @@ background-color:#e9e9e9
             
             .publicaciongolden .descripcion,
             .publicacionbulldog .descripcion,
-            .publicacioncaniche .descripcion
-            {
+            .publicacioncaniche .descripcion,
+            .publicacionbreton .descripcion,
+            .publicacionpug .descripcion,
+            .publicacioncorgi .descripcion
+            { 
                 text-align: center;
                 font-size: 14px;
                 color: #333;
@@ -277,7 +287,10 @@ background-color:#e9e9e9
             
             .publicaciongolden:hover,
             .publicacionbulldog:hover,
-            .publicacioncaniche:hover
+            .publicacioncaniche:hover,
+            .publicacionbreton:hover,
+            .publicacionpug:hover,
+            .publicacioncorgi:hover
             {
                 background-color: #66b2b2;
                 cursor: pointer;
