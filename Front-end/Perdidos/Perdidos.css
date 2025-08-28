@@ -103,7 +103,7 @@ body {
 
 #mas { 
     position: fixed; 
-    bottom: -1.05em; 
+    bottom: 0.6em;  
     left: 50%; 
     transform: translateX(-50%); 
     color: white; 

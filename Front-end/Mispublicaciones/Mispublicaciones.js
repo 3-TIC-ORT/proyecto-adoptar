@@ -55,7 +55,19 @@ document.addEventListener("click", (e) => {
         items.forEach(item => item.classList.remove("show"));
     }
 });
+let mostrareditores = document.querySelector(".Iconotrespuntitos");
+let editores = document.querySelectorAll(".Editores");
+mostrareditores= document.addEventListener("click", () => {
+    mostrareditores.forEach(mostrareditores => {
+        mostrareditores.classList.toggle("show");
+    });
+});
 
+document.addEventListener("click", (e) => {
+    if (!botonfiltros.contains(e.target) && !e.target.classList.contains("menu-item")) {
+        items.forEach(item => item.classList.remove("show"));
+    }
+});
 let botonperfil = document.querySelector(".circuloperfil");
 botonperfil.addEventListener("click", () => {
 window.location.href = "../Perfildeusuario/Perfildeusuario.html";
