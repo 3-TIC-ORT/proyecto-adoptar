@@ -92,10 +92,14 @@ body {
     z-index: 3; 
 } 
 .Cuadradomenu{
+    position: fixed;
     height: 70vh;
     width: 30vh;
     background-color: aliceblue;
-    z-index: 2;
+    z-index: 3;
+}
+.Cuadradomenu.show {
+    display: block;
 }
 .menu-item.show{
     opacity: 1;
@@ -249,6 +253,7 @@ body {
               }
               .Foto
               {
+                z-index: 1;
                   width: 200px;
                   height: 175px;
                   object-fit:fill;
