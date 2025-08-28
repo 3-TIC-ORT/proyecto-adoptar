@@ -58,9 +58,13 @@ document.addEventListener("click", (e) => {
 let mostrareditores = document.querySelector(".Iconotrespuntitos");
 let editores = document.querySelectorAll(".Editores");
 mostrareditores= document.addEventListener("click", () => {
-    mostrareditores.forEach(mostrareditores => {
-        mostrareditores.classList.toggle("show");
+    editores.forEach(editores => {
+        editores.classList.toggle("show");
     });
+});
+let editar = document.querySelector(".Editar")
+editar.addEventListener("click", () => {
+    window.location.href = "../Formulario/Formulario.html";
 });
 
 document.addEventListener("click", (e) => {
