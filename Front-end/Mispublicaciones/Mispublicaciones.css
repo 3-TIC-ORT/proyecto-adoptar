@@ -76,41 +76,40 @@ body {
 } 
 
 .menu-container { 
-    display: flex; 
-    flex-direction: column; 
-    justify-content: center; 
-    align-items: flex-start; 
-    height: 70vh; 
-    padding-left: 1.5em; 
-    gap: 40px; 
-} 
+display: flex; 
+flex-direction: column; 
+justify-content: center; 
+align-items: flex-start; 
+height: 70vh; 
+padding-left: 1.5em; 
+gap: 40px;
+}
 
 .menu-item { 
-    opacity: 0;
-    font-weight: 100; 
-    cursor: pointer; 
-    z-index: 3; 
+opacity: 0; 
+font-weight: 100; 
+cursor: pointer; 
+z-index: 3; 
 } 
-.Cuadradomenu{
-    position: fixed;
-    height: 70vh;
-    width: 30vh;
-    background-color: aliceblue;
-    z-index: 3;
-}
-.Cuadradomenu.show {
-    display: block;
+.Cuadradomenu{ 
+position: fixed; 
+height: 70vh; 
+width: 30vh; 
+background-color: aliceblue; 
+z-index: 3;
+} 
+
+.Cuadradomenu.show{ 
+display: block; 
 }
 .menu-item.show{
-    opacity: 1;
-    transition:ease-in;
-    transition-duration: 0.3s;
-}
-
-.menu-item:hover { 
-    color: #3165A5; 
-    text-decoration: underline; 
+opacity: 1;
+transition:ease-in; 
+transition-duration: 0.3s; 
 } 
+.menu-item:hover {
+ color: #3165A5;
+ text-decoration: underline; }
 
 #mas { 
     position: fixed; 
@@ -163,79 +162,42 @@ body {
 #raya3 { 
     top: 20px; 
 } 
-.Selectores1{
+.Selectores1,.Selectores2,.Selectores3,.Selectores4,.Selectores5{
     position: absolute;
-    top: 10em;
-    right: 3.2em;
     opacity: 0;
         cursor: pointer; 
         justify-content: space-between;
         align-items: flex-end;
     }
-    .Selectores1.show{
+    .Selectores1{
+        top: 10em;
+        right: 3.2em;
+        }
+    .Selectores1.show,.Selectores2.show,.Selectores3.show,.Selectores4.show,.Selectores5.show{
         opacity: 1;
         font-weight: 80; 
         cursor: pointer; 
     }
     .Selectores2{
-        position: absolute;
         top: 18em;
         right: 3.2em;
-        opacity: 0;
-            cursor: pointer; 
-            justify-content: space-between;
-            align-items: flex-end;
-        }
-     .Selectores2.show{
-            opacity: 1;
-            font-weight: 80; 
-            cursor: pointer; 
         }
         .Selectores3{
-            position: absolute;
             top: 10.2em;
             right: 10em;
-            opacity: 0;
-                cursor: pointer; 
-                justify-content: space-between;
-                align-items: flex-end;
-            }
-         .Selectores3.show{
-                opacity: 1;
-                font-weight: 80; 
-                cursor: pointer; 
             }
             .Selectores4{
-                position: absolute;
                top: 5.6em;
                right: 3em;
-               opacity: 0;
-               cursor: pointer; 
-               justify-content: space-between;
-                align-items: flex-end;
-               }
-               .Selectores4.show{
-                 opacity: 1;
-               font-weight: 80; 
-               cursor: pointer; 
                }
                .Selectores5{
-                position: absolute;
                top: 25em;
                right: 3.2em;
-               opacity: 0;
-               cursor: pointer; 
-               justify-content: space-between;
-                align-items: flex-end;
-               }
-               .Selectores5.show{
-                 opacity: 1;
-               font-weight: 80; 
-               cursor: pointer; 
                }
                .publicacionborder
                {
                 z-index: 1;
+                position: absolute;
                   display: flex;
                   flex-direction: column;
                   align-items: center;
@@ -247,7 +209,6 @@ body {
                   text-align: center;
                   font-size: 14px;
                   color: #333;
-                  position: absolute;
                   top: 10rem;
                   left: 4rem;
               }

@@ -14,46 +14,14 @@ document.addEventListener("click", (e) => {
 });
 
 let botonfiltros2 = document.querySelector("#Iconofiltrar");
-let items2 = document.querySelectorAll(".Selectores1",);
+let selectores = document.querySelectorAll(".Selectores1, .Selectores2, .Selectores3, .Selectores4, .Selectores5");
 
-botonfiltros2.addEventListener("click", () => {
-    items2.forEach(item2 => {
-        item2.classList.toggle("show");
+botonfiltros2.addEventListener("click", (e) => {
+    e.stopPropagation();
+    selectores.forEach(sel => {
+        sel.classList.toggle("show");
     });
 });
-
-let items3 = document.querySelectorAll(".Selectores2",);
-
-botonfiltros2.addEventListener("click", () => {
-    items3.forEach(item3 => {
-        item3.classList.toggle("show");
-    });
-});
-
-let items4 = document.querySelectorAll(".Selectores3",);
-
-botonfiltros2.addEventListener("click", () => {
-    items4.forEach(item4 => {
-        item4.classList.toggle("show");
-    });
-});
-
-let items5 = document.querySelectorAll(".Selectores4",);
-
-botonfiltros2.addEventListener("click", () => {
-    items5.forEach(item5 => {
-        item5.classList.toggle("show");
-    });
-});
-
-let items6 = document.querySelectorAll(".Selectores5",);
-
-botonfiltros2.addEventListener("click", () => {
-    items6.forEach(item6 => {
-        item6.classList.toggle("show");
-    });
-});
-
 document.addEventListener("click", (e) => {
     if (!botonfiltros.contains(e.target) && !e.target.classList.contains("menu-item")) {
         items.forEach(item => item.classList.remove("show"));
@@ -69,6 +37,22 @@ botoncomentarios.forEach((boton, i) => {
         escribircomentarios[i].classList.toggle("show");
     });
 });
+let corazones = document.querySelectorAll('.Corazon');
+
+corazones.forEach((boton, i) => {
+    boton.addEventListener("click", (e) => {
+        e.stopPropagation();
+        corazones[i].classList.toggle("show");
+    });
+});
+
+
+document.addEventListener("click", (e) => {
+    if (!botonfiltros.contains(e.target) && !e.target.classList.contains("menu-item")) {
+        items.forEach(item => item.classList.remove("show"));
+    }
+});
+
 document.querySelectorAll('.publicaciongolden, .publicacionbulldog, .publicacioncaniche').forEach(pub => {
     pub.addEventListener('click', function(e) {
         if (!e.target.closest('.Comentarios') && !e.target.closest('.Inputcomentarios')) {
