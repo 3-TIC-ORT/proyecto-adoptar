@@ -1,16 +1,19 @@
-let botonfiltros = document.querySelector(".rayasfiltro");
+let botonfiltros= document.querySelector(".rayasfiltro");
+let menuLateral = document.querySelector(".Cuadradomenu");
 let items = document.querySelectorAll(".menu-item");
 
-botonfiltros.addEventListener("click", () => {
-    items.forEach(item => {
-        item.classList.toggle("show");
-    });
+botonfiltros.addEventListener("click", (e) => {
+  e.stopPropagation();
+  menuLateral.classList.toggle("open");
+  const abierto = menuLateral.classList.contains("open");
+  items.forEach(item => item.classList.toggle("show", abierto));
 });
 
 document.addEventListener("click", (e) => {
-    if (!botonfiltros.contains(e.target) && !e.target.classList.contains("menu-item")) {
-        items.forEach(item => item.classList.remove("show"));
-    }
+  if (!menuLateral.contains(e.target) && !botonfiltros.contains(e.target)) {
+    menuLateral.classList.remove("open");
+    items.forEach(item => item.classList.remove("show"));
+  }
 });
 
 let botonfiltros2 = document.querySelector("#Iconofiltrar");

@@ -1,18 +1,22 @@
-/* Menú desplegable */
-let botonfiltros = document.querySelector(".rayasfiltro");
+// Menú desplegable
+let botonfiltros= document.querySelector(".rayasfiltro");
+let menuLateral = document.querySelector(".Cuadradomenu");
 let items = document.querySelectorAll(".menu-item");
-botonfiltros.addEventListener("click", () => { 
-items.forEach(item => { item.classList.toggle("show");
 
+botonfiltros.addEventListener("click", (e) => {
+  e.stopPropagation();
+  menuLateral.classList.toggle("open");
+  const abierto = menuLateral.classList.contains("open");
+  items.forEach(item => item.classList.toggle("show", abierto));
 });
-}); 
-document.addEventListener("click", (e) => { 
-if (!botonfiltros.contains(e.target) && !e.target.classList.contains("menu-item"))
-{ items.forEach(item => item.classList.remove("show")); 
 
-} 
+document.addEventListener("click", (e) => {
+  if (!menuLateral.contains(e.target) && !botonfiltros.contains(e.target)) {
+    menuLateral.classList.remove("open");
+    items.forEach(item => item.classList.remove("show"));
+  }
 });
-/* Filtros de publicaciones */
+// Filtros de publicaciones
 let botonfiltros2 = document.querySelector("#Iconofiltrar");
 let selectores = document.querySelectorAll(".Selectores1, .Selectores2, .Selectores3, .Selectores4, .Selectores5");
 
@@ -34,29 +38,33 @@ document.addEventListener("click", (e) => {
     }
 });
 
-/* Editores de publicaciones */
-let mostrareditores = document.querySelector(".Iconotrespuntitos");
-let editores = document.querySelectorAll(".Editores");
-mostrareditores= document.addEventListener("click", () => {
-    editores.forEach(editores => {
-        editores.classList.toggle("show");
+// Editores de publicaciones
+document.querySelectorAll(".publicacionborder").forEach(card => {
+  const dots = card.querySelector(".Iconotrespuntitos");
+  const editor = card.querySelector(".Editores");
+
+  // Abrir/cerrar el menú SOLO desde los tres puntitos
+  dots.addEventListener("click", (e) => {
+    e.stopPropagation();
+
+    // cerrar otros abiertos
+    document.querySelectorAll(".Editores.show").forEach(ed => {
+      if (ed !== editor) ed.classList.remove("show");
     });
-});
-let editar = document.querySelector(".Editar")
-editar.addEventListener("click", () => {
-    window.location.href = "../Formulario/Formulario.html";
-});
-document.querySelectorAll('.publicacionborder').forEach(pub => {
-    pub.addEventListener('click', function(e) {
-        if (!e.target.closest('.Iconotrespuntitos') && !e.target.closest('.Editores')) {
-            window.location.href = "pagina-de-publicacion.html";
-        }
-    });
-});
-document.addEventListener("click", (e) => {
-    if (!botonfiltros.contains(e.target) && !e.target.classList.contains("menu-item")) {
-        items.forEach(item => item.classList.remove("show"));
+    editor.classList.toggle("show");
+  });
+
+  // Ir al detalle si clickeo el card pero NO el menú ni los puntitos
+  card.addEventListener("click", (e) => {
+    if (!e.target.closest(".Iconotrespuntitos") && !e.target.closest(".Editores")) {
+      window.location.href = "pagina-de-publicacion.html";
     }
+  });
+});
+
+// Cerrar menús si clickeo fuera
+document.addEventListener("click", () => {
+  document.querySelectorAll(".Editores.show").forEach(ed => ed.classList.remove("show"));
 });
 
 /* Redirecciones de botones */

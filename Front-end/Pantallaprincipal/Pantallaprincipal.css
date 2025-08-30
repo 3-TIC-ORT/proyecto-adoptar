@@ -8,6 +8,7 @@ body {
     padding: 0;
     box-sizing: border-box;
 }
+/* Encabezado */
 .header { 
     width: 100%; 
     height: 10vh;
@@ -20,7 +21,6 @@ body {
     display: flex; 
     justify-content: flex-start;
     align-items: center; 
-width: 340px;
     gap: 20px; 
     flex-basis: 0;
     flex-grow: 0.3;
@@ -29,10 +29,8 @@ width: 340px;
 .header-center { 
     display: flex; 
     justify-content: center; 
-    align-items: center; 
-    flex-basis: 0;
-    flex-shrink: 0;
-    flex-grow: 100%;
+    align-items: center;
+    flex-grow: 100%; 
 } 
 
 .iconos { 
@@ -45,24 +43,24 @@ width: 340px;
     flex-grow: 0.3;
 }
 #titulo { 
-    font-size: 40px; 
+    font-size: 2.5em; 
     font-weight: bold; 
 } 
 
 #home { 
     font-weight: 100; 
-    font-size: 30px; 
+    font-size: 1.7em; 
 } 
 
 #Iconofiltrar { 
-    width: 30px; 
-    height: 30px; 
+    width: 2.2rem; 
+    height: 2.2rem; 
     cursor: pointer; 
 } 
 
 .circuloperfil { 
-    width: 40px; 
-    height: 40px; 
+    width: 2.2rem; 
+    height: 2.2rem; 
     background-color: black; 
     border-radius: 50%; 
     cursor: pointer; 
@@ -77,65 +75,7 @@ width: 340px;
     background-color: black; 
     width: 100%; 
 } 
-h4 {
-    width: 1px;
-}
-
-.menu-container { 
-    display: flex; 
-    flex-direction: column; 
-    justify-content: center; 
-    align-items: flex-start; 
-    height: 70vh; 
-    padding-left: 20px; 
-    gap: 40px; 
-    width: 200px;
-} 
-
-.menu-item { 
-    opacity: 0;
-    font-weight: 100;
-    cursor: default; 
-} 
-.menu-item.show{
-    opacity: 1;
-}
-
-.menu-item:hover { 
-    color: #3165A5; 
-    text-decoration: underline; 
-    cursor: pointer;
-} 
-#preguntaubicacion{
-    cursor: pointer;
-}
-#preguntaubicacion:hover{
-background-color:#e9e9e9
-}
-#mas { 
-    position: fixed; 
-    bottom: 0.6em; 
-    left: 50%; 
-    transform: translateX(-50%); 
-    color: white; 
-    font-size: 50px; 
-    z-index: 2; 
-} 
-.circulo { 
-    position: fixed; 
-    bottom: 30px; 
-    left: 50%; 
-    transform: translateX(-50%); 
-    width: 60px; 
-    height: 60px; 
-    background-color: #3165A5; 
-    border-radius: 50%; 
-    z-index: 1; 
-} 
-.circulo:hover { 
-    background-color: #1f4f7a; 
-    cursor: pointer; 
-} 
+/* Menú desplegable */
 
 .rayasfiltro { 
     display: flex; 
@@ -150,8 +90,8 @@ background-color:#e9e9e9
     position: absolute; 
     background-color: black; 
     border-radius: 5px; 
-    width: 50px; 
-    height: 5px; 
+    width: 3em; 
+    height: 0.3em; 
 } 
 
 #raya2 { 
@@ -161,76 +101,110 @@ background-color:#e9e9e9
 #raya3 { 
     top: 20px; 
 } 
-.Selectores1{
+.menu-container { 
+display: flex; 
+flex-direction: column; 
+justify-content: center; 
+align-items: flex-start; 
+height: 70vh; 
+padding-left: 1.5em; 
+gap: 50px;
+}
+
+.menu-item { 
+opacity: 0; 
+font-weight: 100; 
+cursor: pointer; 
+z-index: 3; 
+} 
+.Cuadradomenu{ 
+position: fixed; 
+height: 70vh; 
+width: 30vh; 
+background-color: aliceblue; 
+z-index: 3;
+display: none;
+border-radius: 10px;
+} 
+.Cuadradomenu.open{
+display: block;
+}
+
+.Cuadradomenu.show{ 
+display: block; 
+}
+.menu-item.show{
+opacity: 1;
+transition:ease-in; 
+transition-duration: 0.3s; 
+} 
+.menu-item:hover {
+ color: #3165A5;
+ text-decoration: underline; }
+
+/* Botón de agregar publicación */
+#mas { 
+    position: fixed; 
+    bottom: 0.6em; 
+    left: 50%; 
+    transform: translateX(-50%); 
+    color: white; 
+    font-size: 50px; 
+    z-index: 2; 
+} 
+
+.circulo { 
+    position: fixed; 
+    bottom: 1.9em; 
+    left: 50%; 
+    transform: translateX(-50%); 
+    width: 60px; 
+    height: 60px; 
+    background-color: #3165A5; 
+    border-radius: 50%; 
+    z-index: 1; 
+} 
+
+.circulo:hover { 
+    background-color: #1f4f7a; 
+    cursor: pointer; 
+} 
+
+/* Filtros de publicaciones */
+.Selectores1,.Selectores2,.Selectores3,.Selectores4,.Selectores5{
     position: absolute;
-    top: 180px;
-    right: 50px;
     opacity: 0;
         cursor: pointer; 
         justify-content: space-between;
         align-items: flex-end;
+        pointer-events: none;
     }
-    .Selectores1.show{
+
+    .Selectores1.show,.Selectores2.show,.Selectores3.show,.Selectores4.show,.Selectores5.show{
         opacity: 1;
         font-weight: 80; 
-        cursor: pointer; 
+        pointer-events: auto;
     }
-    .Selectores2{
-        position: absolute;
-        top: 300px;
-        right: 50px;
-        opacity: 0;
-            cursor: pointer; 
-            justify-content: space-between;
-            align-items: flex-end;
-        }
-     .Selectores2.show{
-            opacity: 1;
-            font-weight: 80; 
-            cursor: pointer; 
-        }
-        .Selectores3{
-            position: absolute;
-            top: 180px;
-            right: 150px;
-            opacity: 0;
-                cursor: pointer; 
-                justify-content: space-between;
-                align-items: flex-end;
-            }
-         .Selectores3.show{
-                opacity: 1;
-                font-weight: 80; 
-                cursor: pointer; 
-            }
-            .Selectores4{
-                position: absolute;
-               top: 90px;
-               right: 50px;
-               opacity: 0;
-               cursor: pointer; 
-               justify-content: space-between;
-                align-items: flex-end;
-               }
-               .Selectores4.show{
-                 opacity: 1;
-               font-weight: 80; 
-               cursor: pointer; 
-               }
-               .Selectores5{
-                position: absolute;
-               top: 430px;
-               right: 50px;
-               opacity: 0;
-               cursor: pointer; 
-               justify-content: space-between;
-                align-items: flex-end;
-               }
-               .Selectores5.show{
-                 opacity: 1;
-               font-weight: 80; 
-               cursor: pointer; 
-               }
+.Selectores1{
+top: 10em;
+right: 3.2em;
+}
+.Selectores2{
+top: 18em;
+right: 3.2em;
+}
+.Selectores3{
+top: 10.2em;
+right: 10em;
+}
+.Selectores4{
+top: 5.6em;
+right: 3em;
+}
+.Selectores5{
+top: 25em;
+right: 3.2em;
+}
                .publicaciones {
                 display: flex;
                 flex-direction: row;
@@ -238,7 +212,7 @@ background-color:#e9e9e9
                 justify-content: center;
                 gap: 200px;
                 padding: 20px;
-                margin-top: -350px;
+                margin-top: 10px;
                 grid-template-columns: repeat(3, 250px);
             }
             
