@@ -1,3 +1,5 @@
+//Menu desplegable
+
 let botonfiltros= document.querySelector(".rayasfiltro");
 let menuLateral = document.querySelector(".Cuadradomenu");
 let items = document.querySelectorAll(".menu-item");
@@ -5,7 +7,7 @@ let items = document.querySelectorAll(".menu-item");
 botonfiltros.addEventListener("click", (e) => {
   e.stopPropagation();
   menuLateral.classList.toggle("open");
-  const abierto = menuLateral.classList.contains("open");
+  let abierto = menuLateral.classList.contains("open");
   items.forEach(item => item.classList.toggle("show", abierto));
 });
 
@@ -15,22 +17,25 @@ document.addEventListener("click", (e) => {
     items.forEach(item => item.classList.remove("show"));
   }
 });
-
+//Menu selectores
 let botonfiltros2 = document.querySelector("#Iconofiltrar");
 let selectores = document.querySelectorAll(".Selectores1, .Selectores2, .Selectores3, .Selectores4, .Selectores5");
+let cuadradoselector = document.querySelector(".Cuadradoselectores");
 
 botonfiltros2.addEventListener("click", (e) => {
-    e.stopPropagation();
-    selectores.forEach(sel => {
-        sel.classList.toggle("show");
-    });
-});
-document.addEventListener("click", (e) => {
-    if (!botonfiltros.contains(e.target) && !e.target.classList.contains("menu-item")) {
-        items.forEach(item => item.classList.remove("show"));
-    }
+  e.stopPropagation();
+  cuadradoselector.classList.toggle("open");
+  let abiertoo = cuadradoselector.classList.contains("open");
+  selectores.forEach(selector => selector.classList.toggle("show", abiertoo));
 });
 
+document.addEventListener("click", (e) => {
+  if (!cuadradoselector.contains(e.target) && !botonfiltros2.contains(e.target)) {
+    cuadradoselector.classList.remove("open");
+    selectores.forEach(selector => selector.classList.remove("show"));
+  }
+});
+//Comentarios
 let botoncomentarios = document.querySelectorAll(".Comentarios");
 let escribircomentarios = document.querySelectorAll(".Inputcomentarios");
 
@@ -40,6 +45,7 @@ botoncomentarios.forEach((boton, i) => {
         escribircomentarios[i].classList.toggle("show");
     });
 });
+//Me gusta
 let corazones = document.querySelectorAll('.Corazon');
 
 corazones.forEach((boton, i) => {
@@ -55,7 +61,7 @@ document.addEventListener("click", (e) => {
         items.forEach(item => item.classList.remove("show"));
     }
 });
-
+//Publicaciones
 document.querySelectorAll('.publicaciongolden, .publicacionbulldog, .publicacioncaniche').forEach(pub => {
     pub.addEventListener('click', function(e) {
         if (!e.target.closest('.Comentarios') && !e.target.closest('.Inputcomentarios')) {
@@ -75,7 +81,7 @@ document.addEventListener("click", (e) => {
         items.forEach(item => item.classList.remove("show"));
     }
 });
-
+//Redirecciones
 let botonperfil = document.querySelector(".circuloperfil");
 botonperfil.addEventListener("click", () => {
 window.location.href = "../Perfildeusuario/Perfildeusuario.html";

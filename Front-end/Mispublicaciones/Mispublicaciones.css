@@ -120,7 +120,7 @@ z-index: 3;
 .Cuadradomenu{ 
 position: fixed; 
 height: 70vh; 
-width: 30vh; 
+width: 40vh; 
 background-color: aliceblue; 
 z-index: 3;
 display: none;
