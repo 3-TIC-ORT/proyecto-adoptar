@@ -294,17 +294,18 @@ right: 3.2em;
                 background-color: #66b2b2;
                 cursor: pointer;
             }
-            .Corazon {
-                width: 1.5rem;
-                height: 1.5rem;
+            .Corazon{
+                width: 1rem;
+                height: 1rem;
                 align-self: flex-end;
                 object-fit: contain;
-                cursor: pointer;
-                transition: transform 0.2s ease;
             }
-            
-            .Corazon:hover {
-                transform: scale(1.1);
+            .Corazon:hover{
+                background-color: grey;
+                cursor: pointer;
+            }
+            .Corazon.show{
+                background: red;
             }
             .Comentarios{
                 width: 1rem;
