@@ -101,17 +101,7 @@ body {
     text-decoration: underline; 
 } 
 
-#mas { 
-    position: fixed; 
-    bottom: 0.6em; 
-    left: 50%; 
-    transform: translateX(-50%); 
-    color: white; 
-    font-size: 50px; 
-    z-index: 2; 
-} 
-
-.circulo { 
+.circulo {
     position: fixed; 
     bottom: 1.9em; 
     left: 50%; 
@@ -121,7 +111,19 @@ body {
     background-color: #3165A5; 
     border-radius: 50%; 
     z-index: 1; 
-} 
+
+    display: flex;           
+    justify-content: center;
+    align-items: center;
+}
+
+.mas {
+    color: white;
+    font-size: 2rem;
+    font-weight: bold;
+    line-height: 1;
+}
+
 
 .circulo:hover { 
     background-color: #1f4f7a; 
