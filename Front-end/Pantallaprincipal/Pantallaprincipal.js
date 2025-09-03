@@ -45,16 +45,6 @@ botoncomentarios.forEach((boton, i) => {
         escribircomentarios[i].classList.toggle("show");
     });
 });
-//Me gusta
-let corazones = document.querySelectorAll('.Corazon');
-
-corazones.forEach((boton, i) => {
-    boton.addEventListener("click", (e) => {
-        e.stopPropagation();
-        corazones[i].classList.toggle("show");
-    });
-});
-
 
 document.addEventListener("click", (e) => {
     if (!botonfiltros.contains(e.target) && !e.target.classList.contains("menu-item")) {
@@ -126,3 +116,17 @@ irencontrados.addEventListener("click", () => {
         irainfo.addEventListener("click", () => {
     window.location.href = "../Infopublicacion/Infopublicacion.html";
     });
+
+    let corazones = document.querySelectorAll('.Corazon');
+
+    corazones.forEach((boton) => {
+        boton.addEventListener("click", (e) => {
+            e.stopPropagation();
+            if (boton.src.endsWith("Iconocorazon_rojo.webp")) {
+                boton.src = "Iconocorazon.webp";
+            } else {
+                boton.src = "Iconocorazon_rojo.webp";
+            }
+        });
+    });
+    
