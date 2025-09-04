@@ -48,10 +48,10 @@ botoncomentarios.forEach((boton, i) => {
 //Me gusta
 let corazones = document.querySelectorAll('.Corazon');
 
-corazones.forEach((boton, i) => {
+corazones.forEach((boton) => {
     boton.addEventListener("click", (e) => {
         e.stopPropagation();
-        corazones[i].classList.toggle("show");
+        boton.classList.toggle("activo");
     });
 });
 

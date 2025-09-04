@@ -8,6 +8,7 @@ body {
     padding: 0;
     box-sizing: border-box;
 }
+
 .header { 
     width: 100%; 
     height: 10vh;
@@ -75,33 +76,74 @@ body {
     width: 100%; 
 } 
 
-.menu-container { 
+
+.rayasfiltro { 
     display: flex; 
-    flex-direction: column; 
-    justify-content: center; 
-    align-items: flex-start; 
-    height: 70vh; 
-    padding-left: 1.5em; 
-    gap: 40px; 
+    margin-left: 30px;
+    width: 50px; 
+    height: 30px; 
+    cursor: pointer; 
+    position: relative; 
 } 
 
-.menu-item { 
-    opacity: 0;
-    font-weight: 100; 
-    cursor: pointer; 
+.rayasfiltro span { 
+    position: absolute; 
+    background-color: black; 
+    border-radius: 5px; 
+    width: 3em; 
+    height: 0.3em; 
 } 
-.menu-item.show{
-    opacity: 1;
-    transition:ease-in;
-    transition-duration: 0.3s;
+
+#raya2 { 
+    top: 10px; 
+} 
+
+#raya3 { 
+    top: 20px; 
+} 
+.menu-container { 
+display: flex; 
+flex-direction: column; 
+justify-content: center; 
+align-items: flex-start; 
+height: 70vh; 
+padding-left: 1.5em; 
+gap: 50px;
 }
 
-.menu-item:hover { 
-    color: #3165A5; 
-    text-decoration: underline; 
+.menu-item { 
+opacity: 0; 
+font-weight: 100; 
+cursor: pointer; 
+z-index: 3; 
 } 
+.Cuadradomenu{ 
+position: fixed; 
+height: 70vh; 
+width: 40vh; 
+background-color: aliceblue; 
+z-index: 3;
+display: none;
+border-radius: 10px;
+} 
+.Cuadradomenu.open{
+display: block;
+}
 
-.circulo {
+.Cuadradomenu.show{ 
+display: block; 
+}
+.menu-item.show{
+opacity: 1;
+transition:ease-in; 
+transition-duration: 0.3s; 
+} 
+.menu-item:hover {
+ color: #3165A5;
+ text-decoration: underline; }
+
+
+ .circulo {
     position: fixed; 
     bottom: 1.9em; 
     left: 50%; 
@@ -130,88 +172,60 @@ body {
     cursor: pointer; 
 } 
 
-.rayasfiltro span { 
-    position: absolute; 
-    background-color: black; 
-    border-radius: 5px; 
-    width: 3em; 
-    height: 0.3em; 
-} 
 
-#raya2 { 
-    top: 10px; 
-} 
-
-#raya3 { 
-    top: 20px; 
-} 
-.Selectores1{
+.Selectores1,.Selectores2,.Selectores3,.Selectores4,.Selectores5{
     position: absolute;
-    top: 10em;
-    right: 3.2em;
     opacity: 0;
         cursor: pointer; 
         justify-content: space-between;
         align-items: flex-end;
+        pointer-events: none;
     }
-    .Selectores1.show{
+
+    .Selectores1.show,.Selectores2.show,.Selectores3.show,.Selectores4.show,.Selectores5.show{
         opacity: 1;
         font-weight: 80; 
-        cursor: pointer; 
+        pointer-events: auto;
     }
-    .Selectores2{
-        position: absolute;
-        top: 18em;
-        right: 3.2em;
-        opacity: 0;
-            cursor: pointer; 
-            justify-content: space-between;
-            align-items: flex-end;
-        }
-     .Selectores2.show{
-            opacity: 1;
-            font-weight: 80; 
-            cursor: pointer; 
-        }
-        .Selectores3{
-            position: absolute;
-            top: 10.2em;
-            right: 10em;
-            opacity: 0;
-                cursor: pointer; 
-                justify-content: space-between;
-                align-items: flex-end;
-            }
-         .Selectores3.show{
-                opacity: 1;
-                font-weight: 80; 
-                cursor: pointer; 
-            }
-            .Selectores4{
-                position: absolute;
-               top: 5.6em;
-               right: 3em;
-               opacity: 0;
-               cursor: pointer; 
-               justify-content: space-between;
-                align-items: flex-end;
-               }
-               .Selectores4.show{
-                 opacity: 1;
-               font-weight: 80; 
-               cursor: pointer; 
-               }
-               .Selectores5{
-                position: absolute;
-               top: 25em;
-               right: 3.2em;
-               opacity: 0;
-               cursor: pointer; 
-               justify-content: space-between;
-                align-items: flex-end;
-               }
-               .Selectores5.show{
-                 opacity: 1;
-               font-weight: 80; 
-               cursor: pointer; 
-               }
+.Selectores1{
+top: 10em;
+right: 3.2em;
+}
+.Selectores2{
+top: 18em;
+right: 3.2em;
+}
+.Selectores3{
+top: 10.2em;
+right: 10em;
+}
+.Selectores4{
+top: 5.6em;
+right: 3em;
+}
+.Selectores5{
+top: 25em;
+right: 3.2em;
+}
+.Cuadradoselectores { 
+    position: fixed; 
+    top: 15%;
+    right: 2%;
+    height: 100vh; 
+    width: 40vh; 
+    background-color: aliceblue; 
+    z-index: 3;
+    display: none;
+    border-radius: 10px;
+    padding: 20px;
+    flex-direction: column; 
+    gap: 20px;
+}
+
+.Cuadradoselectores.open {
+    display: flex;
+}
+    
+    .Cuadradoselectores.show{ 
+    display: block; 
+    }

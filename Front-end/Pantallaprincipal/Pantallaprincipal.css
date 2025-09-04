@@ -252,7 +252,7 @@ right: 3.2em;
                 flex-direction: column;
                 align-items: center;
                 width: 200px;
-                background-color: #F5F5DC;
+                background-color: #f0f0a9;
                 padding: 10px;
                 border-radius: 10px;
                 box-shadow: 0 4px 10px rgba(0,0,0,0.1);
@@ -304,8 +304,8 @@ right: 3.2em;
                 background-color: grey;
                 cursor: pointer;
             }
-            .Corazon.show{
-                background: red;
+            .Corazon.activo {
+                content: url("Iconocorazonlikeado.png");
             }
             .Comentarios{
                 width: 1rem;
