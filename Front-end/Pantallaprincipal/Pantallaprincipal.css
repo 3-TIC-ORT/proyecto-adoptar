@@ -182,8 +182,8 @@ display: block;
 .Selectores5 {
   opacity: 0;
   cursor: pointer; 
-  pointer-events: none;
-  transition: opacity 0.3s ease;
+  transform: translateX(100%);
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 .Selectores1.show,
@@ -191,7 +191,8 @@ display: block;
 .Selectores3.show,
 .Selectores4.show,
 .Selectores5.show {
-  opacity: 1;
+opacity: 1;
+transform: translateX(0);
   font-weight: 600; 
   pointer-events: auto;
 }
@@ -200,26 +201,26 @@ display: block;
     position: fixed; 
     top: 15%;
     right: 2%;
-    min-height: 200px;       
+    min-height: auto;       
     width: 40vh; 
     background-color: aliceblue; 
     z-index: 3;
     border-radius: 10px;
     padding: 20px;
-    display: none;       
+    display: flex;  
     flex-direction: column; 
     align-items: center;    
     justify-content: center;
     gap: 20px;
-  }
-  
-  .Cuadradoselectores.open {
-    display: flex;   /* solo visible cuando tiene la clase */
-  }
-  
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.4s ease;
+}
 
 .Cuadradoselectores.open {
-  display: flex;
+    opacity: 1;
+    max-height: 600px; 
 }
 /* Publicaciones */
                .publicaciones {
@@ -238,8 +239,7 @@ display: block;
             .publicacioncaniche,
             .publicacionbreton,
             .publicacionpug,
-            .publicacioncorgi
-             {
+            .publicacioncorgi {
                 display: flex;
                 flex-direction: column;
                 align-items: center;
@@ -248,8 +248,19 @@ display: block;
                 padding: 10px;
                 border-radius: 10px;
                 box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+                max-height: 260px;
+                overflow: hidden;
+                transition: max-height 0.3s ease;
             }
             
+            .publicaciongolden.expandida,
+            .publicacionbulldog.expandida,
+            .publicacioncaniche.expandida,
+            .publicacionbreton.expandida,
+            .publicacionpug.expandida,
+            .publicacioncorgi.expandida {
+                max-height: 500px;
+            }
             .publicaciongolden img:not(.Comentarios):not(.Corazon),
             .publicacionbulldog img,
             .publicacioncaniche img,
@@ -309,28 +320,40 @@ display: block;
                 background-color: grey;
                 cursor: pointer;
             }
+            .Inputcomentarios,
+.EnviarComentario {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.Inputcomentarios.show,
+.EnviarComentario.show {
+    opacity: 1;
+    pointer-events: auto;
+    margin-top: 10px;
+}
             .Inputcomentarios {
                 opacity: 0;
                 width: 10rem;
                 min-height: 2rem;  
                 max-height: 200px;
                 resize: none; 
-                display: flex;
-                justify-content: center;
-                align-self: center;
                 border-radius: 5px;
                 border: 1px solid black;
                 overflow-y: auto;
                 transition: opacity 0.3s ease;
+                margin-top: 10px;
+                height: 0;
+                padding: 0;
             }
             
             .Inputcomentarios.show {
                 opacity: 1;
+                height: 3rem;
+                padding: 5px;
             }
             .Inputcomentarios:hover{
              cursor: text;
             background-color: rgb(203, 202, 202);
-            }
-            .Inputcomentarios.show{
-            opacity: 1;
             }

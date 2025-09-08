@@ -38,11 +38,19 @@ document.addEventListener("click", (e) => {
 //Comentarios
 let botoncomentarios = document.querySelectorAll(".Comentarios");
 let escribircomentarios = document.querySelectorAll(".Inputcomentarios");
+let botonesEnviar = document.querySelectorAll(".EnviarComentario");
 
 botoncomentarios.forEach((boton, i) => {
     boton.addEventListener("click", (e) => {
         e.stopPropagation();
-        escribircomentarios[i].classList.toggle("show");
+
+        let input = escribircomentarios[i];
+        let enviar = botonesEnviar[i];
+        let publicacion = boton.closest(".publicaciongolden, .publicacionbulldog, .publicacioncaniche, .publicacionbreton, .publicacionpug, .publicacioncorgi");
+
+        input.classList.toggle("show");
+        enviar.classList.toggle("show");
+        publicacion.classList.toggle("expandida");
     });
 });
 //Me gusta
