@@ -119,12 +119,11 @@ z-index: 3;
 } 
 .menu-item.show{
     opacity: 1;
-    transition:ease-in; 
-    transition-duration: 0.3s; 
     } 
     .menu-item:hover {
         color: #3165A5;
-        text-decoration: underline; }
+        text-decoration: underline; 
+    }
         .Cuadradomenu {
             position: fixed;
             top: 10.5vh;
