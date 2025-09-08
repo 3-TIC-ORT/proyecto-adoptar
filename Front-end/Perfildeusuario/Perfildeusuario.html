@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil de usuario</title>
     <link rel="stylesheet" href="Perfildeusuario.css">
-    <script src="Perfildeusuario.js"></script>
+    <script src="Perfildeusuario.js" defer></script>
 </head>
 <body>
     <h1>Perfil de usuario</h1>
@@ -41,12 +41,14 @@
         </div>
 
         <div class="perfil-container">
-            <div class="circuloperfil"></div>
-            <form action="subir.php" method="post" enctype="multipart/form-data" class="foto-form">
-                <label for="foto">Selecciona una imagen:</label>
-                <input type="file" name="foto" id="foto" accept="image/*" required>
-            </form>
-        </div>            
+          <div class="circuloperfil">
+              <img id="preview" alt="Foto de perfil">
+          </div>
+          <form action="subir.php" method="post" enctype="multipart/form-data" class="foto-form">
+              <label for="foto">Selecciona una imagen:</label>
+              <input type="file" name="foto" id="foto" accept="image/*" required>
+          </form>
+      </div>       
     </div>
 </body>
 </html>
