@@ -70,6 +70,21 @@ document.addEventListener("click", (e) => {
     }
 });
 //Publicaciones
+let publicaciones = [
+    {
+    Titulo:"Hola",
+    Descripcion: "123"
+    },
+    {
+    Titulo:"Hola2",
+    Descripcion: "1234"
+    }
+]
+for (let i=0; i<publicaciones.length; i++){
+    let publi=document.createElement ("Publicación 1=Simón")
+    publi.textContent =publicaciones[i].Titulo;
+}
+
 document.querySelectorAll('.publicaciongolden, .publicacionbulldog, .publicacioncaniche').forEach(pub => {
     pub.addEventListener('click', function(e) {
         if (!e.target.closest('.Comentarios') && !e.target.closest('.Inputcomentarios')) {
