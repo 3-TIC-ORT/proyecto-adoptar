@@ -107,3 +107,30 @@ irperdidos.addEventListener("click", () => {
      irmisfavoritos.addEventListener("click", () => {
     window.location.href = "../Misfavoritos/Misfavoritos.html";
      });
+document.querySelectorAll(".publicacionborder").forEach(card => {
+  const editorSelect = card.querySelector(".Editores select");
+
+  editorSelect.addEventListener("change", (e) => {
+    const opcion = e.target.value;
+
+    if (opcion === "Editar") {
+    
+      window.location.href = "../EditarPublicacion/EditarPublicacion.html";
+    }
+    else if (opcion === "Borrar") {
+      
+      const confirmar = confirm("¿Seguro que quieres borrar esta publicación?");
+      if (confirmar) {
+        card.remove(); 
+        alert("Publicación borrada.");
+      }
+    }
+    else if (opcion === "Pausar") {
+
+      card.style.opacity = "0.5";
+      alert("Publicación pausada.");
+    }
+
+    e.target.selectedIndex = 0;
+  });
+});
