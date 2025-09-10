@@ -53,6 +53,25 @@ botoncomentarios.forEach((boton, i) => {
         publicacion.classList.toggle("expandida");
     });
 });
+//Enviar comentarios
+botonesEnviar.forEach((boton, i) => {
+    boton.addEventListener("click", (e) => {
+        e.stopPropagation();
+
+        let input = escribircomentarios[i];
+        let texto = input.value.trim();
+
+        if (texto !== "") {
+            let publicacion = boton.closest(".publicaciongolden, .publicacionbulldog, .publicacioncaniche, .publicacionbreton, .publicacionpug, .publicacioncorgi");
+            let listaComentarios = publicacion.querySelector(".lista-comentarios");
+            let nuevoComentario = document.createElement("p");
+            nuevoComentario.textContent = texto;
+            nuevoComentario.classList.add("comentario");
+            listaComentarios.prepend(nuevoComentario);
+            input.value = "";
+        }
+    });
+});
 //Me gusta
 let corazones = document.querySelectorAll('.Corazon');
 
@@ -70,21 +89,6 @@ document.addEventListener("click", (e) => {
     }
 });
 //Publicaciones
-let publicaciones = [
-    {
-    Titulo:"Hola",
-    Descripcion: "123"
-    },
-    {
-    Titulo:"Hola2",
-    Descripcion: "1234"
-    }
-]
-for (let i=0; i<publicaciones.length; i++){
-    let publi=document.createElement ("Publicación 1=Simón")
-    publi.textContent =publicaciones[i].Titulo;
-}
-
 document.querySelectorAll('.publicaciongolden, .publicacionbulldog, .publicacioncaniche').forEach(pub => {
     pub.addEventListener('click', function(e) {
         if (!e.target.closest('.Comentarios') && !e.target.closest('.Inputcomentarios')) {

@@ -247,7 +247,7 @@ transform: translateX(0);
                 padding: 10px;
                 border-radius: 10px;
                 box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-                max-height: 260px;
+                max-height: 280px;
                 overflow: hidden;
                 transition: max-height 0.3s ease;
             }
@@ -355,4 +355,18 @@ transform: translateX(0);
             .Inputcomentarios:hover{
              cursor: text;
             background-color: rgb(203, 202, 202);
+            }
+            .lista-comentarios {
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
+                width: 100%;
+                margin-bottom: 10px;
+                background-color: white;
+                padding: 5px 8px;
+                border-radius: 5px;
+                font-size: 13px;
+                text-align: left;
+                word-wrap: break-word;
+                border: 1px solid #ccc;
             }
