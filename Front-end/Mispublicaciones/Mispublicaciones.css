@@ -173,20 +173,20 @@ transition-duration: 0.3s;
 } 
 
 /* Filtros de publicaciones */
-.Selectores1,.Selectores2,.Selectores3,.Selectores4,.Selectores5{
+.Selectores1, .Selectores2, .Selectores3, .Selectores4, .Selectores5 {
+    display: none; 
     position: absolute;
-    opacity: 0;
-        cursor: pointer; 
-        justify-content: space-between;
-        align-items: flex-end;
-        pointer-events: none;
-    }
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    z-index: 10;
+}
 
-    .Selectores1.show,.Selectores2.show,.Selectores3.show,.Selectores4.show,.Selectores5.show{
-        opacity: 1;
-        font-weight: 80; 
-        pointer-events: auto;
-    }
+.Selectores1.show, .Selectores2.show, .Selectores3.show, .Selectores4.show, .Selectores5.show {
+    display: block; 
+}
+
 .Selectores1{
 top: 10em;
 right: 3.2em;

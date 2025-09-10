@@ -107,30 +107,40 @@ irperdidos.addEventListener("click", () => {
      irmisfavoritos.addEventListener("click", () => {
     window.location.href = "../Misfavoritos/Misfavoritos.html";
      });
-document.querySelectorAll(".publicacionborder").forEach(card => {
-  const editorSelect = card.querySelector(".Editores select");
-
-  editorSelect.addEventListener("change", (e) => {
-    const opcion = e.target.value;
-
-    if (opcion === "Editar") {
+     document.querySelectorAll(".publicacionborder").forEach(card => {
+      const editorSelect = card.querySelector(".Editores select");
     
-      window.location.href = "../EditarPublicacion/EditarPublicacion.html";
-    }
-    else if (opcion === "Borrar") {
-      
-      const confirmar = confirm("¿Seguro que quieres borrar esta publicación?");
-      if (confirmar) {
-        card.remove(); 
-        alert("Publicación borrada.");
-      }
-    }
-    else if (opcion === "Pausar") {
-
-      card.style.opacity = "0.5";
-      alert("Publicación pausada.");
-    }
-
-    e.target.selectedIndex = 0;
-  });
-});
+     
+      card.dataset.estado = "activo";
+    
+      editorSelect.addEventListener("change", (e) => {
+        const opcion = e.target.value;
+    
+        if (opcion === "Editar") {
+          window.location.href = "../EditarPublicacion/EditarPublicacion.html";
+        }
+        else if (opcion === "Borrar") {
+          const confirmar = confirm("¿Seguro que quieres borrar esta publicación?");
+          if (confirmar) {
+            card.remove(); 
+            alert("Publicación borrada.");
+          }
+        }
+        else if (opcion === "Pausar" || opcion === "Restaurar") {
+          if (card.dataset.estado === "pausado") {
+            card.style.opacity = "1";       
+            card.dataset.estado = "activo"; 
+            editorSelect.options[2].text = "Pausar"; 
+            alert("Publicación restaurada.");
+          } else {
+            card.style.opacity = "0.5";    
+            card.dataset.estado = "pausado";
+            editorSelect.options[2].text = "Restaurar"; 
+            alert("Publicación pausada.");
+          }
+        }
+    
+        e.target.selectedIndex = 0; 
+      });
+    });
+    
