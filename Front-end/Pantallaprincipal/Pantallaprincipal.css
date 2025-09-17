@@ -1,5 +1,5 @@
 body { 
-    background-color: #A3D2CA; 
+    background-color:   #eaf4ff;
     font-family: 'Poppins', sans-serif; 
     margin: 0; 
 } 
@@ -243,7 +243,7 @@ transform: translateX(0);
                 flex-direction: column;
                 align-items: center;
                 width: 200px;
-                background-color: #DFF7E3;
+                background-color: #ffffff;
                 padding: 10px;
                 border-radius: 10px;
                 box-shadow: 0 4px 10px rgba(0,0,0,0.1);
@@ -283,7 +283,7 @@ transform: translateX(0);
             { 
                 text-align: center;
                 font-size: 14px;
-                color: #333;
+                color: rgb(0, 0, 0);
             }
             
             .publicaciongolden:hover,
@@ -293,8 +293,9 @@ transform: translateX(0);
             .publicacionpug:hover,
             .publicacioncorgi:hover
             {
-                background-color: #66b2b2;
+                background-color: #eaf4ff;
                 cursor: pointer;
+                transition: background-color 0.3s ease;
             }
             .Corazon{
                 width: 1rem;
