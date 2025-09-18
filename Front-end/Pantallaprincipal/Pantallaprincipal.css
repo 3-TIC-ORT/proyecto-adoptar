@@ -1,5 +1,5 @@
 body { 
-    background-color:   #eaf4ff;
+    background-color:   #cbf3f8;
     font-family: 'Poppins', sans-serif; 
     margin: 0; 
 } 
@@ -130,7 +130,7 @@ z-index: 3;
             left: 0;
             height: 70vh;
             width: 16em;
-            background-color: aliceblue;
+            background-color: rgb(152, 207, 255);
             z-index: 3;
             border-radius: 10px;
             transform: translateX(-100%);
@@ -202,7 +202,7 @@ transform: translateX(0);
     right: 2%;
     min-height: auto;       
     width: 40vh; 
-    background-color: aliceblue; 
+    background-color:rgb(152, 207, 255);
     z-index: 3;
     border-radius: 10px;
     padding: 20px;
@@ -233,12 +233,7 @@ transform: translateX(0);
                 grid-template-columns: repeat(3, 250px);
             }
             
-            .publicaciongolden,
-            .publicacionbulldog, 
-            .publicacioncaniche,
-            .publicacionbreton,
-            .publicacionpug,
-            .publicacioncorgi {
+            .publicacion {
                 display: flex;
                 flex-direction: column;
                 align-items: center;
@@ -252,20 +247,10 @@ transform: translateX(0);
                 transition: max-height 0.3s ease;
             }
             
-            .publicaciongolden.expandida,
-            .publicacionbulldog.expandida,
-            .publicacioncaniche.expandida,
-            .publicacionbreton.expandida,
-            .publicacionpug.expandida,
-            .publicacioncorgi.expandida {
+            .publicacion.expandida {
                 max-height: 500px;
             }
-            .publicaciongolden img:not(.Comentarios):not(.Corazon),
-            .publicacionbulldog img,
-            .publicacioncaniche img,
-            .publicacionbreton img,
-            .publicacionpug img,
-            .publicacioncorgi img
+            .publicacion img:not(.Comentarios):not(.Corazon)
             {
                 width: 200px;
                 height: 175px;
@@ -274,26 +259,16 @@ transform: translateX(0);
                 margin-bottom: 10px;
             }
             
-            .publicaciongolden .descripcion,
-            .publicacionbulldog .descripcion,
-            .publicacioncaniche .descripcion,
-            .publicacionbreton .descripcion,
-            .publicacionpug .descripcion,
-            .publicacioncorgi .descripcion
+            .publicacion.descripcion
             { 
                 text-align: center;
                 font-size: 14px;
                 color: rgb(0, 0, 0);
             }
             
-            .publicaciongolden:hover,
-            .publicacionbulldog:hover,
-            .publicacioncaniche:hover,
-            .publicacionbreton:hover,
-            .publicacionpug:hover,
-            .publicacioncorgi:hover
+            .publicacion:hover
             {
-                background-color: #eaf4ff;
+                background-color: #aaf8f8;
                 cursor: pointer;
                 transition: background-color 0.3s ease;
             }

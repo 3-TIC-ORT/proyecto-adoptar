@@ -35,6 +35,49 @@ document.addEventListener("click", (e) => {
     selectores.forEach(selector => selector.classList.remove("show"));
   }
 });
+//Publicaciones JS
+let publicaciones = [ 
+    { 
+    Imagen: "https://c.files.bbci.co.uk/48DD/production/_107435681_perro1.jpg",
+    Nombre:"Hola",
+    Tipo: "Perro",
+    Género: "Masculino", 
+    Ubicación: "Belgrano",
+    Estado: "Encontrado",
+    Enfermedad: "No",
+    Númeroteléfono: "+54 9 11 0000-0000",
+    Descripción: "123"
+    }, 
+    { 
+    Nombre: "Hola2", 
+    Tipo: "Gato",
+    Género: "Masculino", 
+    Ubicación: "Nuñez",
+    Estado: "Perdido",
+    Enfermedad: "Si",
+    Númeroteléfono: "+54 9 11 0000-0001",
+    Descripción: "1234" 
+    } 
+    ] 
+    let contenedorPublicaciones = document.querySelector(".publicaciones");
+
+    for (let i = 0; i < publicaciones.length; i++) {
+      let publi = document.createElement("div");
+      publi.classList.add("publicacion");
+      publi.innerHTML =
+      "<img>Imagen:" + publicaciones[i].Imagen
+        "<h3>" + publicaciones[i].Nombre + "</h3>" +
+        "<p>Tipo: " + publicaciones[i].Tipo + "</p>" +
+        "<p>Género: " + publicaciones[i].Género + "</p>" +
+        "<p>Ubicación: " + publicaciones[i].Ubicación + "</p>" +
+        "<p>Estado: " + publicaciones[i].Estado + "</p>" +
+        "<p>Enfermedad: " + publicaciones[i].Enfermedad + "</p>" +
+        "<p>Teléfono: " + publicaciones[i].Númeroteléfono + "</p>" +
+        "<p>Descripción: " + publicaciones[i].Descripción + "</p>";
+    
+      contenedorPublicaciones.appendChild(publi);
+    }
+    
 //Comentarios
 let botoncomentarios = document.querySelectorAll(".Comentarios");
 let escribircomentarios = document.querySelectorAll(".Inputcomentarios");
@@ -46,7 +89,7 @@ botoncomentarios.forEach((boton, i) => {
 
         let input = escribircomentarios[i];
         let enviar = botonesEnviar[i];
-        let publicacion = boton.closest(".publicaciongolden, .publicacionbulldog, .publicacioncaniche, .publicacionbreton, .publicacionpug, .publicacioncorgi");
+        let publicacion = boton.closest(".publicacion");
 
         input.classList.toggle("show");
         enviar.classList.toggle("show");
@@ -62,7 +105,7 @@ botonesEnviar.forEach((boton, i) => {
         let texto = input.value.trim();
 
         if (texto !== "") {
-            let publicacion = boton.closest(".publicaciongolden, .publicacionbulldog, .publicacioncaniche, .publicacionbreton, .publicacionpug, .publicacioncorgi");
+            let publicacion = boton.closest(".publicacion");
             let listaComentarios = publicacion.querySelector(".lista-comentarios");
             let nuevoComentario = document.createElement("p");
             nuevoComentario.textContent = texto;
@@ -88,8 +131,8 @@ document.addEventListener("click", (e) => {
         items.forEach(item => item.classList.remove("show"));
     }
 });
-//Publicaciones
-document.querySelectorAll('.publicaciongolden, .publicacionbulldog, .publicacioncaniche').forEach(pub => {
+//Publicacionesfijas
+document.querySelectorAll('.publicacion').forEach(pub => {
     pub.addEventListener('click', function(e) {
         if (!e.target.closest('.Comentarios') && !e.target.closest('.Inputcomentarios')) {
             window.location.href = "pagina-de-publicacion.html";
@@ -149,7 +192,7 @@ irencontrados.addEventListener("click", () => {
     window.location.href = "../Misfavoritos/Misfavoritos.html";
     });
 
-    let irainfo = document.querySelector(".publicaciongolden")
+    let irainfo = document.querySelector(".publicacion")
         irainfo.addEventListener("click", () => {
     window.location.href = "../Infopublicacion/Infopublicacion.html";
     });
