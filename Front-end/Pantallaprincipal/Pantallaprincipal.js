@@ -49,6 +49,7 @@ let publicaciones = [
     Descripción: "123"
     }, 
     { 
+    Imagen: "https://c.files.bbci.co.uk/48DD/production/_107435681_perro1.jpg",
     Nombre: "Hola2", 
     Tipo: "Gato",
     Género: "Masculino", 
@@ -65,7 +66,7 @@ let publicaciones = [
       let publi = document.createElement("div");
       publi.classList.add("publicacion");
       publi.innerHTML =
-      "<img>Imagen:" + publicaciones[i].Imagen
+      "<img src='" + publicaciones[i].Imagen + "' alt='" + publicaciones[i].Nombre + "'>" +
         "<h3>" + publicaciones[i].Nombre + "</h3>" +
         "<p>Tipo: " + publicaciones[i].Tipo + "</p>" +
         "<p>Género: " + publicaciones[i].Género + "</p>" +
