@@ -1,7 +1,17 @@
-let irapaginaprincipal = document.querySelector("#foto3");
-irapaginaprincipal.addEventListener("click", () => {
-window.location.href = "../Pantallaprincipal/Pantallaprincipal.html";
+let botonEnviar = document.querySelector("#botonEnviar");
+let form = document.querySelector(".form-container");
+
+botonEnviar.addEventListener("click", (e) => {
+  e.preventDefault(); // evita que se envíe de golpe
+
+  if (form.checkValidity()) {
+    // Si todos los campos required están completos
+    window.location.href = "../Pantallaprincipal/Pantallaprincipal.html";
+  } else {
+    form.reportValidity(); // muestra los mensajes nativos del navegador
+  }
 });
+
 // Detectar parámetros de la URL
 const params = new URLSearchParams(window.location.search);
 const modo = params.get("modo");

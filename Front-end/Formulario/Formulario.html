@@ -5,47 +5,65 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulario</title>
     <link rel="stylesheet" href="formulario.css">
-    <script src = 'Formulario.js' defer></script>
+    <script src="Formulario.js" defer></script>
 </head>
 <body>
     <h1 id="titulo">AdoptAR</h1>
     <div class="linea"></div>
 
-    <div class="form-container">
+    <form class="form-container">
         <h3 id="pregunta">Nombre de la mascota</h3>
-        <input type="text" id="sesion"/>
+        <input type="text" id="sesion" name="nombre_mascota" required/>
 
         <label for="categorias" id="preguntacategorias">Selecciona una categoría:</label>
-        <select id="categorias" name="categorias">
+        <select id="categorias" name="categorias" required>
+            <option value="">--Selecciona--</option>
             <option value="Perro">Perro</option>
             <option value="Gato">Gato</option>
         </select>
-        <label for="Genero" id="Genero">Género</label>
-        <select id="categorias3" name="categorias">
-            <option value="si">Masculino</option>
-            <option value="no">Femenino</option>
+
+        <label for="genero" id="Genero">Género</label>
+        <select id="genero" name="genero" required>
+            <option value="">--Selecciona--</option>
+            <option value="masculino">Masculino</option>
+            <option value="femenino">Femenino</option>
         </select>
-        <label for="categorias3" id="preguntacategorias3">Tiene alguna enfermedad o problema/discapacidad:</label>
-        <select id="categorias3" name="categorias">
+
+        <label for="salud" id="preguntacategorias3">Tiene alguna enfermedad o problema/discapacidad:</label>
+        <select id="salud" name="salud" required>
+            <option value="">--Selecciona--</option>
             <option value="si">Sí</option>
             <option value="no">No</option>
         </select>
 
-        <h3 id="Descripcion">Descripción</h3>
-        <input type="text" id="Espaciodescripcion"/>
+        <label for="estado" id="preguntacategorias4">En qué estado está la mascota:</label>
+        <select id="estado" name="estado" required>
+            <option value="">--Selecciona--</option>
+            <option value="para_adoptar">Para adoptar</option>
+            <option value="para_transitar">Para transitar</option>
+            <option value="perdido">Perdido</option>
+            <option value="encontrado">Encontrado</option>
+        </select>
 
+        <h3 id="Descripcion">Descripción</h3>
+        <input type="text" id="Espaciodescripcion" name="descripcion" required/>
         <h3 id="Telefono">Número de teléfono</h3>
-        <input type="text" id="EspacioTelefono"/>
+        <input type="tel" 
+               id="EspacioTelefono" 
+               name="telefono" 
+               maxlength="17" 
+               pattern="[0-9]{8,17}" 
+               placeholder="Ej: 1112345678" 
+               required
+               oninput="this.value = this.value.replace(/[^0-9]/g, '')"/>
 
         <h3 id="Encontrado">Dónde fue encontrado</h3>
-        <input type="text" id="EspacioEncontrado"/>
+        <input type="text" id="EspacioEncontrado" name="ubicacion" required/>
 
-        <form action="subir.php" method="post" enctype="multipart/form-data" class="foto-form">
-            <label id="foto1" for="foto">Selecciona una imagen:</label>
-            <input type="file" name="foto" id="foto" accept="image/*" required>
-            <button id="foto3" type="submit">Subir imagen</button>
-              
-        </form>
-    </div>
+        <label id="foto1" for="foto">Selecciona una imagen:</label>
+        <input type="file" name="foto" id="foto" accept="image/*" required/>
+
+        <button id="botonEnviar" type="submit">Enviar</button>
+    </form>
 </body>
 </html>
