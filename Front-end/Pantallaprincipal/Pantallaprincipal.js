@@ -62,76 +62,98 @@ let publicaciones = [
     ] 
     let contenedorPublicaciones = document.querySelector(".publicaciones");
 
-    for (let i = 0; i < publicaciones.length; i++) {
-      let publi = document.createElement("div");
-      publi.classList.add("publicacion");
-      publi.innerHTML =
+  //Publicaciones dinámicas
+for (let i = 0; i < publicaciones.length; i++) {
+    let publi = document.createElement("div");
+    publi.classList.add("publicacion");
+    publi.innerHTML =
       "<img src='" + publicaciones[i].Imagen + "' alt='" + publicaciones[i].Nombre + "'>" +
-        "<h3>" + publicaciones[i].Nombre + "</h3>" +
-        "<p>Tipo: " + publicaciones[i].Tipo + "</p>" +
-        "<p>Género: " + publicaciones[i].Género + "</p>" +
-        "<p>Ubicación: " + publicaciones[i].Ubicación + "</p>" +
-        "<p>Estado: " + publicaciones[i].Estado + "</p>" +
-        "<p>Enfermedad: " + publicaciones[i].Enfermedad + "</p>" +
-        "<p>Teléfono: " + publicaciones[i].Númeroteléfono + "</p>" +
-        "<p>Descripción: " + publicaciones[i].Descripción + "</p>";
-    
-      contenedorPublicaciones.appendChild(publi);
+      "<h3>" + publicaciones[i].Nombre + "</h3>" +
+      "<p>Tipo: " + publicaciones[i].Tipo + "</p>" +
+      "<p>Género: " + publicaciones[i].Género + "</p>" +
+      "<p>Ubicación: " + publicaciones[i].Ubicación + "</p>" +
+      "<p>Estado: " + publicaciones[i].Estado + "</p>" +
+      "<p>Enfermedad: " + publicaciones[i].Enfermedad + "</p>" +
+      "<p>Teléfono: " + publicaciones[i].Númeroteléfono + "</p>" +
+      "<p>Descripción: " + publicaciones[i].Descripción + "</p>";
+    document.querySelector(".publicaciones").appendChild(publi);
+  }
+
+  document.querySelectorAll(".publicacion").forEach(function(publi) {
+    if (!publi.querySelector(".Corazon")) {
+      let corazon = document.createElement("img");
+      corazon.src = "Iconocorazon.webp";
+      corazon.classList.add("Corazon");
+      publi.prepend(corazon);
     }
-    
-//Comentarios
-let botoncomentarios = document.querySelectorAll(".Comentarios");
-let escribircomentarios = document.querySelectorAll(".Inputcomentarios");
-let botonesEnviar = document.querySelectorAll(".EnviarComentario");
-
-botoncomentarios.forEach((boton, i) => {
-    boton.addEventListener("click", (e) => {
-        e.stopPropagation();
-
-        let input = escribircomentarios[i];
-        let enviar = botonesEnviar[i];
+    if (!publi.querySelector(".Comentarios")) {
+      let comentarios = document.createElement("img");
+      comentarios.src = "Iconocomentarios.png";
+      comentarios.classList.add("Comentarios");
+      publi.appendChild(comentarios);
+    }
+    if (!publi.querySelector(".lista-comentarios")) {
+      let lista = document.createElement("div");
+      lista.classList.add("lista-comentarios");
+      publi.appendChild(lista);
+    }
+    if (!publi.querySelector(".Inputcomentarios")) {
+      let textarea = document.createElement("textarea");
+      textarea.classList.add("Inputcomentarios");
+      textarea.placeholder = "Escribe un comentario...";
+      publi.appendChild(textarea);
+    }
+    if (!publi.querySelector(".EnviarComentario")) {
+      let botonEnviar = document.createElement("button");
+      botonEnviar.classList.add("EnviarComentario");
+      botonEnviar.textContent = "Enviar";
+      publi.appendChild(botonEnviar);
+    }
+  });
+  
+  let botoncomentarios = document.querySelectorAll(".Comentarios");
+  let escribircomentarios = document.querySelectorAll(".Inputcomentarios");
+  let botonesEnviar = document.querySelectorAll(".EnviarComentario");
+  let corazones = document.querySelectorAll(".Corazon");
+  
+  botoncomentarios.forEach(function(boton, i) {
+    boton.addEventListener("click", function(e) {
+      e.stopPropagation();
+      let input = escribircomentarios[i];
+      let enviar = botonesEnviar[i];
+      let publicacion = boton.closest(".publicacion");
+  
+      input.classList.toggle("show");
+      enviar.classList.toggle("show");
+      publicacion.classList.toggle("expandida");
+    });
+  });
+  
+  botonesEnviar.forEach(function(boton, i) {
+    boton.addEventListener("click", function(e) {
+      e.stopPropagation();
+      let input = escribircomentarios[i];
+      let texto = input.value.trim();
+  
+      if (texto !== "") {
         let publicacion = boton.closest(".publicacion");
-
-        input.classList.toggle("show");
-        enviar.classList.toggle("show");
-        publicacion.classList.toggle("expandida");
+        let listaComentarios = publicacion.querySelector(".lista-comentarios");
+        let nuevoComentario = document.createElement("p");
+        nuevoComentario.textContent = texto;
+        nuevoComentario.classList.add("comentario");
+        listaComentarios.prepend(nuevoComentario);
+        input.value = "";
+      }
     });
-});
-//Enviar comentarios
-botonesEnviar.forEach((boton, i) => {
-    boton.addEventListener("click", (e) => {
-        e.stopPropagation();
-
-        let input = escribircomentarios[i];
-        let texto = input.value.trim();
-
-        if (texto !== "") {
-            let publicacion = boton.closest(".publicacion");
-            let listaComentarios = publicacion.querySelector(".lista-comentarios");
-            let nuevoComentario = document.createElement("p");
-            nuevoComentario.textContent = texto;
-            nuevoComentario.classList.add("comentario");
-            listaComentarios.prepend(nuevoComentario);
-            input.value = "";
-        }
+  });
+  
+  // Eventos corazones
+  corazones.forEach(function(boton) {
+    boton.addEventListener("click", function(e) {
+      e.stopPropagation();
+      boton.classList.toggle("activo");
     });
-});
-//Me gusta
-let corazones = document.querySelectorAll('.Corazon');
-
-corazones.forEach((boton) => {
-    boton.addEventListener("click", (e) => {
-        e.stopPropagation();
-        boton.classList.toggle("activo");
-    });
-});
-
-
-document.addEventListener("click", (e) => {
-    if (!botonfiltros.contains(e.target) && !e.target.classList.contains("menu-item")) {
-        items.forEach(item => item.classList.remove("show"));
-    }
-});
+  });
 //Publicacionesfijas
 document.querySelectorAll('.publicacion').forEach(pub => {
     pub.addEventListener('click', function(e) {
@@ -151,6 +173,22 @@ document.addEventListener("click", (e) => {
     if (!botonfiltros.contains(e.target) && !e.target.classList.contains("menu-item")) {
         items.forEach(item => item.classList.remove("show"));
     }
+});
+
+//Selectores
+let radiosCantidad = document.querySelectorAll('input[name="fav_language"]');
+let publicacionesContainer = document.querySelector('.publicaciones');
+
+radiosCantidad.forEach(radio => {
+  radio.addEventListener("change", () => {
+    if (radio.value === "Tres") {
+      publicacionesContainer.style.gridTemplateColumns = "repeat(3, 1fr)";
+    } else if (radio.value === "Cuatro") {
+      publicacionesContainer.style.gridTemplateColumns = "repeat(4, 1fr)";
+    } else if (radio.value === "Cinco") {
+      publicacionesContainer.style.gridTemplateColumns = "repeat(5, 1fr)";
+    }
+  });
 });
 //Redirecciones
 let botonperfil = document.querySelector(".circuloperfil");
