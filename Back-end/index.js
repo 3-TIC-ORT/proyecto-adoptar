@@ -1,34 +1,57 @@
 import fs from "fs";
+import readline from "readline"; 
 
-//Registrarse
-//Lee que tengo en el JSON
-let personas= fs.readFileSync("Usuarios.json", "utf-8");
-//Convierte datos de JSON en java
-let datos= JSON.parse(personas);
+const json = "usuarios.json";
 
-//Datos que me pase el front
-let nuevousuario={}
-//Agrega a la lista
-datos.push(nuevousuario);
-let Jsonnuevo = JSON.stringify(personas, null, 2);
+//  Función para leer usuarios
+function leerUsuarios() {
+  try {
+    let data = fs.readFileSync(json, "utf-8");
+    if (!data.trim()) return [];
+    return JSON.parse(data);
+  } catch (err) {
+    return [];
+  }
+}
 
-fs.writeFileSync ("Usuarios.json" , Jsonnuevo);
-console.log ("Se agrego el nombre con éxito!!!!");
+//  Función para guardar usuarios
+function guardarUsuarios(usuarios) {
+  fs.writeFileSync(json, JSON.stringify(usuarios, null, 2));
+}
 
+//  Registrar usuario
+function registrarUsuario(nombre, mail, password, fotoPerfil, edad) {
+  let usuarios = leerUsuarios();
 
+  // Evitar mails repetidos
+  let existe = usuarios.find(u => u.mail === mail);
+  if (existe) {
+    console.log("Ese mail ya está registrado.");
+    return;
+  }
 
+  let nuevoUsuario = {
+    nombre,
+    mail,
+    password,
+    fotoPerfil: fotoPerfil || null, // si no pone nada, queda null
+    edad
+  };
 
-// LOGIN
-// Lee cosas del JSON y lo coonvierte en java
-let usuarioLOGIN= fs.readFileSync("Usuarios.json","utf-8");
-let JSONLOGIN= JSON.parse(usuarioLOGIN);
+  usuarios.push(nuevoUsuario);
+  guardarUsuarios(usuarios);
+  console.log(" Usuario registrado con éxito!");
+}
 
-for (let i = 0; i < JSONLOGIN.length; i++){ 
-    if (JSONLOGIN[i].nombre == "Ezequiel" && JSONLOGIN[i].password == "echu1234") {
-        console.log ("Bienvenido")
-    }
+// Login de usuario
+function loginUsuario(mail, password) {
+  let usuarios = leerUsuarios();
 
-else {
-        console.log ("Usuario o contraseña incorrectas")
-    }
+  let usuario = usuarios.find(u => u.mail === mail && u.password === password);
+
+  if (usuario) {
+    console.log(" Bienvenido " + usuario.nombre + "!");
+  } else {
+    console.log(" Usuario o contraseña incorrectos");
+  }
 }
