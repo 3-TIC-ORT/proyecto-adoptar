@@ -222,31 +222,32 @@ transform: translateX(0);
     max-height: 600px; 
 }
 /* Publicaciones */
-               .publicaciones {
-                    display: grid;
-                    grid-template-columns: repeat(3, 1fr);
-                    gap: 30px;
-                    padding: 20px;
-                    margin-top: 10px;
-                }
+.publicaciones {
+    display: grid;
+    justify-content: center;
+    align-items: space-between;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding: 20px;
+    margin: 10px auto;   
+    max-width: 900px; 
+}
             
-            .publicacion {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                width: 200px;
-                background-color: #E6F4F9;
-                padding: 10px;
-                border-radius: 10px;
-                box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-                max-height: 280px;
-                overflow: hidden;
-                transition: max-height 0.3s ease;
-            }
+.publicacion {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 200px;
+    background-color: #E6F4F9;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    overflow: hidden;
+    max-height: 280px;
+    transition: max-height 0.3s ease, background-color 0.3s ease;
+}
+ 
             
-            .publicacion.expandida {
-                max-height: 500px;
-            }
             .publicacion img:not(.Comentarios):not(.Corazon)
             {
                 width: 200px;
