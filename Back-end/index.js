@@ -55,3 +55,68 @@ function loginUsuario(mail, password) {
     console.log(" Usuario o contraseña incorrectos");
   }
 }
+
+
+
+
+
+
+
+//==============
+//PUBLICACIONES
+//==============
+
+const publi = "publicaciones.json";
+
+function leerPublicaciones() {
+  try {
+    let data = fs.readFileSync(publi, "utf-8");
+    if (!data.trim()) return [];
+    return JSON.parse(data);
+  } catch (err) {
+    return [];
+  }
+}
+
+function guardarPublicaciones(publicaciones) {
+  fs.writeFileSync(publi, JSON.stringify(publicaciones, null, 2));
+}
+
+function crearPublicacion(nombreMascota, tipo, genero, enfermedad, estado, descripcion, lugar, foto) {
+  let publicaciones = leerPublicaciones();
+
+  if (!nombreMascota || !descripcion || !lugarEncontrado) {
+    console.log("Guarda que te falta completar o el nombre, la descripción o donde lo encontraste");
+    return;
+  }
+
+  if (estado === "--Selecciona--") {
+    console.log(" Debes seleccionar un estado (adoptar, encontrado, perdido o tránsito).");
+    return;
+  }
+
+  if (tipo === "--Selecciona--") {
+    console.log(" Debes seleccionar un tipo (perro o gato).");
+    return;
+  }
+
+  if (!genero) {
+    console.log(" ⚠️ Debes seleccionar un género (macho o hembra).");
+    return;
+  }
+
+  let nuevaPublicacion = {
+    nombreMascota,
+    estado,
+    tipo,
+    genero,
+    enfermedad: enfermedad || null,
+    descripcion,
+    lugarEncontrado,
+    foto: foto || null
+  };
+
+  publicaciones.push(nuevaPublicacion);
+  guardarPublicaciones(publicaciones);
+  console.log(" ✅ Publicación registrada con éxito!");
+}
