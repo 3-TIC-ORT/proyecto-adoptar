@@ -10,10 +10,6 @@
 <body>
     <div class="intro">
     <h1>¡Bienvenido a AdoptAR!</h1>
-    <p>Nuestra página consiste en ayudar a las mascotas callejeras o que no tengan familia.
-        Podés adoptar, tener temporalmente, encontrar o que alguien encuentre tu mascota.
-        ¡Con tu ayuda podemos salvarlos a todos, contamos con vos!
-    </p>
 </div>
     <div class="Elementoscrear">
     <h3 id="Crear">Registrate</h3>
@@ -33,10 +29,24 @@
      <h5 id="Contraseña">Contraseña</h5>
         <input type="password" id="password" placeholder="Ingrese su contraseña"/>
        </div>
+         <div class="Campo">
+     <h5 id="Ubicacion">Ubicacion</h5>
+        <input type="ubicacion" id="ubicacion" placeholder="Ingrese su ubicacion"/>
+       </div>
        <div class="Campo">
         <h5 id="Fecha">¿Cuando nació?</h5>
            <input type="date" id="Fechanacimiento" placeholder="Ingrese la fecha"/>
           </div>
+          <h3 id="Telefono">Número de teléfono</h3>
+          <input type="tel" 
+                 id="EspacioTelefono" 
+                 name="telefono" 
+                 maxlength="17" 
+                 pattern="[0-9]{8,17}" 
+                 placeholder="Ej: 1112345678" 
+                 required
+                 oninput="this.value = this.value.replace(/[^0-9]/g, '')"/>
+  
     <button id="Crear-cuenta">Crear cuenta</button>
     <h6 id="Sicuenta">¿Tenés cuenta? ¡Incia aquí!</h6>
     </div>
