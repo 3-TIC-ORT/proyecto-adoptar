@@ -1,5 +1,5 @@
 body { 
-    background-color:   #f1f1f1;
+    background-color:   #bae0df;
     font-family: 'Poppins', sans-serif; 
     margin: 0; 
 } 
@@ -130,7 +130,7 @@ z-index: 3;
             left: 0;
             height: 70vh;
             width: 16em;
-            background-color: rgb(152, 207, 255);
+            background-color: rgb(197, 244, 255);
             z-index: 3;
             border-radius: 10px;
             transform: translateX(-100%);
@@ -201,8 +201,8 @@ transform: translateX(0);
     top: 15%;
     right: 2%;
     min-height: auto;       
-    width: 40vh; 
-    background-color:rgb(152, 207, 255);
+    width: 35vh; 
+    background-color:rgb(197, 244, 255);
     z-index: 3;
     border-radius: 10px;
     padding: 20px;
