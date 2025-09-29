@@ -1,41 +1,133 @@
-body{
-    background-color: #f1f1f1;
-    font-family:'Poppins', sans-serif;
+body {
+    background: linear-gradient(135deg, #f1f1f1, #e3e3e3);
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 20px;
 }
 
+/* Títulos */
+h1 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+p {
+    text-align: center;
+    color: #555;
+}
+
+/* Línea decorativa */
 .linea {
-    height: 1px;
-    background-color: black;
-    width: 100%;
-    margin: 10px 0;
+    height: 2px;
+    background: #444;
+    width: 80%;
+    margin: 20px auto;
+    border-radius: 5px;
 }
 
+/* Contenedor principal */
 .contenedor {
     display: flex;
-    justify-content: space-between; 
-    align-items: center;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 40px;
+    max-width: 1000px;
+    margin: auto;
+    padding: 20px;
 }
 
-.Textos{
+/* Info de usuario */
+.Textos {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0px 4px 15px rgba(0,0,0,0.1);
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    max-width: 400px;
+    gap: 12px;
+    flex: 1;
+}
+
+.Textos h2 {
+    color: #222;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.Textos p {
+    font-size: 0.95rem;
+    color: #444;
+}
+
+/* Formularios */
+form {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+form label {
+    font-weight: 500;
+    color: #333;
+}
+
+form select, form input[type="file"] {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+    transition: 0.3s;
+}
+
+form select:focus, form input[type="file"]:focus {
+    border-color: #007bff;
+}
+
+/* Botones */
+form button {
+    padding: 10px 15px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+form button:hover {
+    background: #0056b3;
+}
+
+/* Foto de perfil */
+.perfil-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0px 4px 15px rgba(0,0,0,0.1);
 }
 
 .circuloperfil {
     width: 240px;
     height: 240px;
-    background-color: black;
+    background: #ddd;
     border-radius: 50%;
-    cursor: pointer;
-    margin-left: -65px;
-    position: relative;
-    top: -20px;
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: transform 0.4s ease, box-shadow 0.3s ease;
+}
+
+.circuloperfil:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 6px 20px rgba(0,0,0,0.2);
 }
 
 .circuloperfil img {
@@ -45,13 +137,20 @@ body{
     border-radius: 50%;
     display: none; 
 }
-.foto-form{
-   flex-direction: column;
+.botoneditar {
+    margin-top: 15px;
+    padding: 10px 18px;
+    background: #28a745;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.3s, transform 0.2s;
+    align-self: flex-start; 
 }
-.perfil-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
 
+.botoneditar:hover {
+    background: #218838;
+    transform: scale(1.05);
 }
-
