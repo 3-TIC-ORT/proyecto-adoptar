@@ -196,3 +196,6 @@ document.getElementById("Mispublicaciones").addEventListener("click", () => {
 document.getElementById("Misfavoritos").addEventListener("click", () => {
   window.location.href = "../Misfavoritos/Misfavoritos.html";
 });
+document.querySelector(".publicacion").addEventListener("click", () => {
+  window.location.href = "../Infopublicacion/Infopublicacion.html";
+});
