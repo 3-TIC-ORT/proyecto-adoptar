@@ -333,10 +333,10 @@ transform: translateX(0);
             .lista-comentarios {
                 display: flex;
                 flex-direction: column;
-                gap: 30px;
+                gap: 10px;
                 width: 100%;
+                height: 40px;
                 margin-bottom: 10px;
-                max-height: 80px;
                 background-color: white;
                 padding: 5px 8px;
                 border-radius: 5px;
@@ -344,4 +344,7 @@ transform: translateX(0);
                 text-align: left;
                 word-wrap: break-word;
                 border: 1px solid #ccc;
+                min-height: 50px; 
+                max-height: 120px;
+                overflow-y: auto;
             }

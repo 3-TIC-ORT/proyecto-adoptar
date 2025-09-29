@@ -57,8 +57,6 @@ let publicaciones = [
     Ubicación: "Nuñez",
     Estado: "Perdido",
     Enfermedad: "Si",
-    Númeroteléfono: "+54 9 11 0000-0001",
-    Descripción: "1234" 
   } 
 ];
 
@@ -74,9 +72,7 @@ for (let i = 0; i < publicaciones.length; i++) {
     "<p>Género: " + publicaciones[i].Género + "</p>" +
     "<p>Ubicación: " + publicaciones[i].Ubicación + "</p>" +
     "<p>Estado: " + publicaciones[i].Estado + "</p>" +
-    "<p>Enfermedad: " + publicaciones[i].Enfermedad + "</p>" +
-    "<p>Teléfono: " + publicaciones[i].Númeroteléfono + "</p>" +
-    "<p>Descripción: " + publicaciones[i].Descripción + "</p>";
+    "<p>Enfermedad: " + publicaciones[i].Enfermedad + "</p>";
 
   // Botones dinámicamente
   let corazon = document.createElement("img");
