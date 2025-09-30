@@ -59,7 +59,6 @@ let publicaciones = [
     Enfermedad: "Si",
   } 
 ];
-
 let contenedorPublicaciones = document.querySelector(".publicaciones");
 
 for (let i = 0; i < publicaciones.length; i++) {
@@ -135,8 +134,12 @@ corazones.forEach(function (corazon) {
 // Click en publicación redirección
 document.querySelectorAll('.publicacion').forEach(pub => {
   pub.addEventListener('click', function(e) {
-    if (!e.target.closest('.Comentarios') && !e.target.closest('.Inputcomentarios')) {
-      window.location.href = "pagina-de-publicacion.html";
+    if (
+      !e.target.closest('.Comentarios') &&
+      !e.target.closest('.Inputcomentarios') &&
+      !e.target.closest('.Enviarcomentario')
+    ) {  //Redirección
+      window.location.href = "../Infopublicacion/Infopublicacion.html";
     }
   });
 });
@@ -195,7 +198,4 @@ document.getElementById("Mispublicaciones").addEventListener("click", () => {
 });
 document.getElementById("Misfavoritos").addEventListener("click", () => {
   window.location.href = "../Misfavoritos/Misfavoritos.html";
-});
-document.querySelector(".publicacion").addEventListener("click", () => {
-  window.location.href = "../Infopublicacion/Infopublicacion.html";
 });
