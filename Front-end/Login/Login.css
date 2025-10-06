@@ -1,73 +1,53 @@
- body {
+body {
     background-color: #eaf4ff;
     font-family:'Poppins', sans-serif;
 }
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
+
 .intro{
-    display: flex ;
+    display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     text-align: center;
     width: 100%;
     height: 100px;
-    gap: 20px
+    gap: 20px;
 }
+
 .Elementoslogin {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    height: 80vh;
-    gap: 40px;
+    justify-content: flex-start; 
+    height: auto; 
+    gap: 20px; 
+    padding-top: 30px; 
 }
 
 .campo {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 5px;
+    gap: 10px; 
 }
-#Ingresar{
-    width: 200px;
-    height: 50px;
-    font-size: x-large;
-}
-#sesión{
+
+#sesion, #password {
     width: 300px;
-        height: 40px;
-        border-radius: 3px;
-        border: 1px solid #3165A5;
-        background-color: white;
-    }
-    #password{
-        width: 300px;
-            height: 40px;
-            border-radius: 3px;
-            border: 1px solid #3165A5;
-            background-color: white;
-        }
-#Olvidastecontraseña{
-    font-size: medium;
-    color: #3165A5;
-    cursor: pointer;
+    height: 40px;
+    border-radius: 3px;
+    border: 1px solid #3165A5;
+    background-color: white;
+    padding: 5px;
 }
-#Olvidastecontraseña:hover{
-    text-decoration: underline;
-}
-#Nocuenta{
-    font-size: medium;
-    color: #3165A5;
-    cursor: pointer;
-}
-#Nocuenta:hover{
-    text-decoration: underline;
-}
-#Iniciar-sesion{
+
+
+#Iniciar-sesion {
     width: 200px;
     height: 50px;
     font-size: x-large;
@@ -75,8 +55,20 @@
     color: white;
     border: none;
     border-radius: 3px;
+    margin-top: 20px; 
 }
-#Iniciar-sesion:hover{
+
+#Iniciar-sesion:hover {
     cursor: pointer;
     background-color: #1f4f7a;
+}
+
+#Nocuenta, #Olvidastecontraseña {
+    font-size: medium;
+    color: #3165A5;
+    cursor: pointer;
+}
+
+#Nocuenta:hover, #Olvidastecontraseña:hover {
+    text-decoration: underline;
 }

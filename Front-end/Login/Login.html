@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AdoptAR</title>
-     <link rel="stylesheet" href="Login.css">
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.8.1/socket.io.js"></script>
-     <script src="https://cdn.jsdelivr.net/gh/JZylber/SoqueTIC-Client@v1.4.2/soquetic-client.js"></script>
-     <script src = 'Login.js' defer></script>
+    <title>AdoptAR - Login</title>
+    <link rel="stylesheet" href="Login.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.8.1/socket.io.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/JZylber/SoqueTIC-Client@v1.4.2/soquetic-client.js"></script>
+    <script src="Login.js" defer></script>
 </head>
 <body>
     <div class="intro">
@@ -17,19 +17,24 @@
             ¡Con tu ayuda podemos salvarlos a todos, contamos con vos!
         </p>
     </div>
+
     <div class="Elementoslogin">
-    <h3 id="Ingresar">Ingresar cuenta</h3>
-    <div class="Campo">
-   <h5 id="Correo">Correo</h5>
-    <input type="text" id="sesión" placeholder="Ingrese su correo electrónico"/>
-    </div>
-    <div class="Campo">
-    <h5 id="Contraseña">Contraseña</h5>
-    <input type="password" id="password" placeholder="Ingrese su contraseña"/>
-    </div>
-    <button id="Iniciar-sesion">Iniciar sesión</button>
- <h6 id="Nocuenta">¿No tenés cuenta? ¡Registrate aquí!</h6>
-    <h6 id="Olvidastecontraseña">¿Olvidaste tu contraseña?</h6>
+        <h3 id="Ingresar">Ingresar cuenta</h3>
+
+        <form id="login-form">
+            <div class="campo">
+                <h5 id="Correo">Correo</h5>
+                <input type="text" id="sesion" placeholder="Ingrese su correo electrónico" required/>
+            </div>
+            <div class="campo">
+                <h5 id="Contraseña">Contraseña</h5>
+                <input type="password" id="password" placeholder="Ingrese su contraseña" required/>
+            </div>
+            <button id="Iniciar-sesion" type="submit">Iniciar sesión</button>
+        </form>
+
+        <h6 id="Nocuenta">¿No tenés cuenta? ¡Registrate aquí!</h6>
+        <h6 id="Olvidastecontraseña">¿Olvidaste tu contraseña?</h6>
     </div>
 </body>
 </html>
