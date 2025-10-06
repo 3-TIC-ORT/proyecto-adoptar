@@ -1,3 +1,4 @@
+import { subscribeGETEvent, subscribePOSTEvent, startServer } from "soquetic";
 import fs from "fs";
 import readline from "readline"; 
 
@@ -67,7 +68,7 @@ function loginUsuario(mail, password) {
 //==============
 
 const publi = "publicaciones.json";
-
+// Leer publicaciones del archivo
 function leerPublicaciones() {
   try {
     let data = fs.readFileSync(publi, "utf-8");
@@ -78,6 +79,7 @@ function leerPublicaciones() {
   }
 }
 
+// Guardar publicaciones
 function guardarPublicaciones(publicaciones) {
   fs.writeFileSync(publi, JSON.stringify(publicaciones, null, 2));
 }
@@ -85,13 +87,14 @@ function guardarPublicaciones(publicaciones) {
 function crearPublicacion(nombreMascota, tipo, genero, enfermedad, estado, descripcion, lugar, foto) {
   let publicaciones = leerPublicaciones();
 
-  if (!nombreMascota || !descripcion || !lugarEncontrado) {
-    console.log("Guarda que te falta completar o el nombre, la descripción o donde lo encontraste");
+  // Validaciones básicas
+  if (!nombreMascota || !descripcion || !lugar) {
+    console.log("Falta completar nombre, descripción o lugar.");
     return;
   }
 
   if (estado === "--Selecciona--") {
-    console.log(" Debes seleccionar un estado (adoptar, encontrado, perdido o tránsito).");
+    console.log("Debes seleccionar un estado (adoptar, encontrado, perdido o transitar).");
     return;
   }
 
@@ -101,22 +104,47 @@ function crearPublicacion(nombreMascota, tipo, genero, enfermedad, estado, descr
   }
 
   if (!genero) {
-    console.log(" ⚠️ Debes seleccionar un género (macho o hembra).");
+    console.log("Debes seleccionar un género (macho o hembra).");
     return;
   }
 
+  // Crear publicación nueva
   let nuevaPublicacion = {
+    id: Date.now(), 
     nombreMascota,
-    estado,
     tipo,
     genero,
     enfermedad: enfermedad || null,
+    estado,
     descripcion,
-    lugarEncontrado,
+    lugar,
     foto: foto || null
   };
 
   publicaciones.push(nuevaPublicacion);
   guardarPublicaciones(publicaciones);
-  console.log(" ✅ Publicación registrada con éxito!");
+  return nuevaPublicacion;
 }
+// Obtener todas las publicaciones
+subscribeGETEvent("obtenerPublicaciones", () => {
+  return leerPublicaciones();
+});
+
+// Crear una nueva publicación desde el formulario
+subscribePOSTEvent("crearPublicacion", (data) => {
+  const { nombre, tipo, genero, salud, estado, descripcion, ubicacion, imagen } = data;
+
+  let nueva = crearPublicacion(
+    nombre,
+    tipo,
+    genero,
+    salud,
+    estado,
+    descripcion,
+    ubicacion,
+    imagen
+  );
+
+  return nueva;
+});
+startServer(3000);

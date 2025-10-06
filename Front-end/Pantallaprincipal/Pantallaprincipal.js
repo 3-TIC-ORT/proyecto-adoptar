@@ -1,3 +1,4 @@
+connect2Server();
 //Menu desplegable
 let botonfiltros = document.querySelector(".rayasfiltro");
 let menuLateral = document.querySelector(".Cuadradomenu");
@@ -73,6 +74,59 @@ for (let i = 0; i < publicaciones.length; i++) {
     "<p>Estado: " + publicaciones[i].Estado + "</p>" +
     "<p>Enfermedad: " + publicaciones[i].Enfermedad + "</p>";
 
+//Traer publicaciones guardadas del backend
+let contenedorPublicaciones = document.querySelector(".publicaciones");
+getEvent("obtenerPublicaciones", (data) => {
+  mostrarPublicaciones(data);
+});
+
+//Mostrar publicaciones
+function mostrarPublicaciones(publicaciones) {
+  contenedorPublicaciones.innerHTML = ""; // limpio el contenedor
+
+  publicaciones.forEach((publiData) => {
+    let publi = document.createElement("div");
+    publi.classList.add("publicacion");
+    publi.innerHTML =
+      "<img src='" + publiData.Imagen + "' alt='" + publiData.Nombre + "'>" +
+      "<h3>" + publiData.Nombre + "</h3>" +
+      "<p>Tipo: " + publiData.Tipo + "</p>" +
+      "<p>Ubicación: " + publiData.Ubicacion + "</p>" +
+      "<p>Estado: " + publiData.Estado + "</p>";
+
+    let corazon = document.createElement("img");
+    corazon.src = "Iconocorazon.webp";
+    corazon.classList.add("Corazon");
+    publi.prepend(corazon);
+
+    let comentarios = document.createElement("img");
+    comentarios.src = "Iconocomentarios.png";
+    comentarios.classList.add("Comentarios");
+    publi.appendChild(comentarios);
+
+    let lista = document.createElement("div");
+    lista.classList.add("lista-comentarios");
+    publi.appendChild(lista);
+
+    let textarea = document.createElement("textarea");
+    textarea.classList.add("Inputcomentarios");
+    textarea.placeholder = "Escribe un comentario...";
+    publi.appendChild(textarea);
+
+    publi.dataset.id = publiData.id;
+
+    // Click para ir al detalle
+    publi.addEventListener("click", (e) => {
+      if (
+        !e.target.closest('.Comentarios') &&
+        !e.target.closest('.Inputcomentarios')
+      ) {
+        window.location.href = `../Infopublicacion/Infopublicacion.html?id=${publiData.id}`;
+      }
+    });
+    contenedorPublicaciones.appendChild(publi);
+  });
+}
   // Botones dinámicamente
   let corazon = document.createElement("img");
   corazon.src = "Iconocorazon.webp";
