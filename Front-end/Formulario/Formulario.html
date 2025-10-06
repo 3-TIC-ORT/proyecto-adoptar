@@ -15,32 +15,33 @@
 
     <form class="form-container">
         <h3 id="pregunta">Nombre de la mascota</h3>
-        <input type="text" id="sesion" name="nombre_mascota" required/>
+        
+        <input type="text" id="sesion" name="nombre_mascota" required  placeholder="Ej: Rocco"/>
 
         <label for="categorias" id="preguntacategorias">Selecciona una categoría:</label>
         <select id="categorias" name="categorias" required>
-            <option value="">--Selecciona--</option>
+            <option value="">Selecciona</option>
             <option value="Perro">Perro</option>
             <option value="Gato">Gato</option>
         </select>
 
         <label for="genero" id="Genero">Género</label>
         <select id="genero" name="genero" required>
-            <option value="">--Selecciona--</option>
+            <option value="">Selecciona</option>
             <option value="masculino">Masculino</option>
             <option value="femenino">Femenino</option>
         </select>
 
         <label for="salud" id="preguntacategorias3">Tiene alguna enfermedad o problema/discapacidad:</label>
         <select id="salud" name="salud" required>
-            <option value="">--Selecciona--</option>
+            <option value="">Selecciona</option>
             <option value="si">Sí</option>
             <option value="no">No</option>
         </select>
 
         <label for="estado" id="preguntacategorias4">En qué estado está la mascota:</label>
         <select id="estado" name="estado" required>
-            <option value="">--Selecciona--</option>
+            <option value="">Selecciona</option>
             <option value="para_adoptar">Para adoptar</option>
             <option value="para_transitar">Para transitar</option>
             <option value="perdido">Perdido</option>
@@ -48,7 +49,7 @@
         </select>
 
         <h3 id="Descripcion">Descripción</h3>
-        <input type="text" id="Espaciodescripcion" name="descripcion" required/>
+        <input type="text" id="Espaciodescripcion" name="descripcion" required  placeholder="Ej: Rocco es un perro muy divertido y gracioso"/>
         <h3 id="Telefono">Número de teléfono</h3>
         <input type="tel" 
                id="EspacioTelefono" 
@@ -60,7 +61,7 @@
                oninput="this.value = this.value.replace(/[^0-9]/g, '')"/>
 
         <h3 id="Encontrado">Dónde fue encontrado</h3>
-        <input type="text" id="EspacioEncontrado" name="ubicacion" required/>
+        <input type="text" id="EspacioEncontrado" name="ubicacion" required   placeholder="Ej:Villa urquiza, CABA"/>
 
         <label id="foto1" for="foto">Selecciona una imagen:</label>
         <input type="file" name="foto" id="foto" accept="image/*" required/>
