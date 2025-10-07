@@ -10,14 +10,15 @@ botonEnviar.addEventListener("click", async (e) => {
     form.reportValidity();
     return;
   }
+
+  // Tomar los valores del formulario
   let nombreMascota = document.querySelector("#sesion").value;
-  let categoria = document.querySelector("#categorias").value;
+  let tipo = document.querySelector("#categorias").value;
   let genero = document.querySelector("#genero").value;
-  let salud = document.querySelector("#salud").value;
+  let enfermedad = document.querySelector("#salud").value;
   let estado = document.querySelector("#estado").value;
   let descripcion = document.querySelector("#Espaciodescripcion").value;
-  let telefono = document.querySelector("#EspacioTelefono").value;
-  let ubicacion = document.querySelector("#EspacioEncontrado").value;
+  let lugar = document.querySelector("#EspacioEncontrado").value;
   let fotoInput = document.querySelector("#foto");
 
   let imagenBase64 = "";
@@ -25,23 +26,31 @@ botonEnviar.addEventListener("click", async (e) => {
     imagenBase64 = await convertirImagenABase64(fotoInput.files[0]);
   }
 
+  // NOMBRES alineados con lo que el backend espera
   let nuevaPublicacion = {
-    nombre: nombreMascota,
-    tipo: categoria,
+    nombreMascota: nombreMascota,
+    tipo: tipo,
     genero: genero,
-    salud: salud,
+    enfermedad: enfermedad,
     estado: estado,
     descripcion: descripcion,
-    telefono: telefono,
-    ubicacion: ubicacion,
-    imagen: imagenBase64,
+    lugar: lugar,
+    foto: imagenBase64
   };
+
+  // Enviar la publicación al backend
   postEvent("crearPublicacion", nuevaPublicacion, (respuesta) => {
     console.log("Publicación guardada:", respuesta);
-    alert("¡Publicación creada con éxito!");
-    window.location.href = "../Pantallaprincipal/Pantallaprincipal.html";
+    if (respuesta) {
+      alert("¡Publicación creada con éxito!");
+      window.location.href = "../Pantallaprincipal/Pantallaprincipal.html";
+    } else {
+      alert("Error: la publicación no se guardó. Revisá los campos.");
+    }
   });
 });
+
+// Convertir imagen a base64
 function convertirImagenABase64(file) {
   return new Promise((resolve, reject) => {
     let reader = new FileReader();
@@ -50,6 +59,7 @@ function convertirImagenABase64(file) {
     reader.readAsDataURL(file);
   });
 }
+
 const params = new URLSearchParams(window.location.search);
 const id = params.get("id");
 

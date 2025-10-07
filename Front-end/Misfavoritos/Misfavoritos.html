@@ -7,96 +7,98 @@
     <link rel="stylesheet" href="Misfavoritos.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.8.1/socket.io.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/JZylber/SoqueTIC-Client@v1.4.2/soquetic-client.js"></script>
-     <script src = 'Misfavoritos.js' defer></script>
+    <script src="Misfavoritos.js" defer></script>
 </head>
 <body>
-<header class="header">
-    <div class="header-left">
-        <label class="rayasfiltro">
-            <span id="raya1"></span>
-            <span id="raya2"></span>
-            <span id="raya3"></span>
-        </label>
-        <h2 id="home">Mis favoritos</h2>
-    </div>
-
-    <div class="header-center">
-        <h1 id="titulo">AdoptAR</h1>
-    </div>
-
-    <div class="iconos">
-        <div class="Selectores1">
-            <h4>Tamaño</h4>
-            <aside class="Selectores">
-            <input type="checkbox" id="Grande" name="fav_language" value="Grande">
-            <label for="Grande">Grande</label><br>
-            <input type="checkbox" id="Mediano" name="fav_language" value="Mediano">
-             <label for="Mediano">Mediano</label><br>
-            <input type="checkbox" id="Pequeño" name="fav_language" value="Pequeño">
-             <label for="Pequeño">Pequeño</label>
-            </aside>
+    <header class="header">
+        <div class="header-left">
+            <label class="rayasfiltro">
+                <span id="raya1"></span>
+                <span id="raya2"></span>
+                <span id="raya3"></span>
+            </label>
+            <h2 id="home">Mis favoritos</h2>
         </div>
-        <div class="Selectores2">
-            <h4>Tiempo</h4>
-            <aside class="Selectores">
-            <input type="checkbox" id="Mass" name="fav_language" value="Mass">
-            <label for="Mass">Más reciente</label><br>
-            <input type="checkbox" id="Menos" name="fav_language" value="Menos">
-             <label for="Menos">Menos reciente</label><br>
-            </aside>
+        <div class="header-center">
+            <h1 id="titulo">AdoptAR</h1>
         </div>
-        <div class="Selectores3">
-            <h4>Color</h4>
-            <aside class="Selectores">
-            <input type="checkbox" id="Oscuro" name="fav_language" value="Oscuro">
-            <label for="Oscuro">Oscuro</label><br>
-            <input type="checkbox" id="Claro" name="fav_language" value="Claro">
-             <label for="Claro">Claro</label><br>
-             <input type="checkbox" id="Mixto" name="fav_language" value="Mixto">
-             <label for="Mixto">Mixto</label><br>
-            </aside>
-        </div>
-        <div class="Selectores4">
-            <h4>Tipo</h4>
-            <aside class="Selectores">
-            <input type="checkbox" id="Perro" name="fav_language" value="Perro">
-            <label for="Perro">Perro</label><br>
-            <input type="checkbox" id="Gato" name="fav_language" value="Gato">
-             <label for="Gato">Gato</label><br>
-            </aside>
-        </div>
+        <div class="iconos">
+            <div class="Selectores1">
+                <h4>Tamaño</h4>
+                <aside class="Selectores">
+                    <input type="checkbox" id="Grande" name="fav_language" value="Grande">
+                    <label for="Grande">Grande</label><br>
+                    <input type="checkbox" id="Mediano" name="fav_language" value="Mediano">
+                    <label for="Mediano">Mediano</label><br>
+                    <input type="checkbox" id="Pequeño" name="fav_language" value="Pequeño">
+                    <label for="Pequeño">Pequeño</label>
+                </aside>
+            </div>
+            <div class="Selectores2">
+                <h4>Tiempo</h4>
+                <aside class="Selectores">
+                    <input type="checkbox" id="Mass" name="fav_language" value="Mass">
+                    <label for="Mass">Más reciente</label><br>
+                    <input type="checkbox" id="Menos" name="fav_language" value="Menos">
+                    <label for="Menos">Menos reciente</label><br>
+                </aside>
+            </div>
+            <div class="Selectores3">
+                <h4>Color</h4>
+                <aside class="Selectores">
+                    <input type="checkbox" id="Oscuro" name="fav_language" value="Oscuro">
+                    <label for="Oscuro">Oscuro</label><br>
+                    <input type="checkbox" id="Claro" name="fav_language" value="Claro">
+                    <label for="Claro">Claro</label><br>
+                    <input type="checkbox" id="Mixto" name="fav_language" value="Mixto">
+                    <label for="Mixto">Mixto</label><br>
+                </aside>
+            </div>
+            <div class="Selectores4">
+                <h4>Tipo</h4>
+                <aside class="Selectores">
+                    <input type="checkbox" id="Perro" name="fav_language" value="Perro">
+                    <label for="Perro">Perro</label><br>
+                    <input type="checkbox" id="Gato" name="fav_language" value="Gato">
+                    <label for="Gato">Gato</label><br>
+                </aside>
+            </div>
             <div class="Selectores5">
-            <h4>Ordenamiento</h4>
-            <aside class="Selectores">
-            <input type="radio" id="Tres" name="fav_language" value="Tres">
-            <label for="Tres">Tres publicaciones</label><br>
-            <input type="radio" id="Cuatro" name="fav_language" value="Cuatro">
-             <label for="Cuatro">Cuatro publicaciones</label><br>
-             <input type="radio" id="Cinco" name="fav_language" value="Cinco">
-             <label for="Cinco">Cinco</label><br>
-            </aside>
+                <h4>Ordenamiento</h4>
+                <aside class="Selectores">
+                    <input type="radio" id="Tres" name="fav_language" value="Tres">
+                    <label for="Tres">Tres publicaciones</label><br>
+                    <input type="radio" id="Cuatro" name="fav_language" value="Cuatro">
+                    <label for="Cuatro">Cuatro publicaciones</label><br>
+                    <input type="radio" id="Cinco" name="fav_language" value="Cinco">
+                    <label for="Cinco">Cinco</label><br>
+                </aside>
+            </div>
+            <img src="Iconofiltrar.png" id="Iconofiltrar">
+            <div class="circuloperfil"></div>
         </div>
-        <img src="Iconofiltrar.png" id="Iconofiltrar">
-        <div class="circuloperfil"></div>
-    </div>
-</header>
+    </header>
 
     <div class="linea"></div>
+
     <div class="menu-container">
-    <div class="menu-item" id="Ubicación">Ubicación
-    <select id="preguntaubicacion" name="preguntaubicacion">
-        <option value="Buenos Aires">Buenos Aires</option>
-        <option value="Capital federal">Capital federal</option>
-        </select>
+        <div class="menu-item" id="Ubicación">
+            Ubicación
+            <select id="preguntaubicacion" name="preguntaubicacion">
+                <option value="Buenos Aires">Buenos Aires</option>
+                <option value="Capital federal">Capital federal</option>
+            </select>
+        </div>
+        <div class="menu-item" id="Home">Home</div>
+        <div class="menu-item" id="Paraadoptar">Para adoptar</div>
+        <div class="menu-item" id="Paratransitar">Para transitar</div>
+        <div class="menu-item" id="Perdidos">Perdidos</div>
+        <div class="menu-item" id="Encontrados">Encontrados</div>
+        <div class="menu-item" id="Mispublicaciones">Mis publicaciones</div>
     </div>
-    <div class="menu-item" id="Home">Home</div>
-    <div class="menu-item" id="Paraadoptar">Para adoptar</div>
-    <div class="menu-item" id="Paratransitar">Para transitar</div>
-    <div class="menu-item" id="Perdidos">Perdidos</div>
-    <div class="menu-item"id="Encontrados">Encontrados</div>
-    <div class="menu-item" id="Mispublicaciones">Mis publicaciones</div>
-    </div>
+
     <div class="circulo" id="botonMas">
         <span class="mas">+</span>
-      </div>  
+    </div>
 </body>
+</html>

@@ -149,11 +149,25 @@ function mostrarPublicaciones(publicaciones) {
     enviarBtn.classList.add("EnviarComentario");
     publi.appendChild(enviarBtn);
 
-    // Corazón
-    corazon.addEventListener("click", (e) => {
-      e.stopPropagation();
-      corazon.classList.toggle("activo");
-    });
+//Corazón
+corazon.addEventListener("click", (e) => {
+  e.stopPropagation(); 
+
+  corazon.classList.toggle("activo");
+
+  // Guardar en favoritos
+  let favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
+
+  if (corazon.classList.contains("activo")) {
+    // Agregar si no estaba
+    if (!favoritos.includes(publiData.id)) favoritos.push(publiData.id);
+  } else {
+    // Quitar si estaba
+    favoritos = favoritos.filter(id => id !== publiData.id);
+  }
+
+  localStorage.setItem("favoritos", JSON.stringify(favoritos));
+});
 
     // Mostrar/ocultar input de comentarios
 comentarios.addEventListener("click", (e) => {
@@ -190,19 +204,6 @@ comentarios.addEventListener("click", (e) => {
     contenedorPublicaciones.appendChild(publi);
   });
 }
-
-// Click en publicación redirección
-document.querySelectorAll('.publicacion').forEach(pub => {
-  pub.addEventListener('click', function(e) {
-    if (
-      !e.target.closest('.Comentarios') &&
-      !e.target.closest('.Inputcomentarios') &&
-      !e.target.closest('.EnviarComentario')
-    ) {  // Redirección
-      window.location.href = "../Infopublicacion/Infopublicacion.html";
-    }
-  });
-});
 
 // Selectores cantidad de columnas
 let radiosCantidad = document.querySelectorAll('input[name="fav_language"]');

@@ -56,13 +56,6 @@ function loginUsuario(mail, password) {
     console.log(" Usuario o contraseña incorrectos");
   }
 }
-
-
-
-
-
-
-
 //==============
 //PUBLICACIONES
 //==============
@@ -132,28 +125,39 @@ subscribeGETEvent("obtenerPublicaciones", () => {
 
 // Crear una nueva publicación desde el formulario
 subscribePOSTEvent("crearPublicacion", (data) => {
-  let{ 
-    Nombre, 
-    Tipo, 
-    Género, 
-    Enfermedad, 
-    Estado, 
-    Descripción, 
-    Ubicación, 
-    Imagen 
+  // Acepta nombres con o sin acentos / mayúsculas
+  let {
+    Nombre, nombreMascota, nombre,
+    Tipo, tipo,
+    Género, genero,
+    Enfermedad, enfermedad,
+    Estado, estado,
+    Descripción, descripcion,
+    Ubicación, lugar,
+    Imagen, foto
   } = data;
 
   let nueva = crearPublicacion(
-    Nombre,
-    Tipo,
-    Género,
-    Enfermedad,
-    Estado,
-    Descripción,
-    Ubicación,
-    Imagen
+    Nombre || nombreMascota || nombre,
+    Tipo || tipo,
+    Género || genero,
+    Enfermedad || enfermedad,
+    Estado || estado,
+    Descripción || descripcion,
+    Ubicación || lugar,
+    Imagen || foto
   );
 
   return nueva;
+});
+
+subscribeGETEvent("obtenerPublicacionPorId", (data) => {
+ let publicaciones = leerPublicaciones();
+
+  let idBuscado = Number((data && data.id) || data);
+  if (Number.isNaN(idBuscado)) return null;
+
+  let pub = publicaciones.find(p => Number(p.id) === idBuscado);
+  return pub || null;
 });
 startServer(3000);

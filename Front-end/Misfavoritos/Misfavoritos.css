@@ -23,7 +23,7 @@ body {
     align-items: center; 
     gap: 20px; 
     flex-basis: 0;
-    flex-grow: 1.4;
+    flex-grow: 0.3;
 } 
 
 .header-center { 
@@ -40,7 +40,7 @@ body {
     gap: 50px;
     margin-right: 20px;
     flex-basis: 0;
-    flex-grow: 1.4;
+    flex-grow: 0.3;
 }
 #titulo { 
     font-size: 2.5em; 
