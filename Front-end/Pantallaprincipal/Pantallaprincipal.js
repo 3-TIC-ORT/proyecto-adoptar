@@ -1,5 +1,6 @@
 connect2Server();
-//Menu desplegable
+
+// Menu desplegable
 let botonfiltros = document.querySelector(".rayasfiltro");
 let menuLateral = document.querySelector(".Cuadradomenu");
 let items = document.querySelectorAll(".menu-item");
@@ -18,7 +19,7 @@ document.addEventListener("click", (e) => {
   }
 });
 
-//Menu selectores
+// Menu selectores
 let botonfiltros2 = document.querySelector("#Iconofiltrar");
 let selectores = document.querySelectorAll(".Selectores1, .Selectores2, .Selectores3, .Selectores4, .Selectores5");
 let cuadradoselector = document.querySelector(".Cuadradoselectores");
@@ -37,7 +38,7 @@ document.addEventListener("click", (e) => {
   }
 });
 
-//Publicaciones dinámicas
+// Publicaciones dinámicas
 let publicaciones = [ 
   { 
     Imagen: "https://c.files.bbci.co.uk/48DD/production/_107435681_perro1.jpg",
@@ -60,6 +61,7 @@ let publicaciones = [
     Enfermedad: "Si",
   } 
 ];
+
 let contenedorPublicaciones = document.querySelector(".publicaciones");
 
 for (let i = 0; i < publicaciones.length; i++) {
@@ -72,61 +74,9 @@ for (let i = 0; i < publicaciones.length; i++) {
     "<p>Género: " + publicaciones[i].Género + "</p>" +
     "<p>Ubicación: " + publicaciones[i].Ubicación + "</p>" +
     "<p>Estado: " + publicaciones[i].Estado + "</p>" +
-    "<p>Enfermedad: " + publicaciones[i].Enfermedad + "</p>";
+    "<p>Enfermedad: " + publicaciones[i].Enfermedad + "</p>" + 
+    "<p>Descripcion: " + publicaciones[i].Descripción + "</p>";
 
-//Traer publicaciones guardadas del backend
-let contenedorPublicaciones = document.querySelector(".publicaciones");
-getEvent("obtenerPublicaciones", (data) => {
-  mostrarPublicaciones(data);
-});
-
-//Mostrar publicaciones
-function mostrarPublicaciones(publicaciones) {
-  contenedorPublicaciones.innerHTML = ""; // limpio el contenedor
-
-  publicaciones.forEach((publiData) => {
-    let publi = document.createElement("div");
-    publi.classList.add("publicacion");
-    publi.innerHTML =
-      "<img src='" + publiData.Imagen + "' alt='" + publiData.Nombre + "'>" +
-      "<h3>" + publiData.Nombre + "</h3>" +
-      "<p>Tipo: " + publiData.Tipo + "</p>" +
-      "<p>Ubicación: " + publiData.Ubicacion + "</p>" +
-      "<p>Estado: " + publiData.Estado + "</p>";
-
-    let corazon = document.createElement("img");
-    corazon.src = "Iconocorazon.webp";
-    corazon.classList.add("Corazon");
-    publi.prepend(corazon);
-
-    let comentarios = document.createElement("img");
-    comentarios.src = "Iconocomentarios.png";
-    comentarios.classList.add("Comentarios");
-    publi.appendChild(comentarios);
-
-    let lista = document.createElement("div");
-    lista.classList.add("lista-comentarios");
-    publi.appendChild(lista);
-
-    let textarea = document.createElement("textarea");
-    textarea.classList.add("Inputcomentarios");
-    textarea.placeholder = "Escribe un comentario...";
-    publi.appendChild(textarea);
-
-    publi.dataset.id = publiData.id;
-
-    // Click para ir al detalle
-    publi.addEventListener("click", (e) => {
-      if (
-        !e.target.closest('.Comentarios') &&
-        !e.target.closest('.Inputcomentarios')
-      ) {
-        window.location.href = `../Infopublicacion/Infopublicacion.html?id=${publiData.id}`;
-      }
-    });
-    contenedorPublicaciones.appendChild(publi);
-  });
-}
   // Botones dinámicamente
   let corazon = document.createElement("img");
   corazon.src = "Iconocorazon.webp";
@@ -150,40 +100,96 @@ function mostrarPublicaciones(publicaciones) {
   contenedorPublicaciones.appendChild(publi);
 }
 
-// Seleccionamos los elementos DESPUÉS de crearlos
-let botonesComentarios = document.querySelectorAll(".Comentarios");
-let escribirComentarios = document.querySelectorAll(".Inputcomentarios");
-let botonesEnviar = document.querySelectorAll(".EnviarComentario");
-let corazones = document.querySelectorAll(".Corazon");
-
-// Evento para abrir/cerrar comentarios
-botonesComentarios.forEach(function (boton, i) {
-  boton.addEventListener("click", function (e) {
-    e.stopPropagation();
-    let input = escribirComentarios[i];
-    let enviar = botonesEnviar[i];
-    let publicacion = boton.closest(".publicacion");
-
-    input.classList.toggle("show");
-    enviar.classList.toggle("show");
-
-    if (publicacion.classList.contains("expandida")) {
-      publicacion.style.maxHeight = "";
-      publicacion.classList.remove("expandida");
-    } else {
-      publicacion.style.maxHeight = publicacion.scrollHeight + "px";
-      publicacion.classList.add("expandida");
-    }
-  });
+// Traer publicaciones guardadas del backend
+getEvent("obtenerPublicaciones", (data) => {
+  mostrarPublicaciones(data);
 });
 
-// Evento de corazones
-corazones.forEach(function (corazon) {
-  corazon.addEventListener("click", function (e) {
-    e.stopPropagation();
-    corazon.classList.toggle("activo");
-  });
+// Mostrar publicaciones
+function mostrarPublicaciones(publicaciones) {
+  contenedorPublicaciones.innerHTML = ""; // limpio el contenedor
+
+  publicaciones.forEach((publiData) => {
+    let publi = document.createElement("div");
+    publi.classList.add("publicacion");
+    publi.innerHTML =
+      "<img src='" + (publiData.foto || "https://via.placeholder.com/150") + "' alt='" + publiData.nombreMascota + "'>" +
+      "<h3>" + publiData.nombreMascota + "</h3>" +
+      "<p>Tipo: " + publiData.tipo + "</p>" +
+      "<p>Género: " + publiData.genero + "</p>" +
+      "<p>Ubicación: " + publiData.lugar + "</p>" +
+      "<p>Estado: " + publiData.estado + "</p>" +
+      "<p>Enfermedad: " + (publiData.enfermedad || "No especificada") + "</p>";
+
+     let corazon = document.createElement("img");
+    corazon.src = "Iconocorazon.webp";
+    corazon.classList.add("Corazon");
+    publi.prepend(corazon);
+
+    // Botón comentarios
+    let comentarios = document.createElement("img");
+    comentarios.src = "Iconocomentarios.png";
+    comentarios.classList.add("Comentarios");
+    publi.appendChild(comentarios);
+
+    // Lista de comentarios
+    let lista = document.createElement("div");
+    lista.classList.add("lista-comentarios");
+    publi.appendChild(lista);
+
+    // Textarea para escribir comentario
+    let textarea = document.createElement("textarea");
+    textarea.classList.add("Inputcomentarios");
+    textarea.placeholder = "Escribe un comentario...";
+    publi.appendChild(textarea);
+
+    // Botón enviar comentario
+    let enviarBtn = document.createElement("button");
+    enviarBtn.textContent = "Enviar";
+    enviarBtn.classList.add("EnviarComentario");
+    publi.appendChild(enviarBtn);
+
+    // Corazón
+    corazon.addEventListener("click", (e) => {
+      e.stopPropagation();
+      corazon.classList.toggle("activo");
+    });
+
+    // Mostrar/ocultar input de comentarios
+comentarios.addEventListener("click", (e) => {
+  e.stopPropagation();
+  textarea.classList.toggle("show");
+  enviarBtn.classList.toggle("show");
+  lista.classList.toggle("show");
+
+  publi.classList.toggle("expandida");
 });
+
+    // Enviar comentario
+    enviarBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      if (textarea.value.trim() !== "") {
+        let nuevoComentario = document.createElement("p");
+        nuevoComentario.textContent = textarea.value;
+        lista.appendChild(nuevoComentario);
+        textarea.value = "";
+      }
+    });
+
+    // Click en publicación → Ir al detalle
+    publi.addEventListener("click", (e) => {
+      if (
+        !e.target.closest(".Comentarios") &&
+        !e.target.closest(".Inputcomentarios") &&
+        !e.target.closest(".EnviarComentario")
+      ) {
+        window.location.href = `../Infopublicacion/Infopublicacion.html?id=${publiData.id}`;
+      }
+    });
+
+    contenedorPublicaciones.appendChild(publi);
+  });
+}
 
 // Click en publicación redirección
 document.querySelectorAll('.publicacion').forEach(pub => {
@@ -191,14 +197,14 @@ document.querySelectorAll('.publicacion').forEach(pub => {
     if (
       !e.target.closest('.Comentarios') &&
       !e.target.closest('.Inputcomentarios') &&
-      !e.target.closest('.Enviarcomentario')
-    ) {  //Redirección
+      !e.target.closest('.EnviarComentario')
+    ) {  // Redirección
       window.location.href = "../Infopublicacion/Infopublicacion.html";
     }
   });
 });
 
-//Selectores cantidad de columnas
+// Selectores cantidad de columnas
 let radiosCantidad = document.querySelectorAll('input[name="fav_language"]');
 radiosCantidad.forEach(radio => {
   radio.addEventListener("change", () => {
@@ -211,24 +217,9 @@ radiosCantidad.forEach(radio => {
     }
   });
 });
-// Funcionalidad para enviar comentarios
-botonesEnviar.forEach((boton, i) => {
-  boton.addEventListener("click", (e) => {
-    e.stopPropagation(); 
-    let publicacion = boton.closest(".publicacion");
-    let lista = publicacion.querySelector(".lista-comentarios");
-    let input = publicacion.querySelector(".Inputcomentarios");
 
-    if (input.value.trim() !== "") {
-      let nuevoComentario = document.createElement("p");
-      nuevoComentario.textContent = input.value;
-      lista.appendChild(nuevoComentario);
-      input.value = ""; 
-    }
-  });
-});
 
-//Redirecciones
+// Redirecciones
 document.querySelector(".circuloperfil").addEventListener("click", () => {
   window.location.href = "../Perfildeusuario/Perfildeusuario.html";
 });

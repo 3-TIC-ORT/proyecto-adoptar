@@ -132,17 +132,26 @@ subscribeGETEvent("obtenerPublicaciones", () => {
 
 // Crear una nueva publicación desde el formulario
 subscribePOSTEvent("crearPublicacion", (data) => {
-  const { nombre, tipo, genero, salud, estado, descripcion, ubicacion, imagen } = data;
+  let{ 
+    Nombre, 
+    Tipo, 
+    Género, 
+    Enfermedad, 
+    Estado, 
+    Descripción, 
+    Ubicación, 
+    Imagen 
+  } = data;
 
   let nueva = crearPublicacion(
-    nombre,
-    tipo,
-    genero,
-    salud,
-    estado,
-    descripcion,
-    ubicacion,
-    imagen
+    Nombre,
+    Tipo,
+    Género,
+    Enfermedad,
+    Estado,
+    Descripción,
+    Ubicación,
+    Imagen
   );
 
   return nueva;
