@@ -12,13 +12,17 @@ botonEnviar.addEventListener("click", async (e) => {
   }
 
   // Tomar los valores del formulario
-  let nombreMascota = document.querySelector("#sesion").value;
-  let tipo = document.querySelector("#categorias").value;
+  let nombreMascota = document.querySelector("#nombreMascota").value;
+  let tipo = document.querySelector("#tipo").value;
   let genero = document.querySelector("#genero").value;
-  let enfermedad = document.querySelector("#salud").value;
+  let color = document.querySelector("#color").value;
+  let raza = document.querySelector("#raza").value;
+  let edad = document.querySelector("#edad").value;
+  let enfermedad = document.querySelector("#enfermedad").value;
   let estado = document.querySelector("#estado").value;
-  let descripcion = document.querySelector("#Espaciodescripcion").value;
-  let lugar = document.querySelector("#EspacioEncontrado").value;
+  let descripcion = document.querySelector("#descripcion").value;
+  let telefono = document.querySelector("#telefono").value;
+  let lugar = document.querySelector("#lugar").value;
   let fotoInput = document.querySelector("#foto");
 
   let imagenBase64 = "";
@@ -26,31 +30,57 @@ botonEnviar.addEventListener("click", async (e) => {
     imagenBase64 = await convertirImagenABase64(fotoInput.files[0]);
   }
 
-  // NOMBRES alineados con lo que el backend espera
+  // Crear el objeto publicación
   let nuevaPublicacion = {
-    nombreMascota: nombreMascota,
-    tipo: tipo,
-    genero: genero,
-    enfermedad: enfermedad,
-    estado: estado,
-    descripcion: descripcion,
-    lugar: lugar,
-    foto: imagenBase64
+    nombreMascota,
+    tipo,
+    genero,
+    color,
+    raza,
+    edad,
+    enfermedad,
+    estado,
+    descripcion,
+    telefono,
+    lugar,
+    foto: imagenBase64,
   };
 
-  // Enviar la publicación al backend
+  // Enviar al backend
   postEvent("crearPublicacion", nuevaPublicacion, (respuesta) => {
     console.log("Publicación guardada:", respuesta);
+
     if (respuesta) {
       alert("¡Publicación creada con éxito!");
-      window.location.href = "../Pantallaprincipal/Pantallaprincipal.html";
+
+      let todas = JSON.parse(localStorage.getItem("publicaciones")) || [];
+      todas.push(respuesta);
+      localStorage.setItem("publicaciones", JSON.stringify(todas));
+
+      // Redirigir según el estado
+      switch (estado) {
+        case "Para adoptar":
+          window.location.href = "../Paraadoptar/Paraadoptar.html";
+          break;
+        case "Para transitar":
+          window.location.href = "../Paratransitar/Paratransitar.html";
+          break;
+        case "Perdido":
+          window.location.href = "../Perdidos/Perdidos.html";
+          break;
+        case "Encontrado":
+          window.location.href = "../Encontrados/Encontrados.html";
+          break;
+        default:
+          window.location.href = "../Pantallaprincipal/Pantallaprincipal.html";
+          break;
+      }
     } else {
       alert("Error: la publicación no se guardó. Revisá los campos.");
     }
   });
 });
 
-// Convertir imagen a base64
 function convertirImagenABase64(file) {
   return new Promise((resolve, reject) => {
     let reader = new FileReader();
@@ -59,20 +89,3 @@ function convertirImagenABase64(file) {
     reader.readAsDataURL(file);
   });
 }
-
-const params = new URLSearchParams(window.location.search);
-const id = params.get("id");
-
-getEvent("obtenerPublicaciones", (publicaciones) => {
-  const pub = publicaciones.find(p => p.id == id);
-  if (!pub) return;
-  document.body.innerHTML = `
-    <h1>${pub.nombre}</h1>
-    <img src="${pub.imagen}" alt="${pub.nombre}">
-    <p><strong>Tipo:</strong> ${pub.tipo}</p>
-    <p><strong>Estado:</strong> ${pub.estado}</p>
-    <p><strong>Ubicación:</strong> ${pub.ubicacion}</p>
-    <p><strong>Descripción:</strong> ${pub.descripcion}</p>
-    <p><strong>Teléfono:</strong> ${pub.telefono}</p>
-  `;
-});

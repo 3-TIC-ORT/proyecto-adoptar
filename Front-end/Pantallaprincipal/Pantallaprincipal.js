@@ -79,12 +79,12 @@ for (let i = 0; i < publicaciones.length; i++) {
 
   // Botones dinámicamente
   let corazon = document.createElement("img");
-  corazon.src = "Iconocorazon.webp";
+  corazon.src = "../Iconos/Iconocorazon.webp";
   corazon.classList.add("Corazon");
   publi.prepend(corazon);
 
   let comentarios = document.createElement("img");
-  comentarios.src = "Iconocomentarios.png";
+  comentarios.src = "../Iconos/Iconocomentarios.png";
   comentarios.classList.add("Comentarios");
   publi.appendChild(comentarios);
 
@@ -122,13 +122,13 @@ function mostrarPublicaciones(publicaciones) {
       "<p>Enfermedad: " + (publiData.enfermedad || "No especificada") + "</p>";
 
      let corazon = document.createElement("img");
-    corazon.src = "Iconocorazon.webp";
+    corazon.src = "../Iconos/Iconocorazon.webp";
     corazon.classList.add("Corazon");
     publi.prepend(corazon);
 
     // Botón comentarios
     let comentarios = document.createElement("img");
-    comentarios.src = "Iconocomentarios.png";
+    comentarios.src = "../Iconos/Iconocomentarios.png";
     comentarios.classList.add("Comentarios");
     publi.appendChild(comentarios);
 
@@ -153,23 +153,26 @@ function mostrarPublicaciones(publicaciones) {
 corazon.addEventListener("click", (e) => {
   e.stopPropagation(); 
 
-  corazon.classList.toggle("activo");
-
-  // Guardar en favoritos
   let favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
 
   if (corazon.classList.contains("activo")) {
-    // Agregar si no estaba
-    if (!favoritos.includes(publiData.id)) favoritos.push(publiData.id);
-  } else {
-    // Quitar si estaba
+    // Quitar de favoritos
+    corazon.classList.remove("activo");
     favoritos = favoritos.filter(id => id !== publiData.id);
+  } else {
+    // Agregar a favoritos
+    corazon.classList.add("activo");
+    if (!favoritos.includes(publiData.id)) favoritos.push(publiData.id);
   }
-
   localStorage.setItem("favoritos", JSON.stringify(favoritos));
 });
 
-    // Mostrar/ocultar input de comentarios
+let favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
+if (favoritos.includes(publiData.id)) {
+  corazon.classList.add("activo");
+}
+
+// Mostrar/ocultar input de comentarios
 comentarios.addEventListener("click", (e) => {
   e.stopPropagation();
   textarea.classList.toggle("show");
@@ -190,7 +193,7 @@ comentarios.addEventListener("click", (e) => {
       }
     });
 
-    // Click en publicación → Ir al detalle
+    // Click en publicación Ir al detalle
     publi.addEventListener("click", (e) => {
       if (
         !e.target.closest(".Comentarios") &&

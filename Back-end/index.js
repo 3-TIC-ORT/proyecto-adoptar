@@ -56,12 +56,10 @@ function loginUsuario(mail, password) {
     console.log(" Usuario o contraseña incorrectos");
   }
 }
-//==============
-//PUBLICACIONES
-//==============
+// ======== PUBLICACIONES ========
 
 const publi = "publicaciones.json";
-// Leer publicaciones del archivo
+
 function leerPublicaciones() {
   try {
     let data = fs.readFileSync(publi, "utf-8");
@@ -72,92 +70,78 @@ function leerPublicaciones() {
   }
 }
 
-// Guardar publicaciones
 function guardarPublicaciones(publicaciones) {
   fs.writeFileSync(publi, JSON.stringify(publicaciones, null, 2));
 }
 
-function crearPublicacion(nombreMascota, tipo, genero, enfermedad, estado, descripcion, lugar, foto) {
-  let publicaciones = leerPublicaciones();
+// Crea una publicación con todos los campos unificados
+function crearPublicacion(nombreMascota, tipo, genero, color, raza, edad, enfermedad, estado, descripcion, telefono, lugar, foto) {
+  const publicaciones = leerPublicaciones();
 
-  // Validaciones básicas
-  if (!nombreMascota || !descripcion || !lugar) {
-    console.log("Falta completar nombre, descripción o lugar.");
-    return;
-  }
-
-  if (estado === "--Selecciona--") {
-    console.log("Debes seleccionar un estado (adoptar, encontrado, perdido o transitar).");
-    return;
-  }
-
-  if (tipo === "--Selecciona--") {
-    console.log(" Debes seleccionar un tipo (perro o gato).");
-    return;
-  }
-
-  if (!genero) {
-    console.log("Debes seleccionar un género (macho o hembra).");
-    return;
-  }
-
-  // Crear publicación nueva
-  let nuevaPublicacion = {
-    id: Date.now(), 
-    nombreMascota,
-    tipo,
-    genero,
-    enfermedad: enfermedad || null,
-    estado,
-    descripcion,
-    lugar,
-    foto: foto || null
+  const nuevaPublicacion = {
+    id: Date.now(),
+    nombreMascota: nombreMascota || "",
+    tipo: tipo || "",
+    genero: genero || "",
+    color: color || "",
+    raza: raza || "",
+    edad: edad || "",
+    enfermedad: enfermedad || "",
+    estado: estado || "",
+    descripcion: descripcion || "",
+    telefono: telefono || "",
+    lugar: lugar || "",
+    foto: foto || null,
   };
 
   publicaciones.push(nuevaPublicacion);
   guardarPublicaciones(publicaciones);
   return nuevaPublicacion;
 }
-// Obtener todas las publicaciones
-subscribeGETEvent("obtenerPublicaciones", () => {
-  return leerPublicaciones();
-});
 
-// Crear una nueva publicación desde el formulario
 subscribePOSTEvent("crearPublicacion", (data) => {
-  // Acepta nombres con o sin acentos / mayúsculas
+  // Aceptar nombres con o sin mayúsculas
   let {
-    Nombre, nombreMascota, nombre,
-    Tipo, tipo,
-    Género, genero,
-    Enfermedad, enfermedad,
-    Estado, estado,
-    Descripción, descripcion,
-    Ubicación, lugar,
-    Imagen, foto
+    nombreMascota, Nombre,
+    tipo, Tipo,
+    genero, Género,
+    color, Color,
+    raza, Raza,
+    edad, Edad,
+    enfermedad, Enfermedad,
+    estado, Estado,
+    descripcion, Descripción,
+    telefono, Teléfono,
+    lugar, Ubicación, Lugar,
+    foto, Foto, Imagen
   } = data;
 
-  let nueva = crearPublicacion(
-    Nombre || nombreMascota || nombre,
-    Tipo || tipo,
-    Género || genero,
-    Enfermedad || enfermedad,
-    Estado || estado,
-    Descripción || descripcion,
-    Ubicación || lugar,
-    Imagen || foto
+  // Priorizar los valores reales sin importar si vinieron en mayúscula o minúscula
+  const nueva = crearPublicacion(
+    nombreMascota || Nombre,
+    tipo || Tipo,
+    genero || Género,
+    color || Color,
+    raza || Raza,
+    edad || Edad,
+    enfermedad || Enfermedad,
+    estado || Estado,
+    descripcion || Descripción,
+    telefono || Teléfono,
+    lugar || Ubicación || Lugar,
+    foto || Foto || Imagen
   );
 
   return nueva;
 });
 
+subscribeGETEvent("obtenerPublicaciones", () => leerPublicaciones());
+
 subscribeGETEvent("obtenerPublicacionPorId", (data) => {
- let publicaciones = leerPublicaciones();
-
-  let idBuscado = Number((data && data.id) || data);
+  const publicaciones = leerPublicaciones();
+  const idBuscado = Number((data && data.id) || data);
   if (Number.isNaN(idBuscado)) return null;
-
-  let pub = publicaciones.find(p => Number(p.id) === idBuscado);
-  return pub || null;
+  return publicaciones.find((p) => Number(p.id) === idBuscado) || null;
 });
-startServer(3000);
+
+startServer();

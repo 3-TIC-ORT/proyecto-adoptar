@@ -243,6 +243,8 @@ transform: translateX(0);
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     overflow: hidden;
+    min-height: 0px;
+    min-height: 380px;
     max-height: 350px;
     transition: max-height 0.3s ease, background-color 0.3s ease;
 }
@@ -283,7 +285,7 @@ transform: translateX(0);
                 cursor: pointer;
             }
             .Corazon.activo {
-                content: url("Iconocorazonlikeado.png");
+                content: url("../Iconos/Iconocorazonlikeado.png");
             }
             .Comentarios{
                 width: 1rem;
