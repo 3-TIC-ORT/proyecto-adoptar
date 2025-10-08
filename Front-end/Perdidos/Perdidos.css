@@ -283,7 +283,7 @@ transform: translateX(0);
                 cursor: pointer;
             }
             .Corazon.activo {
-                content: url("Iconocorazonlikeado.png");
+                content: url("../Iconos/Iconocorazonlikeado.png");
             }
             .Comentarios{
                 width: 1rem;
