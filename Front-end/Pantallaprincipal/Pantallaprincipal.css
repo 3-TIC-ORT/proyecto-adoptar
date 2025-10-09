@@ -1,5 +1,5 @@
 body { 
-    background-color:   #bae0df;
+    background-color:   #A1C0CB;
     font-family: 'Poppins', sans-serif; 
     margin: 0; 
 } 
@@ -15,6 +15,7 @@ body {
     display: flex; 
     align-items: center; 
     justify-content: space-between; 
+    background-color: #183446;
 } 
 
 .header-left { 
@@ -45,23 +46,26 @@ body {
 #titulo { 
     font-size: 2.5em; 
     font-weight: bold; 
+    color: whitesmoke;
 } 
 
 #home { 
     font-weight: 100; 
     font-size: 1.7em; 
+    color: whitesmoke;
 } 
 
 #Iconofiltrar { 
     width: 2.2rem; 
     height: 2.2rem; 
     cursor: pointer; 
+    background-color: whitesmoke;
 } 
 
 .circuloperfil { 
     width: 2.2rem; 
     height: 2.2rem; 
-    background-color: black; 
+    background-color: whitesmoke; 
     border-radius: 50%; 
     cursor: pointer; 
 } 
@@ -74,6 +78,7 @@ body {
     height: 1px; 
     background-color: black; 
     width: 100%; 
+    
 } 
 
 
@@ -88,7 +93,7 @@ body {
 
 .rayasfiltro span { 
     position: absolute; 
-    background-color: black; 
+    background-color: whitesmoke; 
     border-radius: 5px; 
     width: 3em; 
     height: 0.3em; 
@@ -109,6 +114,7 @@ align-items: flex-start;
 height: 70vh; 
 padding-left: 1.5em; 
 gap: 50px;
+
 }
 
 .menu-item { 
@@ -130,7 +136,7 @@ z-index: 3;
             left: 0;
             height: 70vh;
             width: 16em;
-            background-color: rgb(197, 244, 255);
+            background-color: #A1C0CB;
             z-index: 3;
             border-radius: 10px;
             transform: translateX(-100%);
@@ -152,7 +158,7 @@ display: block;
     transform: translateX(-50%); 
     width: 60px; 
     height: 60px; 
-    background-color: #3165A5; 
+    background-color: #183446; 
     border-radius: 50%; 
     z-index: 1; 
 
@@ -238,7 +244,7 @@ transform: translateX(0);
     flex-direction: column;
     align-items: center;
     width: 200px;
-    background-color: #E6F4F9;
+    background-color: whitesmoke;
     padding: 10px;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
