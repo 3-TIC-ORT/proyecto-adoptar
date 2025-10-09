@@ -21,7 +21,6 @@ botonEnviar.addEventListener("click", async (e) => {
   let enfermedad = document.querySelector("#enfermedad").value;
   let estado = document.querySelector("#estado").value;
   let descripcion = document.querySelector("#descripcion").value;
-  let telefono = document.querySelector("#telefono").value;
   let lugar = document.querySelector("#lugar").value;
   let fotoInput = document.querySelector("#foto");
 
@@ -41,7 +40,7 @@ botonEnviar.addEventListener("click", async (e) => {
     enfermedad,
     estado,
     descripcion,
-    telefono,
+
     lugar,
     foto: imagenBase64,
   };
@@ -52,6 +51,7 @@ botonEnviar.addEventListener("click", async (e) => {
 
     if (respuesta) {
       alert("¡Publicación creada con éxito!");
+
 
       let todas = JSON.parse(localStorage.getItem("publicaciones")) || [];
       todas.push(respuesta);
