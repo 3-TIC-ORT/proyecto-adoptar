@@ -1,6 +1,6 @@
-connect2Server();
+connect2Server(3000);
 
-// Menu desplegable
+// --- Menú lateral ---
 let botonfiltros = document.querySelector(".rayasfiltro");
 let menuLateral = document.querySelector(".Cuadradomenu");
 let items = document.querySelectorAll(".menu-item");
@@ -19,7 +19,7 @@ document.addEventListener("click", (e) => {
   }
 });
 
-// Menu selectores
+// --- Filtros ---
 let botonfiltros2 = document.querySelector("#Iconofiltrar");
 let selectores = document.querySelectorAll(".Selectores1, .Selectores2, .Selectores3, .Selectores4, .Selectores5");
 let cuadradoselector = document.querySelector(".Cuadradoselectores");
@@ -38,80 +38,26 @@ document.addEventListener("click", (e) => {
   }
 });
 
-// Publicaciones dinámicas
-let publicaciones = [ 
-  { 
-    Imagen: "https://c.files.bbci.co.uk/48DD/production/_107435681_perro1.jpg",
-    Nombre:"Hola",
-    Tipo: "Perro",
-    Género: "Masculino", 
-    Ubicación: "Belgrano",
-    Estado: "Encontrado",
-    Enfermedad: "No",
-    Númeroteléfono: "+54 9 11 0000-0000",
-    Descripción: "123"
-  }, 
-  { 
-    Imagen: "https://c.files.bbci.co.uk/48DD/production/_107435681_perro1.jpg",
-    Nombre: "Hola2", 
-    Tipo: "Gato",
-    Género: "Masculino", 
-    Ubicación: "Nuñez",
-    Estado: "Perdido",
-    Enfermedad: "Si",
-  } 
-];
-
+// --- Publicaciones ---
 let contenedorPublicaciones = document.querySelector(".publicaciones");
 
-for (let i = 0; i < publicaciones.length; i++) {
-  let publi = document.createElement("div");
-  publi.classList.add("publicacion");
-  publi.innerHTML =
-    "<img src='" + publicaciones[i].Imagen + "' alt='" + publicaciones[i].Nombre + "'>" +
-    "<h3>" + publicaciones[i].Nombre + "</h3>" +
-    "<p>Tipo: " + publicaciones[i].Tipo + "</p>" +
-    "<p>Género: " + publicaciones[i].Género + "</p>" +
-    "<p>Ubicación: " + publicaciones[i].Ubicación + "</p>" +
-    "<p>Estado: " + publicaciones[i].Estado + "</p>" +
-    "<p>Enfermedad: " + publicaciones[i].Enfermedad + "</p>" + 
-    "<p>Descripcion: " + publicaciones[i].Descripción + "</p>";
-
-  // Botones dinámicamente
-  let corazon = document.createElement("img");
-  corazon.src = "../Iconos/Iconocorazon.webp";
-  corazon.classList.add("Corazon");
-  publi.prepend(corazon);
-
-  let comentarios = document.createElement("img");
-  comentarios.src = "../Iconos/Iconocomentarios.png";
-  comentarios.classList.add("Comentarios");
-  publi.appendChild(comentarios);
-
-  let lista = document.createElement("div");
-  lista.classList.add("lista-comentarios");
-  publi.appendChild(lista);
-
-  let textarea = document.createElement("textarea");
-  textarea.classList.add("Inputcomentarios");
-  textarea.placeholder = "Escribe un comentario...";
-  publi.appendChild(textarea);
-
-  contenedorPublicaciones.appendChild(publi);
-}
-
-// Traer publicaciones guardadas del backend
+// Obtener publicaciones del backend
 getEvent("obtenerPublicaciones", (data) => {
-  mostrarPublicaciones(data);
+  if (Array.isArray(data)) {
+    mostrarPublicaciones(data);
+  } else {
+    console.warn("No se pudieron cargar publicaciones del backend.");
+  }
 });
 
 // Mostrar publicaciones
 function mostrarPublicaciones(publicaciones) {
-  contenedorPublicaciones.innerHTML = ""; // limpio el contenedor
+  contenedorPublicaciones.innerHTML = "";
 
   publicaciones.forEach((publiData) => {
     let publi = document.createElement("div");
     publi.classList.add("publicacion");
+
     publi.innerHTML =
       "<img src='" + (publiData.foto || "https://via.placeholder.com/150") + "' alt='" + publiData.nombreMascota + "'>" +
       "<h3>" + publiData.nombreMascota + "</h3>" +
@@ -121,68 +67,59 @@ function mostrarPublicaciones(publicaciones) {
       "<p>Estado: " + publiData.estado + "</p>" +
       "<p>Enfermedad: " + (publiData.enfermedad || "No especificada") + "</p>";
 
-     let corazon = document.createElement("img");
+    // Corazón (favoritos)
+    let corazon = document.createElement("img");
     corazon.src = "../Iconos/Iconocorazon.webp";
     corazon.classList.add("Corazon");
     publi.prepend(corazon);
 
-    // Botón comentarios
+    let favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
+    if (favoritos.includes(publiData.id)) {
+      corazon.classList.add("activo");
+    }
+
+    corazon.addEventListener("click", (e) => {
+      e.stopPropagation();
+      let favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
+
+      if (corazon.classList.contains("activo")) {
+        corazon.classList.remove("activo");
+        favoritos = favoritos.filter(id => id !== publiData.id);
+      } else {
+        corazon.classList.add("activo");
+        if (!favoritos.includes(publiData.id)) favoritos.push(publiData.id);
+      }
+      localStorage.setItem("favoritos", JSON.stringify(favoritos));
+    });
+
+    // Comentarios
     let comentarios = document.createElement("img");
     comentarios.src = "../Iconos/Iconocomentarios.png";
     comentarios.classList.add("Comentarios");
     publi.appendChild(comentarios);
 
-    // Lista de comentarios
     let lista = document.createElement("div");
     lista.classList.add("lista-comentarios");
     publi.appendChild(lista);
 
-    // Textarea para escribir comentario
     let textarea = document.createElement("textarea");
     textarea.classList.add("Inputcomentarios");
     textarea.placeholder = "Escribe un comentario...";
     publi.appendChild(textarea);
 
-    // Botón enviar comentario
     let enviarBtn = document.createElement("button");
     enviarBtn.textContent = "Enviar";
     enviarBtn.classList.add("EnviarComentario");
     publi.appendChild(enviarBtn);
 
-//Corazón
-corazon.addEventListener("click", (e) => {
-  e.stopPropagation(); 
+    comentarios.addEventListener("click", (e) => {
+      e.stopPropagation();
+      textarea.classList.toggle("show");
+      enviarBtn.classList.toggle("show");
+      lista.classList.toggle("show");
+      publi.classList.toggle("expandida");
+    });
 
-  let favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
-
-  if (corazon.classList.contains("activo")) {
-    // Quitar de favoritos
-    corazon.classList.remove("activo");
-    favoritos = favoritos.filter(id => id !== publiData.id);
-  } else {
-    // Agregar a favoritos
-    corazon.classList.add("activo");
-    if (!favoritos.includes(publiData.id)) favoritos.push(publiData.id);
-  }
-  localStorage.setItem("favoritos", JSON.stringify(favoritos));
-});
-
-let favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
-if (favoritos.includes(publiData.id)) {
-  corazon.classList.add("activo");
-}
-
-// Mostrar/ocultar input de comentarios
-comentarios.addEventListener("click", (e) => {
-  e.stopPropagation();
-  textarea.classList.toggle("show");
-  enviarBtn.classList.toggle("show");
-  lista.classList.toggle("show");
-
-  publi.classList.toggle("expandida");
-});
-
-    // Enviar comentario
     enviarBtn.addEventListener("click", (e) => {
       e.stopPropagation();
       if (textarea.value.trim() !== "") {
@@ -193,7 +130,6 @@ comentarios.addEventListener("click", (e) => {
       }
     });
 
-    // Click en publicación Ir al detalle
     publi.addEventListener("click", (e) => {
       if (
         !e.target.closest(".Comentarios") &&
@@ -208,7 +144,6 @@ comentarios.addEventListener("click", (e) => {
   });
 }
 
-// Selectores cantidad de columnas
 let radiosCantidad = document.querySelectorAll('input[name="fav_language"]');
 radiosCantidad.forEach(radio => {
   radio.addEventListener("change", () => {
@@ -222,8 +157,7 @@ radiosCantidad.forEach(radio => {
   });
 });
 
-
-// Redirecciones
+// --- Redirecciones ---
 document.querySelector(".circuloperfil").addEventListener("click", () => {
   window.location.href = "../Perfildeusuario/Perfildeusuario.html";
 });
