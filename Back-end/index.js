@@ -1,42 +1,30 @@
 import { subscribeGETEvent, subscribePOSTEvent, startServer } from "soquetic";
 import fs from "fs";
-import path from "path";
 
-// === Archivos JSON ===
+//Archivos JSON 
 const json = "usuarios.json";
 const publi = "publicaciones.json";
 
-// Crear archivos si no existen
 if (!fs.existsSync(json)) fs.writeFileSync(json, "[]");
 if (!fs.existsSync(publi)) fs.writeFileSync(publi, "[]");
 
-// === USUARIOS ===
-
-// Leer usuarios
+//Funciones
 function leerUsuarios() {
   try {
-    let data = fs.readFileSync(json, "utf-8");
-    if (!data.trim()) return [];
-    return JSON.parse(data);
+    const data = fs.readFileSync(json, "utf-8");
+    return data.trim() ? JSON.parse(data) : [];
   } catch {
     return [];
   }
 }
 
-// Guardar usuarios
 function guardarUsuarios(usuarios) {
   fs.writeFileSync(json, JSON.stringify(usuarios, null, 2));
 }
 
-// Registrar usuario
 function registrarUsuario(nombre, mail, password, fotoPerfil, edad) {
-  let usuarios = leerUsuarios();
-
-  // Evitar mails repetidos
-  if (usuarios.some(u => u.mail === mail)) {
-    console.log("Ese mail ya está registrado.");
-    return { error: "Ese mail ya está registrado" };
-  }
+  const usuarios = leerUsuarios();
+  if (usuarios.some((u) => u.mail === mail)) return { error: "Ese mail ya está registrado" };
 
   const nuevoUsuario = {
     id: Date.now(),
@@ -44,136 +32,77 @@ function registrarUsuario(nombre, mail, password, fotoPerfil, edad) {
     mail,
     password,
     fotoPerfil: fotoPerfil || null,
-    edad
+    edad,
+    telefono: "",
+    ubicacion: "",
+    descripcion: "",
+    respuestas: []
   };
 
   usuarios.push(nuevoUsuario);
   guardarUsuarios(usuarios);
-  console.log("✅ Usuario registrado con éxito!");
   return nuevoUsuario;
 }
 
-// Login usuario
-function loginUsuario(mail, password) {
+//Eventos SoqueTIC
+
+// Registrar
+subscribePOSTEvent("registrarUsuario", (data, res) => {
+  const { nombre, mail, password, fotoPerfil, edad } = data;
+  const nuevo = registrarUsuario(nombre, mail, password, fotoPerfil, edad);
+  res(nuevo);
+});
+
+// Login
+subscribePOSTEvent("loginUsuario", (data, res) => {
+  const { mail, password } = data;
   const usuarios = leerUsuarios();
   const usuario = usuarios.find(u => u.mail === mail && u.password === password);
-
-  if (usuario) {
-    console.log("👋 Bienvenido " + usuario.nombre + "!");
-    return usuario;
-  } else {
-    console.log("Usuario o contraseña incorrectos");
-    return { error: "Usuario o contraseña incorrectos" };
-  }
-}
-// Registrar usuario
-subscribePOSTEvent("registrarUsuario", (data) => {
-  const { nombre, mail, password, fotoPerfil, edad } = data;
-  return registrarUsuario(nombre, mail, password, fotoPerfil, edad);
+  if (!usuario) return res({ error: "Correo o contraseña incorrectos." });
+  res(usuario);
 });
 
-// Login usuario
-subscribePOSTEvent("loginUsuario", (data) => {
-  const { mail, password } = data;
-  return loginUsuario(mail, password);
-});
-// === PUBLICACIONES ===
+// Actualizar datos
+subscribePOSTEvent("actualizarUsuario", (data, res) => {
+  let usuarios = leerUsuarios();
+  const index = usuarios.findIndex(u => u.mail === data.mail);
+  if (index === -1) return res({ error: "Usuario no encontrado." });
 
-// Leer publicaciones
+  // Actualizamos todos los campos modificados
+  usuarios[index] = { ...usuarios[index], ...data };
+
+  guardarUsuarios(usuarios);
+  res({ ok: true, usuario: usuarios[index] });
+});
+
+// PUBLICACIONES
 function leerPublicaciones() {
   try {
-    let data = fs.readFileSync(publi, "utf-8");
-    if (!data.trim()) return [];
-    return JSON.parse(data);
+    const data = fs.readFileSync(publi, "utf-8");
+    return data.trim() ? JSON.parse(data) : [];
   } catch {
     return [];
   }
 }
 
-// Guardar publicaciones
 function guardarPublicaciones(publicaciones) {
   fs.writeFileSync(publi, JSON.stringify(publicaciones, null, 2));
 }
 
-// Crear publicación
-function crearPublicacion(
-  nombreMascota,
-  tipo,
-  genero,
-  color,
-  raza,
-  edad,
-  enfermedad,
-  estado,
-  descripcion,
-  lugar,
-  foto
-) {
+function crearPublicacion(data) {
   const publicaciones = leerPublicaciones();
-
-  const nuevaPublicacion = {
-    id: Date.now(),
-    nombreMascota: nombreMascota || "",
-    tipo: tipo || "",
-    genero: genero || "",
-    color: color || "",
-    raza: raza || "",
-    edad: edad || "",
-    enfermedad: enfermedad || "",
-    estado: estado || "",
-    descripcion: descripcion || "",
-    lugar: lugar || "",
-    foto: foto || null,
-  };
-
-  publicaciones.push(nuevaPublicacion);
+  const nueva = { id: Date.now(), ...data };
+  publicaciones.push(nueva);
   guardarPublicaciones(publicaciones);
-  console.log("🆕 Nueva publicación creada:", nuevaPublicacion.nombreMascota);
-  return nuevaPublicacion;
+  return nueva;
 }
 
-
-// Crear publicación
-subscribePOSTEvent("crearPublicacion", (data) => {
-  let {
-    nombreMascota, Nombre,
-    tipo, Tipo,
-    genero, Género,
-    color, Color,
-    raza, Raza,
-    edad, Edad,
-    enfermedad, Enfermedad,
-    estado, Estado,
-    descripcion, Descripción,
-    lugar, Ubicación, Lugar,
-    foto, Foto, Imagen
-  } = data;
-
-  const nueva = crearPublicacion(
-    nombreMascota || Nombre,
-    tipo || Tipo,
-    genero || Género,
-    color || Color,
-    raza || Raza,
-    edad || Edad,
-    enfermedad || Enfermedad,
-    estado || Estado,
-    descripcion || Descripción,
-    lugar || Ubicación || Lugar,
-    foto || Foto || Imagen
-  );
-
-  return nueva;
-});
-
+subscribePOSTEvent("crearPublicacion", (data, res) => res(crearPublicacion(data)));
 subscribeGETEvent("obtenerPublicaciones", () => leerPublicaciones());
-
-// Obtener publicación por ID
 subscribeGETEvent("obtenerPublicacionPorId", (data) => {
   const publicaciones = leerPublicaciones();
-  const idBuscado = Number((data && data.id) || data);
-  if (Number.isNaN(idBuscado)) return null;
-  return publicaciones.find(p => Number(p.id) === idBuscado) || null;
+  const idBuscado = Number(data?.id || data);
+  return publicaciones.find(p => p.id === idBuscado) || null;
 });
 
 startServer();

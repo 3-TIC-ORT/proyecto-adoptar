@@ -137,6 +137,16 @@ form button:hover {
     border-radius: 50%;
     display: none; 
 }
+.subirfoto {
+    margin-top: 10px;
+    padding: 8px 12px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: ransform 0.2s;
+}
 .botoneditar {
     margin-top: 15px;
     padding: 10px 18px;
@@ -153,4 +163,17 @@ form button:hover {
 .botoneditar:hover {
     background: #218838;
     transform: scale(1.05);
+}
+
+.Cerrarsesion {
+    margin-top: 20px;
+    padding: 10px 18px;
+    background: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.3s, transform 0.2s;
+    align-self: center; 
 }

@@ -9,24 +9,13 @@ body {
     box-sizing: border-box;
 }
 
-.intro{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    text-align: center;
-    width: 100%;
-    height: 100px;
-    gap: 20px;
-}
-
 .Elementoslogin {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start; 
+    justify-content: center; 
     height: auto; 
-    gap: 20px; 
+    gap: 60px; 
     padding-top: 30px; 
 }
 

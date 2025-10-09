@@ -1,10 +1,10 @@
 [
   {
-    "nombre": "echu",
-    "mail": "echuijihiuhi",
-    "password": "echu1234",
-    "fotoPerfil": "no",
-    "edad": 16
+    "id": 1760046179142,
+    "nombre": "Bruno Ferro",
+    "mail": "bruno.ferro@outlook.com",
+    "password": "Soyyo2010",
+    "fotoPerfil": null,
+    "edad": 15
   }
 ]
-tengo que agregar numero de telefono
