@@ -2,8 +2,8 @@ import { subscribeGETEvent, subscribePOSTEvent, startServer } from "soquetic";
 import fs from "fs";
 
 //Archivos JSON 
-const json = "usuarios.json";
-const publi = "publicaciones.json";
+let json = "usuarios.json";
+let publi = "publicaciones.json";
 
 if (!fs.existsSync(json)) fs.writeFileSync(json, "[]");
 if (!fs.existsSync(publi)) fs.writeFileSync(publi, "[]");
@@ -11,7 +11,7 @@ if (!fs.existsSync(publi)) fs.writeFileSync(publi, "[]");
 //Funciones
 function leerUsuarios() {
   try {
-    const data = fs.readFileSync(json, "utf-8");
+    let data = fs.readFileSync(json, "utf-8");
     return data.trim() ? JSON.parse(data) : [];
   } catch {
     return [];
@@ -23,10 +23,10 @@ function guardarUsuarios(usuarios) {
 }
 
 function registrarUsuario(nombre, mail, password, fotoPerfil, edad) {
-  const usuarios = leerUsuarios();
+  letusuarios = leerUsuarios();
   if (usuarios.some((u) => u.mail === mail)) return { error: "Ese mail ya está registrado" };
 
-  const nuevoUsuario = {
+  let nuevoUsuario = {
     id: Date.now(),
     nombre,
     mail,
@@ -48,16 +48,16 @@ function registrarUsuario(nombre, mail, password, fotoPerfil, edad) {
 
 // Registrar
 subscribePOSTEvent("registrarUsuario", (data, res) => {
-  const { nombre, mail, password, fotoPerfil, edad } = data;
-  const nuevo = registrarUsuario(nombre, mail, password, fotoPerfil, edad);
+  let { nombre, mail, password, fotoPerfil, edad } = data;
+  let nuevo = registrarUsuario(nombre, mail, password, fotoPerfil, edad);
   res(nuevo);
 });
 
 // Login
 subscribePOSTEvent("loginUsuario", (data, res) => {
-  const { mail, password } = data;
-  const usuarios = leerUsuarios();
-  const usuario = usuarios.find(u => u.mail === mail && u.password === password);
+  let { mail, password } = data;
+  let usuarios = leerUsuarios();
+  let usuario = usuarios.find(u => u.mail === mail && u.password === password);
   if (!usuario) return res({ error: "Correo o contraseña incorrectos." });
   res(usuario);
 });
@@ -65,7 +65,7 @@ subscribePOSTEvent("loginUsuario", (data, res) => {
 // Actualizar datos
 subscribePOSTEvent("actualizarUsuario", (data, res) => {
   let usuarios = leerUsuarios();
-  const index = usuarios.findIndex(u => u.mail === data.mail);
+  let index = usuarios.findIndex(u => u.mail === data.mail);
   if (index === -1) return res({ error: "Usuario no encontrado." });
 
   // Actualizamos todos los campos modificados
@@ -78,7 +78,7 @@ subscribePOSTEvent("actualizarUsuario", (data, res) => {
 // PUBLICACIONES
 function leerPublicaciones() {
   try {
-    const data = fs.readFileSync(publi, "utf-8");
+    let data = fs.readFileSync(publi, "utf-8");
     return data.trim() ? JSON.parse(data) : [];
   } catch {
     return [];
@@ -90,8 +90,8 @@ function guardarPublicaciones(publicaciones) {
 }
 
 function crearPublicacion(data) {
-  const publicaciones = leerPublicaciones();
-  const nueva = { id: Date.now(), ...data };
+  let publicaciones = leerPublicaciones();
+  let nueva = { id: Date.now(), ...data };
   publicaciones.push(nueva);
   guardarPublicaciones(publicaciones);
   return nueva;
@@ -100,8 +100,8 @@ function crearPublicacion(data) {
 subscribePOSTEvent("crearPublicacion", (data, res) => res(crearPublicacion(data)));
 subscribeGETEvent("obtenerPublicaciones", () => leerPublicaciones());
 subscribeGETEvent("obtenerPublicacionPorId", (data) => {
-  const publicaciones = leerPublicaciones();
-  const idBuscado = Number(data?.id || data);
+  let publicaciones = leerPublicaciones();
+  let idBuscado = Number(data?.id || data);
   return publicaciones.find(p => p.id === idBuscado) || null;
 });
 
