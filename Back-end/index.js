@@ -1,14 +1,25 @@
 import { subscribeGETEvent, subscribePOSTEvent, startServer } from "soquetic";
 import fs from "fs";
+import path from "path";
+import express from "express";
 
-//Archivos JSON 
-let json = "usuarios.json";
-let publi = "publicaciones.json";
+const app = express();
 
+// Archivos JSON y carpeta de fotos
+const json = "usuarios.json";
+const publi = "publicaciones.json";
+const carpetaFotos = "Fotosmascotas";
+
+// Crear archivos o carpetas si no existen
 if (!fs.existsSync(json)) fs.writeFileSync(json, "[]");
 if (!fs.existsSync(publi)) fs.writeFileSync(publi, "[]");
+if (!fs.existsSync(carpetaFotos)) fs.mkdirSync(carpetaFotos);
 
-//Funciones
+//Servir carpeta de fotos públicamente
+app.use("/Fotosmascotas", express.static(path.resolve(carpetaFotos)));
+app.listen(3000, () => console.log("Servidor de imágenes activo en puerto 3000"));
+
+//FUNCIONES DE USUARIOS
 function leerUsuarios() {
   try {
     let data = fs.readFileSync(json, "utf-8");
@@ -23,8 +34,9 @@ function guardarUsuarios(usuarios) {
 }
 
 function registrarUsuario(nombre, mail, password, fotoPerfil, edad) {
-  letusuarios = leerUsuarios();
-  if (usuarios.some((u) => u.mail === mail)) return { error: "Ese mail ya está registrado" };
+  let usuarios = leerUsuarios();
+  if (usuarios.some((u) => u.mail === mail))
+    return { error: "Ese mail ya está registrado" };
 
   let nuevoUsuario = {
     id: Date.now(),
@@ -36,7 +48,7 @@ function registrarUsuario(nombre, mail, password, fotoPerfil, edad) {
     telefono: "",
     ubicacion: "",
     descripcion: "",
-    respuestas: []
+    respuestas: [],
   };
 
   usuarios.push(nuevoUsuario);
@@ -44,38 +56,32 @@ function registrarUsuario(nombre, mail, password, fotoPerfil, edad) {
   return nuevoUsuario;
 }
 
-//Eventos SoqueTIC
-
-// Registrar
+//EVENTOS DE USUARIO
 subscribePOSTEvent("registrarUsuario", (data, res) => {
   let { nombre, mail, password, fotoPerfil, edad } = data;
   let nuevo = registrarUsuario(nombre, mail, password, fotoPerfil, edad);
   res(nuevo);
 });
 
-// Login
 subscribePOSTEvent("loginUsuario", (data, res) => {
   let { mail, password } = data;
   let usuarios = leerUsuarios();
-  let usuario = usuarios.find(u => u.mail === mail && u.password === password);
+  let usuario = usuarios.find((u) => u.mail === mail && u.password === password);
   if (!usuario) return res({ error: "Correo o contraseña incorrectos." });
   res(usuario);
 });
 
-// Actualizar datos
 subscribePOSTEvent("actualizarUsuario", (data, res) => {
   let usuarios = leerUsuarios();
-  let index = usuarios.findIndex(u => u.mail === data.mail);
+  let index = usuarios.findIndex((u) => u.mail === data.mail);
   if (index === -1) return res({ error: "Usuario no encontrado." });
 
-  // Actualizamos todos los campos modificados
   usuarios[index] = { ...usuarios[index], ...data };
-
   guardarUsuarios(usuarios);
   res({ ok: true, usuario: usuarios[index] });
 });
 
-// PUBLICACIONES
+//FUNCIONES DE PUBLICACIONES
 function leerPublicaciones() {
   try {
     let data = fs.readFileSync(publi, "utf-8");
@@ -91,18 +97,41 @@ function guardarPublicaciones(publicaciones) {
 
 function crearPublicacion(data) {
   let publicaciones = leerPublicaciones();
+
+  // Guardar la imagen en archivo (si viene en base64)
+  if (data.foto && data.foto.startsWith("data:image")) {
+    let extension = data.foto.substring(
+      data.foto.indexOf("/") + 1,
+      data.foto.indexOf(";")
+    );
+    let nombreArchivo = `mascota_${Date.now()}.${extension}`;
+    let ruta = path.join(carpetaFotos, nombreArchivo);
+
+    // Extraer base64 y guardar como archivo
+    let base64Data = data.foto.replace(/^data:image\/\w+;base64,/, "");
+    fs.writeFileSync(ruta, Buffer.from(base64Data, "base64"));
+    data.foto = nombreArchivo;
+  }
+
   let nueva = { id: Date.now(), ...data };
   publicaciones.push(nueva);
   guardarPublicaciones(publicaciones);
   return nueva;
 }
 
-subscribePOSTEvent("crearPublicacion", (data, res) => res(crearPublicacion(data)));
-subscribeGETEvent("obtenerPublicaciones", () => leerPublicaciones());
+//EVENTOS DE PUBLICACIONES
+subscribePOSTEvent("crearPublicacion", (data, res) => {
+  let nueva = crearPublicacion(data);
+  res(nueva);
+});
+
+subscribeGETEvent("obtenerPublicaciones", () => {
+  return leerPublicaciones();
+});
+
 subscribeGETEvent("obtenerPublicacionPorId", (data) => {
   let publicaciones = leerPublicaciones();
   let idBuscado = Number(data?.id || data);
-  return publicaciones.find(p => p.id === idBuscado) || null;
+  return publicaciones.find((p) => p.id === idBuscado) || null;
 });
-
 startServer();

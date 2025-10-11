@@ -50,7 +50,7 @@ window.addEventListener("DOMContentLoaded", () => {
     let div = document.createElement("div");
     div.classList.add("publicacion");
     div.innerHTML = `
-      <img src="${publi.foto}" alt="${publi.nombreMascota}">
+<img src="http://localhost/Fotosmascotas/${publi.foto}" alt="${publi.nombreMascota}">
       <h3>${publi.nombreMascota}</h3>
       <p>Tipo: ${publi.tipo}</p>
       <p>Género: ${publi.genero}</p>
