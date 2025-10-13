@@ -100,7 +100,6 @@ function crearPublicacion(data) {
       let filepath = path.join(carpetaFotos, filename);
       fs.writeFileSync(filepath, Buffer.from(base64Data, "base64"));
       data.foto = `/Fotosmascotas/${filename}`;
-      return { success: true, foto: data.foto  }
     }
   } else {
     data.foto = null;

@@ -1,145 +1,123 @@
 connect2Server();
+
+//Menú lateral
 let botonfiltros = document.querySelector(".rayasfiltro");
 let items = document.querySelectorAll(".menu-item");
 
 botonfiltros.addEventListener("click", () => {
-    items.forEach(item => {
-        item.classList.toggle("show");
-    });
+  items.forEach(item => item.classList.toggle("show"));
 });
+
 document.addEventListener("click", (e) => {
-    if (!botonfiltros.contains(e.target) && !e.target.classList.contains("menu-item")) {
-        items.forEach(item => item.classList.remove("show"));
-    }
+  if (!botonfiltros.contains(e.target) && !e.target.classList.contains("menu-item")) {
+    items.forEach(item => item.classList.remove("show"));
+  }
 });
+
+//Menú filtros secundarios
 let botonfiltros2 = document.querySelector("#Iconofiltrar");
 let selectores = document.querySelectorAll(".Selectores1, .Selectores2, .Selectores3, .Selectores4, .Selectores5");
 
 botonfiltros2.addEventListener("click", (e) => {
-    e.stopPropagation();
-    selectores.forEach(sel => {
-        sel.classList.toggle("show");
-    });
+  e.stopPropagation();
+  selectores.forEach(sel => sel.classList.toggle("show"));
 });
+
 document.addEventListener("click", (e) => {
-    if (!botonfiltros.contains(e.target) && !e.target.classList.contains("menu-item")) {
-        items.forEach(item => item.classList.remove("show"));
-    }
+  if (!botonfiltros.contains(e.target) && !e.target.classList.contains("menu-item")) {
+    items.forEach(item => item.classList.remove("show"));
+  }
 });
-//Función para obtener eventos del backend
+
+//FAVORITOS
 getEvent("obtenerFavoritos", (data) => {
   if (Array.isArray(data)) {
     mostrarPublicaciones(data);
-    } else {
-    console.warn("No se pudieron cargar las publicaciones del backend.");
+  } else {
+    console.warn("No se pudieron cargar los favoritos del backend.");
   }
 });
 
-// Función para mostrar publicaciones
+//FUNCIÓN: Mostrar publicaciones con mismo diseño que Pantallaprincipal
 function mostrarPublicaciones(publicaciones) {
-  let contenedor = document.getElementById("contenedor-publicaciones");
+  const contenedor = document.getElementById("contenedor-publicaciones");
   contenedor.innerHTML = "";
 
   if (!publicaciones || publicaciones.length === 0) {
-    contenedor.innerHTML = "<p>No tenés publicaciones en favoritos todavía 🐾</p>";
+    contenedor.innerHTML = "<p>No tenés publicaciones favoritas todavía.</p>";
     return;
   }
 
-  publicaciones.forEach(publi => {
-    let div = document.createElement("div");
-    div.className = "tarjeta-publicacion";
-    div.innerHTML = `
-      <img src="http://localhost:3000${publi.foto || '/Fotosmascotas/placeholder.jpg'}" alt="${publi.nombreMascota}" class="foto-publicacion">
-      <h3>${publi.nombreMascota}</h3>
-      <p>${publi.descripcion || ''}</p>
-      <p><strong>Ubicación:</strong> ${publi.ubicacion || 'Sin especificar'}</p>
+  let favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
+
+  publicaciones.forEach(publiData => {
+    let publi = document.createElement("div");
+    publi.classList.add("publicacion");
+
+    publi.innerHTML = `
+      <img src="${publiData.foto || "https://via.placeholder.com/150"}" alt="${publiData.nombreMascota}">
+      <h3>${publiData.nombreMascota}</h3>
+      <p>Tipo: ${publiData.tipo}</p>
+      <p>Género: ${publiData.genero}</p>
+      <p>Ubicación: ${publiData.lugar}</p>
+      <p>Estado: ${publiData.estado}</p>
+      <p>Enfermedad: ${publiData.enfermedad || "No especificada"}</p>
     `;
-    contenedor.appendChild(div);
-  });
-}
 
-let todasLasPublicaciones = [];
+    // Corazón (favoritos)
+    let corazon = document.createElement("img");
+    corazon.src = "../Iconos/Iconocorazon.webp";
+    corazon.classList.add("Corazon");
+    if (favoritos.includes(publiData.id)) corazon.classList.add("activo");
+    publi.prepend(corazon);
 
-// Cuando se cargan desde el backend, guardamos todas:
-getEvent("obtenerPublicaciones", (data) => {
-  if (Array.isArray(data)) {
-    todasLasPublicaciones = data;
-    mostrarPublicaciones(data);
-  }
-});
+    corazon.addEventListener("click", (e) => {
+      e.stopPropagation();
+      corazon.classList.toggle("activo");
+      if (corazon.classList.contains("activo")) {
+        if (!favoritos.includes(publiData.id)) favoritos.push(publiData.id);
+      } else {
+        favoritos = favoritos.filter(id => id !== publiData.id);
+      }
+      localStorage.setItem("favoritos", JSON.stringify(favoritos));
+      postEvent("actualizarFavoritos", { favoritos });
 
-// Si todavía no hay backend (usa las del HTML actual)
-if (document.querySelectorAll(".publicacion").length > 0 && todasLasPublicaciones.length === 0) {
-  todasLasPublicaciones = Array.from(document.querySelectorAll(".publicacion"));
-}
-
-// Función para aplicar filtros
-function aplicarFiltros() {
-  //Obtener valores seleccionados
-  let tipos = Array.from(document.querySelectorAll('.Selectores4 input[type="checkbox"]:checked')).map(c => c.value);
-  let colores = Array.from(document.querySelectorAll('.Selectores3 input[type="checkbox"]:checked')).map(c => c.value);
-  let tamanos = Array.from(document.querySelectorAll('.Selectores1 input[type="checkbox"]:checked')).map(c => c.value);
-
-  // --- Si estás mostrando publicaciones del backend ---
-  if (typeof mostrarPublicaciones === "function" && todasLasPublicaciones[0]?.tipo) {
-    let filtradas = todasLasPublicaciones.filter(publi => {
-      return (
-        (tipos.length === 0 || tipos.includes(publi.tipo)) &&
-        (colores.length === 0 || colores.includes(publi.color)) &&
-        (tamanos.length === 0 || tamanos.includes(publi.tamaño))
-      );
+      // Si se desmarca en favoritos, sacarla del DOM
+      if (!corazon.classList.contains("activo")) {
+        publi.remove();
+      }
     });
-    mostrarPublicaciones(filtradas);
-    return;
-  }
 
-  // Si estás mostrando publicaciones fijas en el HTML
-  document.querySelectorAll(".publicacion").forEach(publi => {
-    let texto = publi.textContent.toLowerCase();
-    let alt = publi.querySelector("img:not(.Corazon)").alt.toLowerCase();
-
-    let coincideTipo = tipos.length === 0 || tipos.some(t => alt.includes(t.toLowerCase()) || texto.includes(t.toLowerCase()));
-    let coincideColor = colores.length === 0 || colores.some(c => texto.includes(c.toLowerCase()));
-    let coincideTam = tamanos.length === 0 || tamanos.some(t => texto.includes(t.toLowerCase()));
-
-    publi.style.display = (coincideTipo && coincideColor && coincideTam) ? "block" : "none";
+    contenedor.appendChild(publi);
   });
 }
 
-// Escuchar cambios en todos los checkboxes
-document.querySelectorAll('.Selectores1 input, .Selectores3 input, .Selectores4 input')
-  .forEach(input => input.addEventListener("change", aplicarFiltros));
-  //Redirecciones
-
+//REDIRECCIONES
 let botonperfil = document.querySelector(".circuloperfil");
 botonperfil.addEventListener("click", () => {
-window.location.href = "../Perfildeusuario/Perfildeusuario.html";
+  window.location.href = "../Perfildeusuario/Perfildeusuario.html";
 });
-let botonformulario= document.querySelector(".circulo");
+
+let botonformulario = document.querySelector(".circulo");
 botonformulario.addEventListener("click", () => {
-window.location.href = "../Formulario/Formulario.html";
+  window.location.href = "../Formulario/Formulario.html";
 });
-let irhome= document.getElementById("Home");
-irhome.addEventListener("click", () => {
-    window.location.href = "../Pantallaprincipal/Pantallaprincipal.html";
-    });
-    let iradoptar= document.getElementById("Paraadoptar");
-iradoptar.addEventListener("click", () => {
-    window.location.href = "../Paraadoptar/Paraadoptar.html";
-    });
-    let irtransitar= document.getElementById("Paratransitar");
-    irtransitar.addEventListener("click", () => {
-        window.location.href = "../Paratransitar/Paratransitar.html";
-        });
-    let irperdidos= document.getElementById("Perdidos");
-irperdidos.addEventListener("click", () => {
-    window.location.href = "../Perdidos/Perdidos.html";
-         });
-     let irencontrados= document.getElementById("Encontrados");
-    irencontrados.addEventListener("click", () => {
-    window.location.href = "../Encontrados/Encontrados.html";
-    });
-      let irmispublicaciones= document.getElementById("Mispublicaciones");
-     irmispublicaciones.addEventListener("click", () => {
-    window.location.href = "../Mispublicaciones/Mispublicaciones.html";
-     });
+
+document.getElementById("Home").addEventListener("click", () => {
+  window.location.href = "../Pantallaprincipal/Pantallaprincipal.html";
+});
+document.getElementById("Paraadoptar").addEventListener("click", () => {
+  window.location.href = "../Paraadoptar/Paraadoptar.html";
+});
+document.getElementById("Paratransitar").addEventListener("click", () => {
+  window.location.href = "../Paratransitar/Paratransitar.html";
+});
+document.getElementById("Perdidos").addEventListener("click", () => {
+  window.location.href = "../Perdidos/Perdidos.html";
+});
+document.getElementById("Encontrados").addEventListener("click", () => {
+  window.location.href = "../Encontrados/Encontrados.html";
+});
+document.getElementById("Mispublicaciones").addEventListener("click", () => {
+  window.location.href = "../Mispublicaciones/Mispublicaciones.html";
+});
