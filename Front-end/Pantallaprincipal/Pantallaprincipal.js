@@ -1,11 +1,11 @@
 connect2Server();
 
-//Menú lateral
-let botonfiltros = document.querySelector(".rayasfiltro");
+// Menú lateral
+let botonFiltros = document.querySelector(".rayasfiltro");
 let menuLateral = document.querySelector(".Cuadradomenu");
 let items = document.querySelectorAll(".menu-item");
 
-botonfiltros.addEventListener("click", (e) => {
+botonFiltros.addEventListener("click", (e) => {
   e.stopPropagation();
   menuLateral.classList.toggle("open");
   let abierto = menuLateral.classList.contains("open");
@@ -13,89 +13,86 @@ botonfiltros.addEventListener("click", (e) => {
 });
 
 document.addEventListener("click", (e) => {
-  if (!menuLateral.contains(e.target) && !botonfiltros.contains(e.target)) {
+  if (!menuLateral.contains(e.target) && !botonFiltros.contains(e.target)) {
     menuLateral.classList.remove("open");
     items.forEach(item => item.classList.remove("show"));
   }
 });
 
-//Filtros 
-let botonfiltros2 = document.querySelector("#Iconofiltrar");
+// Filtros
+let botonFiltros2 = document.querySelector("#Iconofiltrar");
 let selectores = document.querySelectorAll(".Selectores1, .Selectores2, .Selectores3, .Selectores4, .Selectores5");
-let cuadradoselector = document.querySelector(".Cuadradoselectores");
+let cuadroSelectores = document.querySelector(".Cuadradoselectores");
 
-botonfiltros2.addEventListener("click", (e) => {
+botonFiltros2.addEventListener("click", (e) => {
   e.stopPropagation();
-  cuadradoselector.classList.toggle("open");
-  let abiertoo = cuadradoselector.classList.contains("open");
-  selectores.forEach(selector => selector.classList.toggle("show", abiertoo));
+  cuadroSelectores.classList.toggle("open");
+  let abierto = cuadroSelectores.classList.contains("open");
+  selectores.forEach(selector => selector.classList.toggle("show", abierto));
 });
 
 document.addEventListener("click", (e) => {
-  if (!cuadradoselector.contains(e.target) && !botonfiltros2.contains(e.target)) {
-    cuadradoselector.classList.remove("open");
+  if (!cuadroSelectores.contains(e.target) && !botonFiltros2.contains(e.target)) {
+    cuadroSelectores.classList.remove("open");
     selectores.forEach(selector => selector.classList.remove("show"));
   }
 });
 
-//Publicaciones
+// Publicaciones
 let contenedorPublicaciones = document.querySelector(".publicaciones");
-
 // Obtener publicaciones del backend
 getEvent("obtenerPublicaciones", (data) => {
   if (Array.isArray(data)) {
     mostrarPublicaciones(data);
   } else {
-    console.warn("No se pudieron cargar publicaciones del backend.");
+    console.warn("No se pudieron cargar las publicaciones del backend.");
   }
 });
-
 // Mostrar publicaciones
 function mostrarPublicaciones(publicaciones) {
   contenedorPublicaciones.innerHTML = "";
+
+  let favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
 
   publicaciones.forEach((publiData) => {
     let publi = document.createElement("div");
     publi.classList.add("publicacion");
 
-    publi.innerHTML =
-      "<img src='" + (publiData.foto || "https://via.placeholder.com/150") + "' alt='" + publiData.nombreMascota + "'>" +
-      
-      "<h3>" + publiData.nombreMascota + "</h3>" +
-      "<p>Tipo: " + publiData.tipo + "</p>" +
-      "<p>Género: " + publiData.genero + "</p>" +
-      "<p>Ubicación: " + publiData.lugar + "</p>" +
-      "<p>Estado: " + publiData.estado + "</p>" +
-      "<p>Enfermedad: " + (publiData.enfermedad || "No especificada") + "</p>";
-
+    publi.innerHTML = `
+      <img src="${publiData.foto || "https://via.placeholder.com/150"}" alt="${publiData.nombreMascota}">
+      <h3>${publiData.nombreMascota}</h3>
+      <p>Tipo: ${publiData.tipo}</p>
+      <p>Género: ${publiData.genero}</p>
+      <p>Ubicación: ${publiData.lugar}</p>
+      <p>Estado: ${publiData.estado}</p>
+      <p>Enfermedad: ${publiData.enfermedad || "No especificada"}</p>
+    `;
     // Corazón (favoritos)
     let corazon = document.createElement("img");
     corazon.src = "../Iconos/Iconocorazon.webp";
     corazon.classList.add("Corazon");
+    if (favoritos.includes(publiData.id)) corazon.classList.add("activo");
     publi.prepend(corazon);
 
-    let favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
-    if (favoritos.includes(publiData.id)) {
-      corazon.classList.add("activo");
-    }
     corazon.addEventListener("click", (e) => {
       e.stopPropagation();
       corazon.classList.toggle("activo");
+
       if (corazon.classList.contains("activo")) {
-        if (!favoritos.includes(publiData.id)) {
-          favoritos.push(publiData.id);
-        }
+        if (!favoritos.includes(publiData.id)) favoritos.push(publiData.id);
       } else {
         favoritos = favoritos.filter(id => id !== publiData.id);
       }
+
       localStorage.setItem("favoritos", JSON.stringify(favoritos));
+      postEvent("actualizarFavoritos", { favoritos });
     });
 
     // Comentarios
-    let comentarios = document.createElement("img");
-    comentarios.src = "../Iconos/Iconocomentarios.png";
-    comentarios.classList.add("Comentarios");
-    publi.appendChild(comentarios);
+    let iconoComentarios = document.createElement("img");
+    iconoComentarios.src = "../Iconos/Iconocomentarios.png";
+    iconoComentarios.classList.add("Comentarios");
+    publi.appendChild(iconoComentarios);
 
     let lista = document.createElement("div");
     lista.classList.add("lista-comentarios");
@@ -111,12 +108,31 @@ function mostrarPublicaciones(publicaciones) {
     enviarBtn.classList.add("EnviarComentario");
     publi.appendChild(enviarBtn);
 
-    comentarios.addEventListener("click", (e) => {
+    iconoComentarios.addEventListener("click", (e) => {
       e.stopPropagation();
       textarea.classList.toggle("show");
       enviarBtn.classList.toggle("show");
       lista.classList.toggle("show");
       publi.classList.toggle("expandida");
+
+      if (lista.classList.contains("show")) {
+        lista.innerHTML = "<p>Cargando comentarios...</p>";
+
+        postEvent("obtenerComentarios", { idPublicacion: publiData.id }, (data) => {
+          lista.innerHTML = "";
+          if (Array.isArray(data) && data.length > 0) {
+            data.forEach(comentario => {
+              let p = document.createElement("p");
+              p.textContent = comentario.texto;
+              lista.appendChild(p);
+            });
+          } else {
+            lista.innerHTML = "<p>No hay comentarios aún.</p>";
+          }
+        });
+      } else {
+        lista.innerHTML = "";
+      }
     });
 
     enviarBtn.addEventListener("click", (e) => {
@@ -125,6 +141,7 @@ function mostrarPublicaciones(publicaciones) {
         let nuevoComentario = document.createElement("p");
         nuevoComentario.textContent = textarea.value;
         lista.appendChild(nuevoComentario);
+        postEvent("guardarComentario", { idPublicacion: publiData.id, texto: nuevoComentario.textContent });
         textarea.value = "";
       }
     });
@@ -141,9 +158,13 @@ function mostrarPublicaciones(publicaciones) {
 
     contenedorPublicaciones.appendChild(publi);
   });
+
+  // Guardar favoritos en el backend
+  postEvent("actualizarFavoritos", { favoritos });
 }
 
-let radiosCantidad = document.querySelectorAll('input[name="fav_language"]');
+// Cambiar cantidad de columnas
+let radiosCantidad = document.querySelectorAll('input[name="cantidad_columnas"]');
 radiosCantidad.forEach(radio => {
   radio.addEventListener("change", () => {
     if (radio.value === "Tres") {
@@ -156,43 +177,87 @@ radiosCantidad.forEach(radio => {
   });
 });
 
+let todasLasPublicaciones = [];
+
+// Cuando se cargan desde el backend, guardamos todas:
+getEvent("obtenerPublicaciones", (data) => {
+  if (Array.isArray(data)) {
+    todasLasPublicaciones = data;
+    mostrarPublicaciones(data);
+  }
+});
+
+// Si todavía no hay backend (usa las del HTML actual)
+if (document.querySelectorAll(".publicacion").length > 0 && todasLasPublicaciones.length === 0) {
+  todasLasPublicaciones = Array.from(document.querySelectorAll(".publicacion"));
+}
+
+// Función para aplicar filtros
+function aplicarFiltros() {
+  //Obtener valores seleccionados
+  let tipos = Array.from(document.querySelectorAll('.Selectores4 input[type="checkbox"]:checked')).map(c => c.value);
+  let colores = Array.from(document.querySelectorAll('.Selectores3 input[type="checkbox"]:checked')).map(c => c.value);
+  let tamanos = Array.from(document.querySelectorAll('.Selectores1 input[type="checkbox"]:checked')).map(c => c.value);
+
+  // --- Si estás mostrando publicaciones del backend ---
+  if (typeof mostrarPublicaciones === "function" && todasLasPublicaciones[0]?.tipo) {
+    let filtradas = todasLasPublicaciones.filter(publi => {
+      return (
+        (tipos.length === 0 || tipos.includes(publi.tipo)) &&
+        (colores.length === 0 || colores.includes(publi.color)) &&
+        (tamanos.length === 0 || tamanos.includes(publi.tamaño))
+      );
+    });
+    mostrarPublicaciones(filtradas);
+    return;
+  }
+
+  // Si estás mostrando publicaciones fijas en el HTML
+  document.querySelectorAll(".publicacion").forEach(publi => {
+    let texto = publi.textContent.toLowerCase();
+    let alt = publi.querySelector("img:not(.Corazon)").alt.toLowerCase();
+
+    let coincideTipo = tipos.length === 0 || tipos.some(t => alt.includes(t.toLowerCase()) || texto.includes(t.toLowerCase()));
+    let coincideColor = colores.length === 0 || colores.some(c => texto.includes(c.toLowerCase()));
+    let coincideTam = tamanos.length === 0 || tamanos.some(t => texto.includes(t.toLowerCase()));
+
+    publi.style.display = (coincideTipo && coincideColor && coincideTam) ? "block" : "none";
+  });
+}
+
+// Escuchar cambios en todos los checkboxes
+document.querySelectorAll('.Selectores1 input, .Selectores3 input, .Selectores4 input')
+  .forEach(input => input.addEventListener("change", aplicarFiltros));
+
 // Redirecciones
-let botonperfil = document.querySelector(".circuloperfil");
-botonperfil.addEventListener("click", () => {
+document.querySelector(".circuloperfil").addEventListener("click", () => {
   window.location.href = "../Perfildeusuario/Perfildeusuario.html";
 });
 
-let botonformulario = document.querySelector(".circulo");
-botonformulario.addEventListener("click", () => {
+document.querySelector(".circulo").addEventListener("click", () => {
   window.location.href = "../Formulario/Formulario.html";
 });
 
-let iraadoptar = document.getElementById("Paraadoptar");
-iraadoptar.addEventListener("click", () => {
+document.getElementById("Paraadoptar").addEventListener("click", () => {
   window.location.href = "../Paraadoptar/Paraadoptar.html";
 });
 
-let irtransitar = document.getElementById("Paratransitar");
-irtransitar.addEventListener("click", () => {
+document.getElementById("Paratransitar").addEventListener("click", () => {
   window.location.href = "../Paratransitar/Paratransitar.html";
 });
 
-let irperdidos = document.getElementById("Perdidos");
-irperdidos.addEventListener("click", () => {
+document.getElementById("Perdidos").addEventListener("click", () => {
   window.location.href = "../Perdidos/Perdidos.html";
 });
 
-let irencontrados = document.getElementById("Encontrados");
-irencontrados.addEventListener("click", () => {
+document.getElementById("Encontrados").addEventListener("click", () => {
   window.location.href = "../Encontrados/Encontrados.html";
 });
 
-let irmispublicaciones = document.getElementById("Mispublicaciones");
-irmispublicaciones.addEventListener("click", () => {
+document.getElementById("Mispublicaciones").addEventListener("click", () => {
   window.location.href = "../Mispublicaciones/Mispublicaciones.html";
 });
 
-let irmisfavoritos = document.getElementById("Misfavoritos");
-irmisfavoritos.addEventListener("click", () => {
+document.getElementById("Misfavoritos").addEventListener("click", () => {
   window.location.href = "../Misfavoritos/Misfavoritos.html";
 });

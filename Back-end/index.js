@@ -8,6 +8,7 @@ const app = express();
 const json = "usuarios.json";
 const publi = "publicaciones.json";
 const carpetaFotos = "Fotosmascotas";
+const comentariosFile = "comentarios.json";
 
 if (!fs.existsSync(json)) fs.writeFileSync(json, "[]");
 if (!fs.existsSync(publi)) fs.writeFileSync(publi, "[]");
@@ -61,8 +62,8 @@ subscribePOSTEvent("loginUsuario", (data, res) => {
   let { mail, password } = data;
   let usuarios = leerUsuarios();
   let usuario = usuarios.find((u) => u.mail === mail && u.password === password);
-  if (!usuario) return res({ error: "Correo o contraseña incorrectos." });
-  res(usuario);
+  if (!usuario) return({ error: "Correo o contraseña incorrectos." });
+  return(usuario);
 });
 
 subscribePOSTEvent("actualizarUsuario", (data, res) => {
@@ -125,10 +126,49 @@ subscribeGETEvent("obtenerPublicacionPorId", (data) => {
   let idBuscado = Number(data?.id || data);
   return publicaciones.find((p) => p.id === idBuscado) || null;
 });
-//Favoritos
-subscribeGETEvent("obtenerFavoritos", (data) => {
-  let publicaciones = leerPublicaciones();
-  let idsFavoritos = Array.isArray(data) ? data.map(Number) : [];
-  return publicaciones.filter((p) => idsFavoritos.includes(p.id));
+// Favoritos
+subscribePOSTEvent("actualizarFavoritos", (data) => {
+  fs.writeFileSync("favoritos.json", JSON.stringify(data.favoritos || []));
+  return { ok: true };
+});
+
+subscribeGETEvent("obtenerFavoritos", () => {
+  try {
+    let favs = JSON.parse(fs.readFileSync("favoritos.json", "utf-8"));
+    let publicaciones = leerPublicaciones();
+    return publicaciones.filter(p => favs.includes(p.id));
+  } catch {
+    return [];
+  }
+});
+//Comentarios
+//Guardar comentarios en comentarios.json
+function guardarComentario(idPublicacion, comentario) {
+  let comentarios = [];
+  try {
+    let data = fs.readFileSync(comentariosFile, "utf-8");
+    comentarios = data.trim() ? JSON.parse(data) : [];
+  } catch {
+    comentarios = [];
+  }
+  comentarios.push({ idPublicacion, texto: comentario });
+  fs.writeFileSync(comentariosFile, JSON.stringify(comentarios, null, 2));
+  return { ok: true };
+}
+
+subscribePOSTEvent("guardarComentario", (data) => {
+  let { idPublicacion, texto } = data;
+  return guardarComentario(idPublicacion, texto);
+});
+//Obtener comentarios de una publicación
+subscribePOSTEvent("obtenerComentarios", (data) => {
+  try {
+    let comentarios = [];
+    let fileData = fs.readFileSync(comentariosFile, "utf-8");
+    comentarios = fileData.trim() ? JSON.parse(fileData) : [];
+    return comentarios.filter(c => c.idPublicacion === Number(data.idPublicacion));
+  } catch {
+    return [];
+  }
 });
 startServer();

@@ -1,5 +1,5 @@
 body { 
-    background-color:   #bae0df;
+    background-color:   #A1C0CB;
     font-family: 'Poppins', sans-serif; 
     margin: 0; 
 } 
@@ -15,6 +15,7 @@ body {
     display: flex; 
     align-items: center; 
     justify-content: space-between; 
+    background-color: #183446;
 } 
 
 .header-left { 
@@ -23,7 +24,7 @@ body {
     align-items: center; 
     gap: 20px; 
     flex-basis: 0;
-    flex-grow: 0.3;
+    flex-grow: 0.5;
 } 
 
 .header-center { 
@@ -40,28 +41,31 @@ body {
     gap: 50px;
     margin-right: 20px;
     flex-basis: 0;
-    flex-grow: 0.3;
+    flex-grow: 0.7;
 }
 #titulo { 
     font-size: 2.5em; 
     font-weight: bold; 
+    color: whitesmoke;
 } 
 
 #home { 
     font-weight: 100; 
     font-size: 1.7em; 
+    color: whitesmoke;
 } 
 
 #Iconofiltrar { 
     width: 2.2rem; 
     height: 2.2rem; 
     cursor: pointer; 
+    background-color: whitesmoke;
 } 
 
 .circuloperfil { 
     width: 2.2rem; 
     height: 2.2rem; 
-    background-color: black; 
+    background-color: whitesmoke; 
     border-radius: 50%; 
     cursor: pointer; 
 } 
@@ -74,6 +78,7 @@ body {
     height: 1px; 
     background-color: black; 
     width: 100%; 
+    
 } 
 
 
@@ -88,7 +93,7 @@ body {
 
 .rayasfiltro span { 
     position: absolute; 
-    background-color: black; 
+    background-color: whitesmoke; 
     border-radius: 5px; 
     width: 3em; 
     height: 0.3em; 
@@ -109,6 +114,7 @@ align-items: flex-start;
 height: 70vh; 
 padding-left: 1.5em; 
 gap: 50px;
+
 }
 
 .menu-item { 
@@ -130,7 +136,7 @@ z-index: 3;
             left: 0;
             height: 70vh;
             width: 16em;
-            background-color: rgb(197, 244, 255);
+            background-color: #A1C0CB;
             z-index: 3;
             border-radius: 10px;
             transform: translateX(-100%);
@@ -152,7 +158,7 @@ display: block;
     transform: translateX(-50%); 
     width: 60px; 
     height: 60px; 
-    background-color: #3165A5; 
+    background-color: #183446; 
     border-radius: 50%; 
     z-index: 1; 
 
@@ -221,3 +227,134 @@ transform: translateX(0);
     opacity: 1;
     max-height: 600px; 
 }
+/* Publicaciones */
+.publicaciones {
+    display: grid;
+    justify-content: center;
+    align-items: space-between;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding: 20px;
+    margin: 10px auto;   
+    max-width: 900px; 
+}
+            
+.publicacion {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 200px;
+    background-color: whitesmoke;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    overflow: hidden;
+    min-height: 0px;
+    min-height: 380px;
+    max-height: 350px;
+    transition: max-height 0.3s ease, background-color 0.3s ease;
+}
+.publicacion.expandida{
+  max-height: 500px;
+}
+            
+            .publicacion img:not(.Comentarios):not(.Corazon)
+            {
+                width: 200px;
+                height: 175px;
+                object-fit: cover;
+                border-radius: 5px;
+                margin-bottom: 10px;
+            }
+            
+            .publicacion.descripcion
+            { 
+                text-align: center;
+                font-size: 14px;
+                color: rgb(0, 0, 0);
+            }
+            
+            .publicacion:hover
+            {
+                background-color: #87b5c5;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+            }
+            .Corazon{
+                width: 1rem;
+                height: 1rem;
+                align-self: flex-end;
+                object-fit: contain;
+            }
+            .Corazon:hover{
+                background-color: grey;
+                cursor: pointer;
+            }
+            .Corazon.activo {
+                content: url("../Iconos/Iconocorazonlikeado.png");
+            }
+            .Comentarios{
+                width: 1rem;
+                height: 1rem;
+                display: flex;
+                align-self: flex-end;
+            }
+            .Comentarios:hover{
+                background-color: grey;
+                cursor: pointer;
+            }
+            .Inputcomentarios,
+.EnviarComentario {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.Inputcomentarios.show,
+.EnviarComentario.show {
+    opacity: 1;
+    pointer-events: auto;
+    margin-top: 10px;
+}
+            .Inputcomentarios {
+                opacity: 0;
+                width: 10rem;
+                min-height: 2rem;  
+                max-height: 200px;
+                resize: none; 
+                border-radius: 5px;
+                border: 1px solid black;
+                overflow-y: auto;
+                transition: opacity 0.3s ease;
+                margin-top: 10px;
+                height: 0;
+                padding: 0;
+            }
+            
+            .Inputcomentarios.show {
+                opacity: 1;
+                height: 3rem;
+                padding: 5px;
+            }
+            .Inputcomentarios:hover{
+             cursor: text;
+            background-color: rgb(203, 202, 202);
+            }
+            .lista-comentarios {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                width: 100%;
+                height: 40px;
+                margin-bottom: 10px;
+                background-color: white;
+                padding: 5px 8px;
+                border-radius: 5px;
+                font-size: 13px;
+                text-align: left;
+                word-wrap: break-word;
+                border: 1px solid #ccc;
+                min-height: 50px; 
+                max-height: 120px;
+                overflow-y: auto;
+            }
