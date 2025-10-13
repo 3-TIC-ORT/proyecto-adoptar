@@ -1,6 +1,6 @@
-connect2Server(3000);
+connect2Server();
 
-// --- Menú lateral ---
+//Menú lateral
 let botonfiltros = document.querySelector(".rayasfiltro");
 let menuLateral = document.querySelector(".Cuadradomenu");
 let items = document.querySelectorAll(".menu-item");
@@ -19,7 +19,7 @@ document.addEventListener("click", (e) => {
   }
 });
 
-// --- Filtros ---
+//Filtros 
 let botonfiltros2 = document.querySelector("#Iconofiltrar");
 let selectores = document.querySelectorAll(".Selectores1, .Selectores2, .Selectores3, .Selectores4, .Selectores5");
 let cuadradoselector = document.querySelector(".Cuadradoselectores");
@@ -38,7 +38,7 @@ document.addEventListener("click", (e) => {
   }
 });
 
-// --- Publicaciones ---
+//Publicaciones
 let contenedorPublicaciones = document.querySelector(".publicaciones");
 
 // Obtener publicaciones del backend
@@ -60,6 +60,7 @@ function mostrarPublicaciones(publicaciones) {
 
     publi.innerHTML =
       "<img src='" + (publiData.foto || "https://via.placeholder.com/150") + "' alt='" + publiData.nombreMascota + "'>" +
+      
       "<h3>" + publiData.nombreMascota + "</h3>" +
       "<p>Tipo: " + publiData.tipo + "</p>" +
       "<p>Género: " + publiData.genero + "</p>" +
@@ -77,17 +78,15 @@ function mostrarPublicaciones(publicaciones) {
     if (favoritos.includes(publiData.id)) {
       corazon.classList.add("activo");
     }
-
     corazon.addEventListener("click", (e) => {
       e.stopPropagation();
-      let favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
-
+      corazon.classList.toggle("activo");
       if (corazon.classList.contains("activo")) {
-        corazon.classList.remove("activo");
-        favoritos = favoritos.filter(id => id !== publiData.id);
+        if (!favoritos.includes(publiData.id)) {
+          favoritos.push(publiData.id);
+        }
       } else {
-        corazon.classList.add("activo");
-        if (!favoritos.includes(publiData.id)) favoritos.push(publiData.id);
+        favoritos = favoritos.filter(id => id !== publiData.id);
       }
       localStorage.setItem("favoritos", JSON.stringify(favoritos));
     });
@@ -157,28 +156,43 @@ radiosCantidad.forEach(radio => {
   });
 });
 
-// --- Redirecciones ---
-document.querySelector(".circuloperfil").addEventListener("click", () => {
+// Redirecciones
+let botonperfil = document.querySelector(".circuloperfil");
+botonperfil.addEventListener("click", () => {
   window.location.href = "../Perfildeusuario/Perfildeusuario.html";
 });
-document.querySelector(".circulo").addEventListener("click", () => {
+
+let botonformulario = document.querySelector(".circulo");
+botonformulario.addEventListener("click", () => {
   window.location.href = "../Formulario/Formulario.html";
 });
-document.getElementById("Paraadoptar").addEventListener("click", () => {
+
+let iraadoptar = document.getElementById("Paraadoptar");
+iraadoptar.addEventListener("click", () => {
   window.location.href = "../Paraadoptar/Paraadoptar.html";
 });
-document.getElementById("Paratransitar").addEventListener("click", () => {
+
+let irtransitar = document.getElementById("Paratransitar");
+irtransitar.addEventListener("click", () => {
   window.location.href = "../Paratransitar/Paratransitar.html";
 });
-document.getElementById("Perdidos").addEventListener("click", () => {
+
+let irperdidos = document.getElementById("Perdidos");
+irperdidos.addEventListener("click", () => {
   window.location.href = "../Perdidos/Perdidos.html";
 });
-document.getElementById("Encontrados").addEventListener("click", () => {
+
+let irencontrados = document.getElementById("Encontrados");
+irencontrados.addEventListener("click", () => {
   window.location.href = "../Encontrados/Encontrados.html";
 });
-document.getElementById("Mispublicaciones").addEventListener("click", () => {
+
+let irmispublicaciones = document.getElementById("Mispublicaciones");
+irmispublicaciones.addEventListener("click", () => {
   window.location.href = "../Mispublicaciones/Mispublicaciones.html";
 });
-document.getElementById("Misfavoritos").addEventListener("click", () => {
+
+let irmisfavoritos = document.getElementById("Misfavoritos");
+irmisfavoritos.addEventListener("click", () => {
   window.location.href = "../Misfavoritos/Misfavoritos.html";
 });
