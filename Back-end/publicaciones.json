@@ -54,5 +54,19 @@
     "descripcion": "a",
     "lugar": "a",
     "foto": "mascota_1760198610986.jpeg"
+  },
+  {
+    "id": 1760362014482,
+    "nombreMascota": "a",
+    "tipo": "Perro",
+    "genero": "Femenino",
+    "color": "Claro",
+    "raza": "a",
+    "edad": "a",
+    "enfermedad": "No",
+    "estado": "Para adoptar",
+    "descripcion": "a",
+    "lugar": "a",
+    "foto": "/Fotosmascotas/foto_1760362014478.webp"
   }
 ]

@@ -110,9 +110,9 @@ function crearPublicacion(data) {
   return nueva;
 }
 
-subscribePOSTEvent("crearPublicacion", (data, res) => {
+subscribePOSTEvent("crearPublicacion", (data) => {
   let nueva = crearPublicacion(data);
-  res(nueva);
+  return nueva; 
 });
 
 subscribeGETEvent("obtenerPublicaciones", () => {
