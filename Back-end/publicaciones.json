@@ -68,5 +68,19 @@
     "descripcion": "a",
     "lugar": "a",
     "foto": "/Fotosmascotas/foto_1760362014478.webp"
+  },
+  {
+    "id": 1760365441623,
+    "nombreMascota": "a",
+    "tipo": "Perro",
+    "genero": "Masculino",
+    "color": "Claro",
+    "raza": "a",
+    "edad": "a",
+    "enfermedad": "No",
+    "estado": "Encontrado",
+    "descripcion": "a",
+    "lugar": "a",
+    "foto": "/Fotosmascotas/foto_1760365441616.png"
   }
 ]
