@@ -26,5 +26,19 @@
     "descripcion": "Se llama así porque es 4x4. Me voy de viaje alguien lo puede tener por un tiempo?",
     "lugar": "Lomas de Zamora",
     "foto": "/Fotosmascotas/foto_1760401909510.jpeg"
+  },
+  {
+    "id": 1760402528594,
+    "nombreMascota": "Ernestina",
+    "tipo": "Gato",
+    "genero": "Femenino",
+    "color": "Mixto",
+    "raza": "Sopa de espinaca",
+    "edad": "7 años humanos",
+    "enfermedad": "No",
+    "estado": "Para adoptar",
+    "descripcion": "Su dueño era Ernestino pero se fue al cielito",
+    "lugar": "Belgrano R",
+    "foto": "/Fotosmascotas/foto_1760402528593.jpeg"
   }
 ]
