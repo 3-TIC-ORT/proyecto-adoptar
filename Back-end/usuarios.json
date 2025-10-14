@@ -6,5 +6,17 @@
     "password": "Soyyo2010",
     "fotoPerfil": null,
     "edad": 15
+  },
+  {
+    "id": 1760481551378,
+    "nombre": "Bruno Ferro 2",
+    "mail": "brunoferro2010@gmail.com",
+    "password": "Soyyo2010",
+    "fotoPerfil": null,
+    "edad": "10",
+    "telefono": "5491169624578",
+    "ubicacion": "No especificada",
+    "descripcion": "Soy muy genio",
+    "respuestas": []
   }
 ]

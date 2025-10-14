@@ -199,7 +199,7 @@ function aplicarFiltros() {
   let colores = Array.from(document.querySelectorAll('.Selectores3 input[type="checkbox"]:checked')).map(c => c.value);
   let tamanos = Array.from(document.querySelectorAll('.Selectores1 input[type="checkbox"]:checked')).map(c => c.value);
 
-  // --- Si estás mostrando publicaciones del backend ---
+  //Si estás mostrando publicaciones del backend 
   if (typeof mostrarPublicaciones === "function" && todasLasPublicaciones[0]?.tipo) {
     let filtradas = todasLasPublicaciones.filter(publi => {
       return (
@@ -224,10 +224,40 @@ function aplicarFiltros() {
     publi.style.display = (coincideTipo && coincideColor && coincideTam) ? "block" : "none";
   });
 }
-
 // Escuchar cambios en todos los checkboxes
 document.querySelectorAll('.Selectores1 input, .Selectores3 input, .Selectores4 input')
   .forEach(input => input.addEventListener("change", aplicarFiltros));
+//Localidades
+const selectProvincia = document.getElementById("provincia");
+const selectLocalidad = document.getElementById("localidad");
+
+// Cargar provincias al iniciar
+getEvent("obtenerProvincias", (provincias) => {
+  selectProvincia.innerHTML = '<option value="">Seleccione provincia</option>';
+  provincias.forEach(prov => {
+    const opt = document.createElement("option");
+    opt.value = prov.id;       // usamos el id para pedir las localidades
+    opt.textContent = prov.nombre;
+    selectProvincia.appendChild(opt);
+  });
+});
+
+// Cuando cambia la provincia, cargar las localidades
+selectProvincia.addEventListener("change", () => {
+  const idProvincia = selectProvincia.value;
+  selectLocalidad.innerHTML = '<option value="">Seleccione localidad</option>';
+
+  if (!idProvincia) return;
+
+  getEvent("obtenerLocalidades", (localidades) => {
+    localidades.forEach(loc => {
+      const opt = document.createElement("option");
+      opt.value = loc;
+      opt.textContent = loc;
+      selectLocalidad.appendChild(opt);
+    });
+  }, { provinciaId: idProvincia });
+});
 
 // Redirecciones
 document.querySelector(".circuloperfil").addEventListener("click", () => {

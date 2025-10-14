@@ -52,13 +52,13 @@ function registrarUsuario(nombre, mail, password, fotoPerfil, edad) {
   return nuevoUsuario;
 }
 
-subscribePOSTEvent("registrarUsuario", (data, res) => {
+subscribePOSTEvent("registrarUsuario", (data) => {
   let { nombre, mail, password, fotoPerfil, edad } = data;
   let nuevo = registrarUsuario(nombre, mail, password, fotoPerfil, edad);
-  res(nuevo);
+  return(nuevo);
 });
 
-subscribePOSTEvent("loginUsuario", (data, res) => {
+subscribePOSTEvent("loginUsuario", (data) => {
   let { mail, password } = data;
   let usuarios = leerUsuarios();
   let usuario = usuarios.find((u) => u.mail === mail && u.password === password);
@@ -66,13 +66,13 @@ subscribePOSTEvent("loginUsuario", (data, res) => {
   return(usuario);
 });
 
-subscribePOSTEvent("actualizarUsuario", (data, res) => {
+subscribePOSTEvent("actualizarUsuario", (data) => {
   let usuarios = leerUsuarios();
   let index = usuarios.findIndex((u) => u.mail === data.mail);
-  if (index === -1) return res({ error: "Usuario no encontrado." });
+  if (index === -1) return({ error: "Usuario no encontrado." });
   usuarios[index] = { ...usuarios[index], ...data };
   guardarUsuarios(usuarios);
-  res({ ok: true, usuario: usuarios[index] });
+  return({ ok: true, usuario: usuarios[index] });
 });
 
 function leerPublicaciones() {
@@ -169,5 +169,27 @@ subscribePOSTEvent("obtenerComentarios", (data) => {
   } catch {
     return [];
   }
+});
+// Cargar JSON una vez al iniciar el servidor
+let localidadesData = [];
+try {
+  localidadesData = JSON.parse(fs.readFileSync("localidades.json", "utf8"));
+} catch (err) {
+  console.error("Error leyendo localidades.json:", err);
+  localidadesData = [];
+}
+
+// OBTENER TODAS LAS PROVINCIAS
+subscribeGETEvent("obtenerProvincias", () => {
+  const provincias = localidadesData.map(p => ({ id: p.id, nombre: p.nombre }));
+  return provincias;
+});
+
+// OBTENER LOCALIDADES POR PROVINCIA
+subscribeGETEvent("obtenerLocalidades", (data) => {
+  const provinciaId = Number(data.provinciaId);
+  const provincia = localidadesData.find(p => p.id === provinciaId);
+  if (!provincia) return [];
+  return provincia.localidades;
 });
 startServer();
