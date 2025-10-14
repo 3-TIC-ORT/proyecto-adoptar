@@ -144,6 +144,56 @@ window.addEventListener("DOMContentLoaded", () => {
     contenedor.appendChild(div);
   });
 });
+
+//Función agregada para evitar el error "mostrarPublicaciones is not defined"
+function mostrarPublicaciones(publicaciones) {
+  const contenedor = document.querySelector(".publicaciones");
+  contenedor.innerHTML = "";
+
+  let favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
+
+  const filtradas = publicaciones.filter(p => p.estado === "Para adoptar");
+
+  filtradas.forEach(publi => {
+    let div = document.createElement("div");
+    div.classList.add("publicacion");
+    div.innerHTML = `
+      <img src="${publi.foto || 'https://via.placeholder.com/150'}" alt="${publi.nombreMascota || ''}">
+      <h3>${publi.nombreMascota || 'Sin nombre'}</h3>
+      <p>Tipo: ${publi.tipo || 'No especificado'}</p>
+      <p>Género: ${publi.genero || 'No especificado'}</p>
+      <p>Color: ${publi.color || 'No especificado'}</p>
+      <p>Raza: ${publi.raza || 'No especificada'}</p>
+      <p>Edad: ${publi.edad || 'No especificada'}</p>
+      <p>Ubicación: ${publi.lugar || 'No especificada'}</p>
+      <p>Estado: ${publi.estado || 'No especificado'}</p>
+      <p>Descripción: ${publi.descripcion || ''}</p>
+    `;
+
+    let corazon = document.createElement("img");
+    corazon.src = "../Iconos/Iconocorazon.webp";
+    corazon.classList.add("Corazon");
+    if (favoritos.includes(publi.id)) corazon.classList.add("activo");
+    div.prepend(corazon);
+
+    corazon.addEventListener("click", (e) => {
+      e.stopPropagation();
+      let favs = JSON.parse(localStorage.getItem("favoritos")) || [];
+
+      if (corazon.classList.contains("activo")) {
+        corazon.classList.remove("activo");
+        favs = favs.filter(id => id !== publi.id);
+      } else {
+        corazon.classList.add("activo");
+        if (!favs.includes(publi.id)) favs.push(publi.id);
+      }
+      localStorage.setItem("favoritos", JSON.stringify(favs));
+    });
+
+    contenedor.appendChild(div);
+  });
+}
+
 let todasLasPublicaciones = [];
 
 // Cuando se cargan desde el backend, guardamos todas:
@@ -161,12 +211,10 @@ if (document.querySelectorAll(".publicacion").length > 0 && todasLasPublicacione
 
 // Función para aplicar filtros
 function aplicarFiltros() {
-  //Obtener valores seleccionados
   let tipos = Array.from(document.querySelectorAll('.Selectores4 input[type="checkbox"]:checked')).map(c => c.value);
   let colores = Array.from(document.querySelectorAll('.Selectores3 input[type="checkbox"]:checked')).map(c => c.value);
   let tamanos = Array.from(document.querySelectorAll('.Selectores1 input[type="checkbox"]:checked')).map(c => c.value);
 
-  // --- Si estás mostrando publicaciones del backend ---
   if (typeof mostrarPublicaciones === "function" && todasLasPublicaciones[0]?.tipo) {
     let filtradas = todasLasPublicaciones.filter(publi => {
       return (
@@ -179,7 +227,6 @@ function aplicarFiltros() {
     return;
   }
 
-  // Si estás mostrando publicaciones fijas en el HTML
   document.querySelectorAll(".publicacion").forEach(publi => {
     let texto = publi.textContent.toLowerCase();
     let alt = publi.querySelector("img:not(.Corazon)").alt.toLowerCase();
@@ -192,10 +239,9 @@ function aplicarFiltros() {
   });
 }
 
-// Escuchar cambios en todos los checkboxes
 document.querySelectorAll('.Selectores1 input, .Selectores3 input, .Selectores4 input')
   .forEach(input => input.addEventListener("change", aplicarFiltros));
-  
+
 // Redirecciones
 let botonperfil = document.querySelector(".circuloperfil");
 botonperfil.addEventListener("click", () => {

@@ -87,6 +87,69 @@ window.addEventListener("DOMContentLoaded", () => {
       localStorage.setItem("favoritos", JSON.stringify(favoritos));
     });
 
+    // Click en la publicación para ir al detalle
+    div.addEventListener("click", (e) => {
+      if (
+        !e.target.closest(".Comentarios") &&
+        !e.target.closest(".Inputcomentarios") &&
+        !e.target.closest(".EnviarComentario")
+      ) {
+        window.location.href = `../Infopublicacion/Infopublicacion.html?id=${publi.id}`;
+      }
+    });
+
+    contenedor.appendChild(div);
+  });
+});
+let todasLasPublicaciones = [];
+
+// Cuando se cargan desde el backend, guardamos todas:
+function mostrarPublicaciones(publicaciones) {
+  const contenedor = document.querySelector(".publicaciones");
+  contenedor.innerHTML = "";
+
+  let favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
+
+  // Filtramos por 'Perdido' porque esta página es la sección Perdidos
+  const filtradas = publicaciones.filter(p => p.estado === "Perdido" || p.estado === "perdido");
+
+  filtradas.forEach(publi => {
+    let div = document.createElement("div");
+    div.classList.add("publicacion");
+    div.innerHTML = `
+      <img src="${publi.foto || 'https://via.placeholder.com/150'}" alt="${publi.nombreMascota || ''}">
+      <h3>${publi.nombreMascota || 'Sin nombre'}</h3>
+      <p>Tipo: ${publi.tipo || 'No especificado'}</p>
+      <p>Género: ${publi.genero || 'No especificado'}</p>
+      <p>Color: ${publi.color || 'No especificado'}</p>
+      <p>Raza: ${publi.raza || 'No especificada'}</p>
+      <p>Edad: ${publi.edad || 'No especificada'}</p>
+      <p>Ubicación: ${publi.lugar || 'No especificada'}</p>
+      <p>Estado: ${publi.estado || 'No especificado'}</p>
+      <p>Descripción: ${publi.descripcion || ''}</p>
+    `;
+
+    // Botón de favorito (corazón)
+    let corazon = document.createElement("img");
+    corazon.src = "../Iconos/Iconocorazon.webp";
+    corazon.classList.add("Corazon");
+    if (favoritos.includes(publi.id)) corazon.classList.add("activo");
+    div.prepend(corazon);
+
+    corazon.addEventListener("click", (e) => {
+      e.stopPropagation();
+      let favs = JSON.parse(localStorage.getItem("favoritos")) || [];
+
+      if (corazon.classList.contains("activo")) {
+        corazon.classList.remove("activo");
+        favs = favs.filter(id => id !== publi.id);
+      } else {
+        corazon.classList.add("activo");
+        if (!favs.includes(publi.id)) favs.push(publi.id);
+      }
+      localStorage.setItem("favoritos", JSON.stringify(favs));
+    });
+
     // Botón de comentarios
     let comentarios = document.createElement("img");
     comentarios.src = "../Iconos/Iconocomentarios.png";
@@ -143,10 +206,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
     contenedor.appendChild(div);
   });
-});
-let todasLasPublicaciones = [];
-
-// Cuando se cargan desde el backend, guardamos todas:
+}
 getEvent("obtenerPublicaciones", (data) => {
   if (Array.isArray(data)) {
     todasLasPublicaciones = data;

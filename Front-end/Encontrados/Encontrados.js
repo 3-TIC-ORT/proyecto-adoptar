@@ -38,7 +38,7 @@ document.addEventListener("click", (e) => {
   }
 });
 
-// Mostrar publicaciones filtradas de la categoría "Para adoptar"
+// Mostrar publicaciones filtradas de la categoría "Encontrado"
 window.addEventListener("DOMContentLoaded", () => {
   let contenedor = document.querySelector(".publicaciones");
   let publicaciones = JSON.parse(localStorage.getItem("publicaciones")) || [];
@@ -50,7 +50,7 @@ window.addEventListener("DOMContentLoaded", () => {
     let div = document.createElement("div");
     div.classList.add("publicacion");
     div.innerHTML = `
-      <img src="${publi.foto}" alt="${publi.nombreMascota}">
+<img src="http://localhost/Fotosmascotas/${publi.foto}" alt="${publi.nombreMascota}">
       <h3>${publi.nombreMascota}</h3>
       <p>Tipo: ${publi.tipo}</p>
       <p>Género: ${publi.genero}</p>
@@ -62,29 +62,68 @@ window.addEventListener("DOMContentLoaded", () => {
       <p>Descripción: ${publi.descripcion}</p>
     `;
 
+    // Click en la publicación para ir al detalle
+    div.addEventListener("click", (e) => {
+      if (
+        !e.target.closest(".Comentarios") &&
+        !e.target.closest(".Inputcomentarios") &&
+        !e.target.closest(".EnviarComentario")
+      ) {
+        window.location.href = `../Infopublicacion/Infopublicacion.html?id=${publi.id}`;
+      }
+    });
+
+    contenedor.appendChild(div);
+  });
+});
+
+let todasLasPublicaciones = [];
+
+// Cuando se cargan desde el backend, guardamos todas:
+function mostrarPublicaciones(publicaciones) {
+  const contenedor = document.querySelector(".publicaciones");
+  contenedor.innerHTML = "";
+
+  let favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
+
+  // Filtramos por 'Encontrado' porque esta página es la sección Perdidos
+  const filtradas = publicaciones.filter(p => p.estado === "Encontrado" || p.estado === "encontrado");
+
+  filtradas.forEach(publi => {
+    let div = document.createElement("div");
+    div.classList.add("publicacion");
+    div.innerHTML = `
+      <img src="${publi.foto || 'https://via.placeholder.com/150'}" alt="${publi.nombreMascota || ''}">
+      <h3>${publi.nombreMascota || 'Sin nombre'}</h3>
+      <p>Tipo: ${publi.tipo || 'No especificado'}</p>
+      <p>Género: ${publi.genero || 'No especificado'}</p>
+      <p>Color: ${publi.color || 'No especificado'}</p>
+      <p>Raza: ${publi.raza || 'No especificada'}</p>
+      <p>Edad: ${publi.edad || 'No especificada'}</p>
+      <p>Ubicación: ${publi.lugar || 'No especificada'}</p>
+      <p>Estado: ${publi.estado || 'No especificado'}</p>
+      <p>Descripción: ${publi.descripcion || ''}</p>
+    `;
+
     // Botón de favorito (corazón)
     let corazon = document.createElement("img");
     corazon.src = "../Iconos/Iconocorazon.webp";
     corazon.classList.add("Corazon");
+    if (favoritos.includes(publi.id)) corazon.classList.add("activo");
     div.prepend(corazon);
-
-    let favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
-    if (favoritos.includes(publi.id)) {
-      corazon.classList.add("activo");
-    }
 
     corazon.addEventListener("click", (e) => {
       e.stopPropagation();
-      let favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
+      let favs = JSON.parse(localStorage.getItem("favoritos")) || [];
 
       if (corazon.classList.contains("activo")) {
         corazon.classList.remove("activo");
-        favoritos = favoritos.filter(id => id !== publi.id);
+        favs = favs.filter(id => id !== publi.id);
       } else {
         corazon.classList.add("activo");
-        if (!favoritos.includes(publi.id)) favoritos.push(publi.id);
+        if (!favs.includes(publi.id)) favs.push(publi.id);
       }
-      localStorage.setItem("favoritos", JSON.stringify(favoritos));
+      localStorage.setItem("favoritos", JSON.stringify(favs));
     });
 
     // Botón de comentarios
@@ -143,11 +182,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
     contenedor.appendChild(div);
   });
-});
-
-let todasLasPublicaciones = [];
-
-// Cuando se cargan desde el backend, guardamos todas:
+}
 getEvent("obtenerPublicaciones", (data) => {
   if (Array.isArray(data)) {
     todasLasPublicaciones = data;
@@ -196,6 +231,7 @@ function aplicarFiltros() {
 // Escuchar cambios en todos los checkboxes
 document.querySelectorAll('.Selectores1 input, .Selectores3 input, .Selectores4 input')
   .forEach(input => input.addEventListener("change", aplicarFiltros));
+  
   
 //Redirecciones
 let botonperfil = document.querySelector(".circuloperfil");

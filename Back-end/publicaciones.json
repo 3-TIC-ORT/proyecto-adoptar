@@ -1,2 +1,30 @@
 [
+  {
+    "id": 1760400969307,
+    "nombreMascota": "Poxirrán",
+    "tipo": "Perro",
+    "genero": "Masculino",
+    "color": "Oscuro",
+    "raza": "Perro salchicha",
+    "edad": "3 años",
+    "enfermedad": "No",
+    "estado": "Perdido",
+    "descripcion": "Lo vi yendo a Morón pero me da miedo ir ahí, lo pueden buscar porfa?",
+    "lugar": "Tigre (la otra punta)",
+    "foto": "/Fotosmascotas/foto_1760400969306.jpeg"
+  },
+  {
+    "id": 1760401909511,
+    "nombreMascota": "Honda Civic",
+    "tipo": "Perro",
+    "genero": "Masculino",
+    "color": "Mixto",
+    "raza": "Chimpancé",
+    "edad": "4 años",
+    "enfermedad": "No",
+    "estado": "Para transitar",
+    "descripcion": "Se llama así porque es 4x4. Me voy de viaje alguien lo puede tener por un tiempo?",
+    "lugar": "Lomas de Zamora",
+    "foto": "/Fotosmascotas/foto_1760401909510.jpeg"
+  }
 ]
