@@ -186,7 +186,7 @@ subscribeGETEvent("obtenerProvincias", () => {
 });
 
 // OBTENER LOCALIDADES POR PROVINCIA
-subscribeGETEvent("obtenerLocalidades", (data) => {
+subscribePOSTEvent("obtenerLocalidades", (data) => {
   const provinciaId = Number(data.provinciaId);
   const provincia = localidadesData.find(p => p.id === provinciaId);
   if (!provincia) return [];

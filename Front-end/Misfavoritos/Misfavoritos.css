@@ -1,5 +1,5 @@
 body { 
-    background-color:   #A1C0CB;
+    background-color:   #bae0df;
     font-family: 'Poppins', sans-serif; 
     margin: 0; 
 } 
@@ -24,14 +24,14 @@ body {
     align-items: center; 
     gap: 20px; 
     flex-basis: 0;
-    flex-grow: 0.5;
+    flex-grow: 0.3;
 } 
 
 .header-center { 
     display: flex; 
     justify-content: center; 
     align-items: center;
-    flex-grow: 100%; 
+    flex-grow: 1; 
 } 
 
 .iconos { 
@@ -41,8 +41,9 @@ body {
     gap: 50px;
     margin-right: 20px;
     flex-basis: 0;
-    flex-grow: 0.7;
+    flex-grow: 0.3;
 }
+
 #titulo { 
     font-size: 2.5em; 
     font-weight: bold; 
@@ -60,6 +61,7 @@ body {
     height: 2.2rem; 
     cursor: pointer; 
     background-color: whitesmoke;
+    border-radius: 5px;
 } 
 
 .circuloperfil { 
@@ -72,13 +74,12 @@ body {
 
 .circuloperfil:hover { 
     border: 2px solid bisque; 
-} 
+}
 
 .linea { 
     height: 1px; 
     background-color: black; 
     width: 100%; 
-    
 } 
 
 
@@ -93,7 +94,7 @@ body {
 
 .rayasfiltro span { 
     position: absolute; 
-    background-color: whitesmoke; 
+    background-color: black; 
     border-radius: 5px; 
     width: 3em; 
     height: 0.3em; 
@@ -114,7 +115,6 @@ align-items: flex-start;
 height: 70vh; 
 padding-left: 1.5em; 
 gap: 50px;
-
 }
 
 .menu-item { 
@@ -136,7 +136,7 @@ z-index: 3;
             left: 0;
             height: 70vh;
             width: 16em;
-            background-color: #A1C0CB;
+            background-color: rgb(197, 244, 255);
             z-index: 3;
             border-radius: 10px;
             transform: translateX(-100%);
@@ -158,7 +158,7 @@ display: block;
     transform: translateX(-50%); 
     width: 60px; 
     height: 60px; 
-    background-color: #183446; 
+    background-color: #3165A5; 
     border-radius: 50%; 
     z-index: 1; 
 
@@ -244,7 +244,7 @@ transform: translateX(0);
     flex-direction: column;
     align-items: center;
     width: 200px;
-    background-color: whitesmoke;
+    background-color: #E6F4F9;
     padding: 10px;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);

@@ -236,9 +236,26 @@ getEvent("obtenerProvincias", (provincias) => {
   selectProvincia.innerHTML = '<option value="">Seleccione provincia</option>';
   provincias.forEach(prov => {
     const opt = document.createElement("option");
-    opt.value = prov.id;       // usamos el id para pedir las localidades
+    opt.value = prov.id; // usamos el id para pedir las localidades
     opt.textContent = prov.nombre;
     selectProvincia.appendChild(opt);
+  });
+});
+
+selectProvincia.addEventListener("change", () => {
+  const idProvincia = selectProvincia.value;
+  selectLocalidad.innerHTML = '<option value="">Seleccione localidad</option>';
+
+  if (!idProvincia) return;
+
+  postEvent("obtenerLocalidades", { provinciaId: idProvincia }, (localidades) => {
+    selectLocalidad.innerHTML = '<option value="">Seleccione localidad</option>';
+    localidades.forEach(loc => {
+      const opt = document.createElement("option");
+      opt.value = loc;
+      opt.textContent = loc;
+      selectLocalidad.appendChild(opt);
+    });
   });
 });
 
@@ -249,15 +266,16 @@ selectProvincia.addEventListener("change", () => {
 
   if (!idProvincia) return;
 
-  getEvent("obtenerLocalidades", (localidades) => {
-    localidades.forEach(loc => {
-      const opt = document.createElement("option");
-      opt.value = loc;
-      opt.textContent = loc;
-      selectLocalidad.appendChild(opt);
-    });
-  }, { provinciaId: idProvincia });
+postEvent("obtenerLocalidades", { provinciaId: idProvincia }, (localidades) => {
+  selectLocalidad.innerHTML = '<option value="">Seleccione localidad</option>';
+  localidades.forEach(loc => {
+    const opt = document.createElement("option");
+    opt.value = loc.id;
+    opt.textContent = loc.nombre;
+    selectLocalidad.appendChild(opt);
+  });
 });
+}); 
 
 // Redirecciones
 document.querySelector(".circuloperfil").addEventListener("click", () => {
