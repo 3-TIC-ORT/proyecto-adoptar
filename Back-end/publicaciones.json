@@ -40,5 +40,19 @@
     "descripcion": "Su dueño era Ernestino pero se fue al cielito",
     "lugar": "Belgrano R",
     "foto": "/Fotosmascotas/foto_1760402528593.jpeg"
+  },
+  {
+    "id": 1760484789519,
+    "nombreMascota": "Desconocido",
+    "tipo": "Gato",
+    "genero": "Masculino",
+    "color": "Oscuro",
+    "raza": "Desconocido",
+    "edad": "Desconocido",
+    "enfermedad": "No",
+    "estado": "Encontrado",
+    "descripcion": "Lo encontré a las 5 de la tarde en José C. Paz",
+    "lugar": "Vivo en Puerto Madero",
+    "foto": "/Fotosmascotas/foto_1760484789517.jpeg"
   }
 ]

@@ -5,7 +5,13 @@
     "mail": "bruno.ferro@outlook.com",
     "password": "Soyyo2010",
     "fotoPerfil": null,
-    "edad": 15
+    "edad": 15,
+    "respuestas": [
+      {
+        "pregunta": "¿Busca poner en adopcion al perro o poner en transito?",
+        "respuesta": "no"
+      }
+    ]
   },
   {
     "id": 1760481551378,

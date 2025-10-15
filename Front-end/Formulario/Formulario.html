@@ -17,7 +17,7 @@
         <h3>Nombre de la mascota</h3>
         <input type="text" id="nombreMascota" name="nombreMascota" required placeholder="Ej: Rocco"/>
 
-        <label for="tipo">Selecciona una categoría:</label>
+        <label for="tipo">Seleccioná si es perro o gato</label>
         <select id="tipo" name="tipo" required>
             <option value="">Selecciona</option>
             <option value="Perro">Perro</option>
@@ -31,7 +31,7 @@
             <option value="Femenino">Femenino</option>
         </select>
 
-        <label for="color">Color:</label>
+        <label for="color">Color de pelaje</label>
         <select id="color" name="color" required>
             <option value="">Selecciona</option>
             <option value="Claro">Claro</option>
@@ -39,20 +39,22 @@
             <option value="Mixto">Mixto</option>
         </select>
 
-        <label for="raza">Raza:</label>
+        <label for="raza">Raza</label>
         <input type="text" id="raza" name="raza" required placeholder="Ej: Golden Retriever"/>
 
-        <label for="edad">Edad:</label>
+        <label for="edad">Edad aproximada</label>
         <input type="text" id="edad" name="edad" required placeholder="Ej: 2 años"/>
 
-        <label for="enfermedad">¿Tiene alguna enfermedad o discapacidad?</label>
+        <label for="enfermedad">¿Tiene alguna enfermedad o discapacidad?
+            (si es sí, especificar en la descripción)
+        </label>
         <select id="enfermedad" name="enfermedad" required>
             <option value="">Selecciona</option>
             <option value="Sí">Sí</option>
             <option value="No">No</option>
         </select>
 
-        <label for="estado">Estado de la mascota:</label>
+        <label for="estado">Estado de la mascota</label>
         <select id="estado" name="estado" required>
             <option value="">Selecciona</option>
             <option value="Para adoptar">Para adoptar</option>
@@ -61,13 +63,15 @@
             <option value="Encontrado">Encontrado</option>
         </select>
 
-        <h3>Descripción</h3>
+        <h3>Descripción (incluir enfermedad, características
+        o cualquier dato relevante)
+        </h3>
         <input type="text" id="descripcion" name="descripcion" required placeholder="Ej: Rocco es un perro muy divertido y gracioso"/>
 
-        <h3>Número de teléfono</h3>
+        <h3>Teléfono de contacto</h3>
         <input type="tel" id="Telefono" name="telefono" maxlength="17" pattern="[0-9]{8,17}" placeholder="Ej: 1112345678" required oninput="this.value = this.value.replace(/[^0-9]/g, '')"/>
 
-        <h3>Ubicación</h3>
+        <h3>Ubicación de la mascota</h3>
         <input type="text" id="lugar" name="lugar" required placeholder="Ej: Villa Urquiza, CABA"/>
 
         <label for="foto">Selecciona una imagen:</label>
