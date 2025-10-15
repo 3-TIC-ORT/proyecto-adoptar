@@ -1,5 +1,8 @@
 connect2Server();
-
+let volver = document.querySelector(".Iconovolver");
+volver.addEventListener("click", () => {
+  window.location.href = "../Pantallaprincipal/Pantallaprincipal.html";
+});
 // Obtener parámetro "id" de la URL
 function getQueryParam(name) {
   const params = new URLSearchParams(window.location.search);
@@ -23,6 +26,7 @@ if (postId) {
 
     setText(".Nombre", `Nombre: ${pub.nombreMascota || "No especificado"}`);
     setText(".Tipo", `Tipo: ${pub.tipo || "No especificado"}`);
+    setText(".Tamaño", `Tamaño: ${pub.tamano || "No especificado"}`);
     setText(".Género", `Género: ${pub.genero || "No especificado"}`);
     setText(".Color", `Color: ${pub.color || "No especificado"}`);
     setText(".Raza", `Raza: ${pub.raza || "No especificada"}`);
@@ -30,6 +34,7 @@ if (postId) {
     setText(".Enfermedad", `Enfermedad: ${pub.enfermedad || "No especificada"}`);
     setText(".Situacion", `Situación: ${pub.estado || "No especificada"}`);
     setText(".Ubicacion", `Ubicación: ${pub.lugar || "No especificada"}`);
+    setText(".Fecha", `Fecha de publicación: ${pub.fecha || "No especificada"}`);
     setText(".Descripcion", `Descripción: ${pub.descripcion || "No especificada"}`);
   });
 }

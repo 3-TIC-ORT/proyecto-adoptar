@@ -1,3 +1,5 @@
+connect2Server();
+
 // Menú desplegable
 let botonfiltros= document.querySelector(".rayasfiltro");
 let menuLateral = document.querySelector(".Cuadradomenu");
@@ -67,46 +69,6 @@ document.addEventListener("click", () => {
   document.querySelectorAll(".Editores.show").forEach(ed => ed.classList.remove("show"));
 });
 
-/* Redirecciones de botones */
-let botonperfil = document.querySelector(".circuloperfil");
-botonperfil.addEventListener("click", () => {
-window.location.href = "../Perfildeusuario/Perfildeusuario.html";
-});
-
-let botonformulario= document.querySelector(".circulo");
-botonformulario.addEventListener("click", () => {
-window.location.href = "../Formulario/Formulario.html";
-});
-
-let irhome= document.getElementById("Home");
-irhome.addEventListener("click", () => {
-    window.location.href = "../Pantallaprincipal/Pantallaprincipal.html";
-    });
-
-    let iradoptar= document.getElementById("Paraadoptar");
-iradoptar.addEventListener("click", () => {
-    window.location.href = "../Paraadoptar/Paraadoptar.html";
-    });
-
-    let irtransitar= document.getElementById("Paratransitar");
-    irtransitar.addEventListener("click", () => {
-        window.location.href = "../Paratransitar/Paratransitar.html";
-        });
-
-    let irperdidos= document.getElementById("Perdidos");
-irperdidos.addEventListener("click", () => {
-    window.location.href = "../Perdidos/Perdidos.html";
-         });
-
-     let irencontrados= document.getElementById("Encontrados");
-    irencontrados.addEventListener("click", () => {
-    window.location.href = "../Encontrados/Encontrados.html";
-    });
-
-      let irmisfavoritos= document.getElementById("Misfavoritos");
-     irmisfavoritos.addEventListener("click", () => {
-    window.location.href = "../Misfavoritos/Misfavoritos.html";
-     });
      document.querySelectorAll(".publicacionborder").forEach(card => {
       const editorSelect = card.querySelector(".Editores select");
     
@@ -157,40 +119,74 @@ getEvent("obtenerPublicaciones", (data) => {
 if (document.querySelectorAll(".publicacion").length > 0 && todasLasPublicaciones.length === 0) {
   todasLasPublicaciones = Array.from(document.querySelectorAll(".publicacion"));
 }
-
-// Función para aplicar filtros
-function aplicarFiltros() {
-  //Obtener valores seleccionados
-  let tipos = Array.from(document.querySelectorAll('.Selectores4 input[type="checkbox"]:checked')).map(c => c.value);
-  let colores = Array.from(document.querySelectorAll('.Selectores3 input[type="checkbox"]:checked')).map(c => c.value);
-  let tamanos = Array.from(document.querySelectorAll('.Selectores1 input[type="checkbox"]:checked')).map(c => c.value);
-
-  // --- Si estás mostrando publicaciones del backend ---
-  if (typeof mostrarPublicaciones === "function" && todasLasPublicaciones[0]?.tipo) {
-    let filtradas = todasLasPublicaciones.filter(publi => {
-      return (
-        (tipos.length === 0 || tipos.includes(publi.tipo)) &&
-        (colores.length === 0 || colores.includes(publi.color)) &&
-        (tamanos.length === 0 || tamanos.includes(publi.tamaño))
-      );
-    });
-    mostrarPublicaciones(filtradas);
-    return;
-  }
-
-  // Si estás mostrando publicaciones fijas en el HTML
-  document.querySelectorAll(".publicacion").forEach(publi => {
-    let texto = publi.textContent.toLowerCase();
-    let alt = publi.querySelector("img:not(.Corazon)").alt.toLowerCase();
-
-    let coincideTipo = tipos.length === 0 || tipos.some(t => alt.includes(t.toLowerCase()) || texto.includes(t.toLowerCase()));
-    let coincideColor = colores.length === 0 || colores.some(c => texto.includes(c.toLowerCase()));
-    let coincideTam = tamanos.length === 0 || tamanos.some(t => texto.includes(t.toLowerCase()));
-
-    publi.style.display = (coincideTipo && coincideColor && coincideTam) ? "block" : "none";
+// CAMBIO DE COLUMNAS
+let radiosCantidad = document.querySelectorAll('input[value="Tres"], input[value="Cuatro"], input[value="Cinco"]');
+radiosCantidad.forEach(radio => {
+  radio.addEventListener("change", () => {
+    if (radio.value === "Tres") {
+      contenedorPublicaciones.style.gridTemplateColumns = "repeat(3, 1fr)";
+    } else if (radio.value === "Cuatro") {
+      contenedorPublicaciones.style.gridTemplateColumns = "repeat(4, 1fr)";
+    } else if (radio.value === "Cinco") {
+      contenedorPublicaciones.style.gridTemplateColumns = "repeat(5, 1fr)";
+    }
   });
-}
+});
+//Filtros
+function aplicarFiltros() {
+  let tamanos = Array.from(document.querySelectorAll('.Selectores1 input[type="checkbox"]:checked')).map(c => c.value);
+  let colores = Array.from(document.querySelectorAll('.Selectores3 input[type="checkbox"]:checked')).map(c => c.value);
+  let tipos = Array.from(document.querySelectorAll('.Selectores4 input[type="checkbox"]:checked')).map(c => c.value);
 
-// Escuchar cambios en todos los checkboxes
-document.querySelectorAll('.Selectores1 input, .Selectores3 input, .Selectores4 input')
-  .forEach(input => input.addEventListener("change", aplicarFiltros));
+  if (!todasLasPublicaciones.length) return;
+
+  let filtradas = todasLasPublicaciones.filter(publi => {
+    return (
+      (tamanos.length === 0 || tamanos.includes(publi.tamano)) &&
+      (colores.length === 0 || colores.includes(publi.color)) &&
+      (tipos.length === 0 || tipos.includes(publi.tipo))
+    );
+  });
+
+  mostrarPublicaciones(filtradas);
+}
+/* Redirecciones de botones */
+let botonperfil = document.querySelector(".circuloperfil");
+botonperfil.addEventListener("click", () => {
+window.location.href = "../Perfildeusuario/Perfildeusuario.html";
+});
+
+let botonformulario= document.querySelector(".circulo");
+botonformulario.addEventListener("click", () => {
+window.location.href = "../Formulario/Formulario.html";
+});
+
+let irhome= document.getElementById("Home");
+irhome.addEventListener("click", () => {
+    window.location.href = "../Pantallaprincipal/Pantallaprincipal.html";
+    });
+
+    let iradoptar= document.getElementById("Paraadoptar");
+iradoptar.addEventListener("click", () => {
+    window.location.href = "../Paraadoptar/Paraadoptar.html";
+    });
+
+    let irtransitar= document.getElementById("Paratransitar");
+    irtransitar.addEventListener("click", () => {
+        window.location.href = "../Paratransitar/Paratransitar.html";
+        });
+
+    let irperdidos= document.getElementById("Perdidos");
+irperdidos.addEventListener("click", () => {
+    window.location.href = "../Perdidos/Perdidos.html";
+         });
+
+     let irencontrados= document.getElementById("Encontrados");
+    irencontrados.addEventListener("click", () => {
+    window.location.href = "../Encontrados/Encontrados.html";
+    });
+
+      let irmisfavoritos= document.getElementById("Misfavoritos");
+     irmisfavoritos.addEventListener("click", () => {
+    window.location.href = "../Misfavoritos/Misfavoritos.html";
+     });

@@ -1,5 +1,8 @@
 body { 
     background-color:   #A1C0CB;
+    background-image: url('../Iconos/Fondohuella.png');
+    background-size: 110px 110px;
+    background-position: center;
     font-family: 'Poppins', sans-serif; 
     margin: 0; 
 } 
@@ -233,7 +236,7 @@ transform: translateX(0);
     justify-content: center;
     align-items: space-between;
     grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+    gap: 8rem;
     padding: 20px;
     margin: 10px auto;   
     max-width: 900px; 
@@ -244,7 +247,7 @@ transform: translateX(0);
     flex-direction: column;
     align-items: center;
     width: 200px;
-    background-color: whitesmoke;
+    background-color:rgb(255, 238, 218);
     padding: 10px;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);

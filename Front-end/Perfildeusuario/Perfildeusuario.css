@@ -4,7 +4,26 @@ body {
     margin: 0;
     padding: 20px;
 }
+.Iconovolver {
+    position: absolute;
+    top: 40px;
+    left: 50px;
+    width: 3em;
+    height: 3em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color:cornsilk;
+    border-radius: 50%;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    cursor: pointer;
+}
 
+.Iconovolver img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
 /* Títulos */
 h1 {
     text-align: center;
@@ -18,11 +37,10 @@ p {
     color: #555;
 }
 
-/* Línea decorativa */
 .linea {
     height: 2px;
     background: #444;
-    width: 80%;
+    width: 100%;
     margin: 20px auto;
     border-radius: 5px;
 }

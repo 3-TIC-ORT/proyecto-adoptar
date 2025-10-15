@@ -1,5 +1,8 @@
 connect2Server();
-
+let volver = document.querySelector(".Iconovolver");
+volver.addEventListener("click", () => {
+  window.location.href = "../Pantallaprincipal/Pantallaprincipal.html";
+});
 let usuarioActual = JSON.parse(localStorage.getItem("usuarioActual"));
 if (!usuarioActual) {
   alert("No hay ningún usuario logueado. Volviendo al inicio...");

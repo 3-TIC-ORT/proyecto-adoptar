@@ -54,5 +54,37 @@
     "descripcion": "Lo encontré a las 5 de la tarde en José C. Paz",
     "lugar": "Vivo en Puerto Madero",
     "foto": "/Fotosmascotas/foto_1760484789517.jpeg"
+  },
+  {
+    "id": 1760552895238,
+    "nombreMascota": "Amansio",
+    "tamano": "Grande",
+    "tipo": "Perro",
+    "genero": "Masculino",
+    "color": "Oscuro",
+    "raza": "Galgo",
+    "edad": "4 años",
+    "enfermedad": "Si",
+    "estado": "Para transitar",
+    "descripcion": "Tiene 3 patas",
+    "lugar": "Barrancas de Belgrano",
+    "fecha": "2024-06-15",
+    "foto": "/Fotosmascotas/foto_1760552895237.jpeg"
+  },
+  {
+    "id": 1760553600945,
+    "nombreMascota": "Camila",
+    "tipo": "Gato",
+    "tamano": "Mediano",
+    "genero": "Femenino",
+    "color": "Mixto",
+    "raza": "Desconocida",
+    "edad": "5 años",
+    "enfermedad": "No",
+    "estado": "Encontrado",
+    "descripcion": "Por favor llamar a +5491156410052",
+    "lugar": "Zufriategui",
+    "fecha": "2025-03-25",
+    "foto": "/Fotosmascotas/foto_1760553600944.jpeg"
   }
 ]

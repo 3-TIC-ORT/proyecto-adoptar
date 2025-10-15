@@ -38,20 +38,21 @@ document.addEventListener("click", (e) => {
   }
 });
 
-// Publicaciones
+// PUBLICACIONES
 let contenedorPublicaciones = document.querySelector(".publicaciones");
-// Obtener publicaciones del backend
+let todasLasPublicaciones = [];
+
 getEvent("obtenerPublicaciones", (data) => {
   if (Array.isArray(data)) {
+    todasLasPublicaciones = data;
     mostrarPublicaciones(data);
   } else {
     console.warn("No se pudieron cargar las publicaciones del backend.");
   }
 });
-// Mostrar publicaciones
+
 function mostrarPublicaciones(publicaciones) {
   contenedorPublicaciones.innerHTML = "";
-
   let favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
 
   publicaciones.forEach((publiData) => {
@@ -61,12 +62,14 @@ function mostrarPublicaciones(publicaciones) {
     publi.innerHTML = `
       <img src="${publiData.foto || "https://via.placeholder.com/150"}" alt="${publiData.nombreMascota}">
       <h3>${publiData.nombreMascota}</h3>
+      <p>Tamaño: ${publiData.tamano}</p>
       <p>Tipo: ${publiData.tipo}</p>
       <p>Género: ${publiData.genero}</p>
       <p>Ubicación: ${publiData.lugar}</p>
       <p>Estado: ${publiData.estado}</p>
       <p>Enfermedad: ${publiData.enfermedad || "No especificada"}</p>
     `;
+
     // Corazón (favoritos)
     let corazon = document.createElement("img");
     corazon.src = "../Iconos/Iconocorazon.webp";
@@ -159,12 +162,11 @@ function mostrarPublicaciones(publicaciones) {
     contenedorPublicaciones.appendChild(publi);
   });
 
-  // Guardar favoritos en el backend
   postEvent("actualizarFavoritos", { favoritos });
 }
 
-// Cambiar cantidad de columnas
-let radiosCantidad = document.querySelectorAll('input[name="cantidad_columnas"]');
+// CAMBIO DE COLUMNAS
+let radiosCantidad = document.querySelectorAll('input[value="Tres"], input[value="Cuatro"], input[value="Cinco"]');
 radiosCantidad.forEach(radio => {
   radio.addEventListener("change", () => {
     if (radio.value === "Tres") {
@@ -176,54 +178,25 @@ radiosCantidad.forEach(radio => {
     }
   });
 });
-
-let todasLasPublicaciones = [];
-
-// Cuando se cargan desde el backend, guardamos todas:
-getEvent("obtenerPublicaciones", (data) => {
-  if (Array.isArray(data)) {
-    todasLasPublicaciones = data;
-    mostrarPublicaciones(data);
-  }
-});
-
-// Si todavía no hay backend (usa las del HTML actual)
-if (document.querySelectorAll(".publicacion").length > 0 && todasLasPublicaciones.length === 0) {
-  todasLasPublicaciones = Array.from(document.querySelectorAll(".publicacion"));
-}
-
-// Función para aplicar filtros
+//Filtros
 function aplicarFiltros() {
-  //Obtener valores seleccionados
-  let tipos = Array.from(document.querySelectorAll('.Selectores4 input[type="checkbox"]:checked')).map(c => c.value);
-  let colores = Array.from(document.querySelectorAll('.Selectores3 input[type="checkbox"]:checked')).map(c => c.value);
   let tamanos = Array.from(document.querySelectorAll('.Selectores1 input[type="checkbox"]:checked')).map(c => c.value);
+  let colores = Array.from(document.querySelectorAll('.Selectores3 input[type="checkbox"]:checked')).map(c => c.value);
+  let tipos = Array.from(document.querySelectorAll('.Selectores4 input[type="checkbox"]:checked')).map(c => c.value);
 
-  //Si estás mostrando publicaciones del backend 
-  if (typeof mostrarPublicaciones === "function" && todasLasPublicaciones[0]?.tipo) {
-    let filtradas = todasLasPublicaciones.filter(publi => {
-      return (
-        (tipos.length === 0 || tipos.includes(publi.tipo)) &&
-        (colores.length === 0 || colores.includes(publi.color)) &&
-        (tamanos.length === 0 || tamanos.includes(publi.tamaño))
-      );
-    });
-    mostrarPublicaciones(filtradas);
-    return;
-  }
+  if (!todasLasPublicaciones.length) return;
 
-  // Si estás mostrando publicaciones fijas en el HTML
-  document.querySelectorAll(".publicacion").forEach(publi => {
-    let texto = publi.textContent.toLowerCase();
-    let alt = publi.querySelector("img:not(.Corazon)").alt.toLowerCase();
-
-    let coincideTipo = tipos.length === 0 || tipos.some(t => alt.includes(t.toLowerCase()) || texto.includes(t.toLowerCase()));
-    let coincideColor = colores.length === 0 || colores.some(c => texto.includes(c.toLowerCase()));
-    let coincideTam = tamanos.length === 0 || tamanos.some(t => texto.includes(t.toLowerCase()));
-
-    publi.style.display = (coincideTipo && coincideColor && coincideTam) ? "block" : "none";
+  let filtradas = todasLasPublicaciones.filter(publi => {
+    return (
+      (tamanos.length === 0 || tamanos.includes(publi.tamano)) &&
+      (colores.length === 0 || colores.includes(publi.color)) &&
+      (tipos.length === 0 || tipos.includes(publi.tipo))
+    );
   });
+
+  mostrarPublicaciones(filtradas);
 }
+
 // Escuchar cambios en todos los checkboxes
 document.querySelectorAll('.Selectores1 input, .Selectores3 input, .Selectores4 input')
   .forEach(input => input.addEventListener("change", aplicarFiltros));

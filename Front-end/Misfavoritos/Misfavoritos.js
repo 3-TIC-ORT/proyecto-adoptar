@@ -91,6 +91,37 @@ function mostrarPublicaciones(publicaciones) {
     contenedor.appendChild(publi);
   });
 }
+// CAMBIO DE COLUMNAS
+let radiosCantidad = document.querySelectorAll('input[value="Tres"], input[value="Cuatro"], input[value="Cinco"]');
+radiosCantidad.forEach(radio => {
+  radio.addEventListener("change", () => {
+    if (radio.value === "Tres") {
+      contenedorPublicaciones.style.gridTemplateColumns = "repeat(3, 1fr)";
+    } else if (radio.value === "Cuatro") {
+      contenedorPublicaciones.style.gridTemplateColumns = "repeat(4, 1fr)";
+    } else if (radio.value === "Cinco") {
+      contenedorPublicaciones.style.gridTemplateColumns = "repeat(5, 1fr)";
+    }
+  });
+});
+//Filtros
+function aplicarFiltros() {
+  let tamanos = Array.from(document.querySelectorAll('.Selectores1 input[type="checkbox"]:checked')).map(c => c.value);
+  let colores = Array.from(document.querySelectorAll('.Selectores3 input[type="checkbox"]:checked')).map(c => c.value);
+  let tipos = Array.from(document.querySelectorAll('.Selectores4 input[type="checkbox"]:checked')).map(c => c.value);
+
+  if (!todasLasPublicaciones.length) return;
+
+  let filtradas = todasLasPublicaciones.filter(publi => {
+    return (
+      (tamanos.length === 0 || tamanos.includes(publi.tamano)) &&
+      (colores.length === 0 || colores.includes(publi.color)) &&
+      (tipos.length === 0 || tipos.includes(publi.tipo))
+    );
+  });
+
+  mostrarPublicaciones(filtradas);
+}
 
 //REDIRECCIONES
 let botonperfil = document.querySelector(".circuloperfil");

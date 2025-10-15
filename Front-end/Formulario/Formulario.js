@@ -1,5 +1,8 @@
 connect2Server(3000);
-
+let botonvolver = document.querySelector(".Iconovolver");
+botonvolver.addEventListener("click", () => {
+  window.location.href = "../Pantallaprincipal/Pantallaprincipal.html";
+});
 let form = document.querySelector(".form-container");
 let botonEnviar = document.querySelector("#botonEnviar");
 
@@ -12,8 +15,9 @@ botonEnviar.addEventListener("click", async (e) => {
   }
 
   // Tomar los valores del formulario
-  let nombreMascota = document.querySelector("#nombreMascota").value;
+ let nombreMascota = document.querySelector("#nombreMascota").value;
   let tipo = document.querySelector("#tipo").value;
+  let tamano = document.querySelector("#tamano").value; // nuevo
   let genero = document.querySelector("#genero").value;
   let color = document.querySelector("#color").value;
   let raza = document.querySelector("#raza").value;
@@ -22,6 +26,7 @@ botonEnviar.addEventListener("click", async (e) => {
   let estado = document.querySelector("#estado").value;
   let descripcion = document.querySelector("#descripcion").value;
   let lugar = document.querySelector("#lugar").value;
+  let fecha = document.querySelector("#fecha").value; // nuevo
   let fotoInput = document.querySelector("#foto");
 
   let imagenBase64 = "";
@@ -33,6 +38,7 @@ botonEnviar.addEventListener("click", async (e) => {
   let nuevaPublicacion = {
     nombreMascota,
     tipo,
+    tamano,
     genero,
     color,
     raza,
@@ -40,8 +46,8 @@ botonEnviar.addEventListener("click", async (e) => {
     enfermedad,
     estado,
     descripcion,
-
     lugar,
+    fecha,
     foto: imagenBase64,
   };
 
