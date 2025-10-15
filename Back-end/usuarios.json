@@ -10,6 +10,10 @@
       {
         "pregunta": "¿Busca poner en adopcion al perro o poner en transito?",
         "respuesta": "no"
+      },
+      {
+        "pregunta": "¿Buscas adoptar o transitar una mascota?",
+        "respuesta": "si"
       }
     ]
   },

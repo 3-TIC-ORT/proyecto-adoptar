@@ -1,8 +1,7 @@
 body { 
     background-color:   #A1C0CB;
-    background-image: url('../Iconos/Fondohuella.png');
-    background-size: 110px 110px;
-    background-position: center;
+    background-image: url('../Iconos/Pattern.jpg');
+    background-size: 450px 450px;
     font-family: 'Poppins', sans-serif; 
     margin: 0; 
 } 
@@ -63,9 +62,13 @@ body {
     height: 2.2rem; 
     cursor: pointer; 
     background-color: whitesmoke;
+    border-radius: 25%;
 } 
 
 .circuloperfil { 
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 2.2rem; 
     height: 2.2rem; 
     background-color: whitesmoke; 
@@ -76,6 +79,11 @@ body {
 .circuloperfil:hover { 
     border: 2px solid bisque; 
 } 
+.Iconousuario { 
+    width: 1.7rem; 
+    height: 1.7rem; 
+    margin-top: 0.35rem; 
+}
 
 .linea { 
     height: 1px; 
