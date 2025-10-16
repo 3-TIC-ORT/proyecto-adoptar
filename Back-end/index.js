@@ -5,10 +5,10 @@ import express from "express";
 
 const app = express();
 
-const json = "usuarios.json";
-const publi = "publicaciones.json";
+const json = "jsons/usuarios.json";
+const publi = "jsons/publicaciones.json";
 const carpetaFotos = "Fotosmascotas";
-const comentariosFile = "comentarios.json";
+const comentariosFile = "jsons/comentarios.json";
 
 if (!fs.existsSync(json)) fs.writeFileSync(json, "[]");
 if (!fs.existsSync(publi)) fs.writeFileSync(publi, "[]");
@@ -127,7 +127,7 @@ subscribeGETEvent("obtenerPublicacionPorId", (data) => {
 });
 // Favoritos
 subscribePOSTEvent("actualizarFavoritos", (data) => {
-  fs.writeFileSync("favoritos.json", JSON.stringify(data.favoritos || []));
+  fs.writeFileSync("jsons/favoritos.json", JSON.stringify(data.favoritos || []));
   return { ok: true };
 });
 
@@ -173,7 +173,7 @@ subscribePOSTEvent("obtenerComentarios", (data) => {
 // Cargar JSON una vez al iniciar el servidor
 let localidadesData = [];
 try {
-  localidadesData = JSON.parse(fs.readFileSync("localidades.json", "utf8"));
+  localidadesData = JSON.parse(fs.readFileSync("jsons/localidades.json", "utf8"));
 } catch (err) {
   console.error("Error leyendo localidades.json:", err);
   localidadesData = [];

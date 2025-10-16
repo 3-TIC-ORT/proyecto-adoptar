@@ -60,7 +60,7 @@ function mostrarPublicaciones(publicaciones) {
     publi.classList.add("publicacion");
 
     publi.innerHTML = `
-      <img src="${publiData.foto || "https://via.placeholder.com/150"}" alt="${publiData.nombreMascota}">
+      <img src="../../Back-end/${publiData.foto || "https://via.placeholder.com/150"}" alt="${publiData.nombreMascota}">
       <h3>${publiData.nombreMascota}</h3>
       <p>Tamaño: ${publiData.tamano}</p>
       <p>Tipo: ${publiData.tipo}</p>
