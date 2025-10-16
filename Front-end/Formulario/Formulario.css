@@ -14,19 +14,9 @@ body {
     box-sizing: border-box;
 }
 p, h3, label {
-    color: white;
+    color: black;
 }
-.form-container{
-    margin-top: 20px;
-    margin-bottom: 20px;
-    padding: 20px;
-    background-color: #3d5b6e;
-    border-radius: 25px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    width: 90%;
-    max-width: 600px;
-    position: relative;
-}
+
 .Iconovolver {
     position: absolute;
     top: 15px;
