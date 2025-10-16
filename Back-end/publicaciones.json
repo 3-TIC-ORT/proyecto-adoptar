@@ -86,5 +86,21 @@
     "lugar": "Zufriategui",
     "fecha": "2025-03-25",
     "foto": "/Fotosmascotas/foto_1760553600944.jpeg"
+  },
+  {
+    "id": 1760618591279,
+    "nombreMascota": "Rocco",
+    "tipo": "Perro",
+    "tamano": "Grande",
+    "genero": "Masculino",
+    "color": "Claro",
+    "raza": "Humano",
+    "edad": "15",
+    "enfermedad": "Sí",
+    "estado": "Encontrado",
+    "descripcion": "Rocco es un humano",
+    "lugar": "Vicente Lopez",
+    "fecha": "2010-03-26",
+    "foto": "/Fotosmascotas/foto_1760618591277.png"
   }
 ]
