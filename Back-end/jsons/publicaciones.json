@@ -102,5 +102,21 @@
     "lugar": "Vicente Lopez",
     "fecha": "2010-03-26",
     "foto": "/Fotosmascotas/foto_1760618591277.png"
+  },
+  {
+    "id": 1760625454138,
+    "nombreMascota": "Jose",
+    "tipo": "Perro",
+    "tamano": "Grande",
+    "genero": "Masculino",
+    "color": "Claro",
+    "raza": "Golden retriver",
+    "edad": "3 años",
+    "enfermedad": "No",
+    "estado": "Perdido",
+    "descripcion": "Perdi a jose ayer en la pileta del club ",
+    "lugar": "Ultima vez visto en arenales 1202",
+    "fecha": "2025-10-16",
+    "foto": "/Fotosmascotas/foto_1760625454124.jpeg"
   }
 ]

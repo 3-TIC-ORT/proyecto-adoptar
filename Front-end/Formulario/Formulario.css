@@ -14,7 +14,10 @@ body {
     box-sizing: border-box;
 }
 p, h3, label {
-    color: black;
+    color: whitesmoke;
+}
+form h3 {
+    margin-top: 15px;
 }
 
 .Iconovolver {
@@ -26,8 +29,8 @@ p, h3, label {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color:cornsilk;
-    border-radius: 25%;
+    background-color: cornsilk;
+    border-radius: 50%;      
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     cursor: pointer;
 }
@@ -58,6 +61,7 @@ p, h3, label {
     resize: none;
 }
 
+
 .form-container {
     display: flex;
     flex-direction: column;
@@ -65,6 +69,10 @@ p, h3, label {
     gap: 20px;
     width: 100%;
     max-width: 500px;
+    background-color: rgb(39, 103, 146);   
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
 input[type="text"],
@@ -91,25 +99,23 @@ label, h3 {
     width: 200px;
 }
 
-#foto3 {
+#botonEnviar, #foto3 {
     width: 200px;
     border: none;
-    background-color: #3165A5;
-    color: white;
-    padding: 10px;
-    border-radius: 5px;
+    background-color: #ffffff;
+    color: rgb(0, 0, 0);
+    padding: 12px;
+    border-radius: 8px;
     cursor: pointer;
+    font-weight: 600;
+    transition: 0.2s;
 }
-#botonEnviar {
-    width: 200px;
-    border: none;
-    background-color: #3165A5;
-    color: white;
-    padding: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 20px;
+#botonEnviar:hover,
+#foto3:hover {
+    background-color: #234b7a;
+    transform: scale(1.03);
 }
+
 #Telefono {
     width: 300px;
     height: 40px;
