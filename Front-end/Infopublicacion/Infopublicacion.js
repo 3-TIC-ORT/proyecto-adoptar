@@ -29,14 +29,20 @@ if (postId) {
     }
 // Actualizar la imagen
     const imgElement = document.querySelector(".Foto");
-    if (imgElement) {
-      if (publi.foto) {
-        imgElement.src = "../../Back-end/Fotosmascotas" + publiData.foto;
-      } else {
-        imgElement.src = "https://via.placeholder.com/300x200?text=Sin+Imagen";
-      }
-      imgElement.alt = publi.nombreMascota || "Imagen de la mascota";
+if (imgElement) {
+  if (publi.foto) {
+    if (publi.foto.startsWith("/")) {
+      imgElement.src = `../../Back-end${publi.foto}`;
+    } else if (publi.foto.startsWith("http")) {
+      imgElement.src = publi.foto;
+    } else {
+      imgElement.src = `../../Back-end/Fotosmascotas/${publi.foto}`;
     }
+  } else {
+    imgElement.src = "https://via.placeholder.com/300x200?text=Sin+Imagen";
+  }
+  imgElement.alt = publi.nombreMascota || "Imagen de la mascota";
+}
     setText(".Nombre", `Nombre: ${publi.nombreMascota || "No especificado"}`);
     setText(".Tipo", `Tipo: ${publi.tipo || "No especificado"}`);
     setText(".Tamaño", `Tamaño: ${publi.tamano || "No especificado"}`);

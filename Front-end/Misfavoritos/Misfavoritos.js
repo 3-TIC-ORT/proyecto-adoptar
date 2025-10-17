@@ -45,8 +45,6 @@ if (mailUsuario) {
   postEvent("obtenerFavoritos", { mail: mailUsuario }, (publicaciones) => {
     mostrarPublicaciones(publicaciones);
   });
-} else {
-  mostrarPublicaciones([]);
 }
 
 //Mostrar publicaciones

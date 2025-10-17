@@ -79,11 +79,19 @@ let usuario =
   JSON.parse(localStorage.getItem("datosUsuario")) ||
   null;
 //Detectar mail, email o correo automáticamente
-const mailUsuario = usuario?.mail || usuario?.email || usuario?.correo || null;
+let mailUsuario = usuario ? (usuario.mail || usuario.email || usuario.correo || usuario.usuario || usuario.mailUsuario) : null;
+let todasLasPublicaciones = [];
 if (mailUsuario) {
   postEvent("obtenerPublicaciones", {}, (data) => {
     if (Array.isArray(data)) {
-      publicacionespropias = data.filter(p => p.mail === mailUsuario);
+      // Filtra publicaciones según distintas posibles claves de usuario
+      publicacionespropias = data.filter(p =>
+        p.mail === mailUsuario ||
+        p.email === mailUsuario ||
+        p.correo === mailUsuario ||
+        p.usuario === mailUsuario ||
+        p.mailUsuario === mailUsuario
+      );
       mostrarPublicaciones(publicacionespropias);
     } else if (data && data.error) {
       console.error("Error al obtener publicaciones:", data);
@@ -108,7 +116,16 @@ function mostrarPublicaciones(publicaciones) {
     publi.tamano = publiData.tamano || "";
     publi.color = publiData.color || "";
     publi.tipo = publiData.tipo || "";
-    let fotoUrl = publiData.fotos && publiData.fotos.length > 0 ? publiData.fotos[0] : "../Iconos/Noimagen.png";
+    let fotoUrl = "../Iconos/Noimagen.png";
+if (publiData.fotos && publiData.fotos.length > 0) {
+  // Si ya viene con ruta completa, usarla directamente
+  if (publiData.fotos[0].startsWith("http")) {
+    fotoUrl = publiData.fotos[0];
+  } else {
+    // Si solo guarda el nombre del archivo, usar la carpeta del backend
+    fotoUrl = `http://localhost:3000/Fotosmascotas/${publiData.fotos[0]}`;
+  }
+}
     publi.innerHTML = `
       <img src="${fotoUrl}" alt="${publiData.nombreMascota || "Mascota"}">
       <h3>${publiData.nombreMascota || "Sin nombre"}</h3>

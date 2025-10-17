@@ -40,11 +40,32 @@ document.addEventListener("click", (e) => {
 
 //Cargar usuario logueado
 let usuario =
+  JSON.parse(localStorage.getItem("usuarioActual")) ||
   JSON.parse(localStorage.getItem("usuarioLogueado")) ||
   JSON.parse(localStorage.getItem("user")) ||
   JSON.parse(localStorage.getItem("usuario")) ||
   JSON.parse(localStorage.getItem("datosUsuario")) ||
   null;
+if (usuario) {
+  if (typeof usuario === "string") {
+    try {
+      usuario = JSON.parse(usuario);
+    } catch {
+      usuario = null;
+    }
+  }
+
+  // Asegurar campo mail
+  if (usuario && !usuario.mail) {
+    usuario.mail = usuario.email || usuario.correo || null;
+  }
+
+  // Guardar versión normalizada
+  localStorage.setItem("usuarioLogueado", JSON.stringify(usuario));
+}
+
+console.log("Usuario cargado:", usuario);
+
 // PUBLICACIONES
 let contenedorPublicaciones = document.querySelector(".publicaciones");
 let todasLasPublicaciones = [];
@@ -66,16 +87,24 @@ function mostrarPublicaciones(publicaciones) {
     let publi = document.createElement("div");
     publi.classList.add("publicacion");
 
-    publi.innerHTML = `
-      <img src="../../Back-end/${publiData.foto || "https://via.placeholder.com/150"}" alt="${publiData.nombreMascota}">
-      <h3>${publiData.nombreMascota}</h3>
-      <p>Tamaño: ${publiData.tamano}</p>
-      <p>Tipo: ${publiData.tipo}</p>
-      <p>Género: ${publiData.genero}</p>
-      <p>Ubicación: ${publiData.lugar}</p>
-      <p>Estado: ${publiData.estado}</p>
-      <p>Enfermedad: ${publiData.enfermedad || "No especificada"}</p>
-    `;
+let creador =
+  publiData.mail ||
+  publiData.email ||
+  publiData.correo ||
+  publiData.usuario ||
+  "Usuario desconocido";
+
+publi.innerHTML = `
+  <p class="publicador">Publicado por: <strong>${creador}</strong></p>
+  <img src="../../Back-end/${publiData.foto || "https://via.placeholder.com/150"}" alt="${publiData.nombreMascota}">
+  <h3>${publiData.nombreMascota}</h3>
+  <p>Tamaño: ${publiData.tamano}</p>
+  <p>Tipo: ${publiData.tipo}</p>
+  <p>Género: ${publiData.genero}</p>
+  <p>Ubicación: ${publiData.lugar}</p>
+  <p>Estado: ${publiData.estado}</p>
+  <p>Enfermedad: ${publiData.enfermedad || "No especificada"}</p>
+`;
 
     // Corazón (favoritos)
     let corazon = document.createElement("img");
@@ -85,21 +114,43 @@ function mostrarPublicaciones(publicaciones) {
     publi.prepend(corazon);
 
     corazon.addEventListener("click", (e) => {
-      e.stopPropagation();
-      corazon.classList.toggle("activo");
+  e.stopPropagation();
+  corazon.classList.toggle("activo");
 
-      if (corazon.classList.contains("activo")) {
-        if (!favoritos.includes(publiData.id)) favoritos.push(publiData.id);
-      } else {
-        favoritos = favoritos.filter(id => id !== publiData.id);
+  if (corazon.classList.contains("activo")) {
+    if (!favoritos.includes(publiData.id)) favoritos.push(publiData.id);
+  } else {
+    favoritos = favoritos.filter(id => id !== publiData.id);
+  }
+
+  // Guardar favoritos en localStorage
+  localStorage.setItem("favoritos", JSON.stringify(favoritos));
+
+  // Obtener usuario logueado o actual
+  let usuario =
+    JSON.parse(localStorage.getItem("usuarioLogueado")) ||
+    JSON.parse(localStorage.getItem("usuarioActual")) ||
+    JSON.parse(localStorage.getItem("user")) ||
+    JSON.parse(localStorage.getItem("usuario")) ||
+    JSON.parse(localStorage.getItem("datosUsuario")) ||
+    null;
+
+  // Detectar campo de correo válido
+  const mailUsuario = usuario?.mail || usuario?.email || usuario?.correo || null;
+
+  if (mailUsuario) {
+    //Actualizar favoritos directamente en el servidor
+    postEvent("actualizarFavoritos", { mail: mailUsuario, favoritos }, (respuesta) => {
+      if (respuesta?.ok) {
+        console.log("Favoritos actualizados en el servidor correctamente");
+      } else{
+        console.warn("Error al actualizar favoritos:", respuesta?.error || "Respuesta inválida");
       }
-
-      localStorage.setItem("favoritos", JSON.stringify(favoritos));
-      let usuario = JSON.parse(localStorage.getItem("usuarioLogueado"));
-if (usuario && usuario.mail) {
-  postEvent("actualizarFavoritos", { mail: usuario.mail, favoritos });
-}
     });
+  } else {
+    console.warn("No hay usuario logueado, no se puede sincronizar con el servidor");
+  }
+});
 
     // Comentarios
     let iconoComentarios = document.createElement("img");
@@ -121,18 +172,28 @@ if (usuario && usuario.mail) {
     enviarBtn.classList.add("EnviarComentario");
     publi.appendChild(enviarBtn);
 
-    iconoComentarios.addEventListener("click", (e) => {
+     iconoComentarios.addEventListener("click", (e) => {
       e.stopPropagation();
+
       textarea.classList.toggle("show");
       enviarBtn.classList.toggle("show");
       lista.classList.toggle("show");
       publi.classList.toggle("expandida");
 
-      let usuario = JSON.parse(localStorage.getItem("usuarioLogueado"));
-if (!usuario || !usuario.mail) {
-  alert("Por favor, inicia sesión para ver y agregar comentarios.");
-  return;
-}
+      //Obtener usuario
+let usuario =
+  JSON.parse(localStorage.getItem("usuarioActual")) ||
+  JSON.parse(localStorage.getItem("usuarioLogueado")) ||
+  JSON.parse(localStorage.getItem("user")) ||
+  JSON.parse(localStorage.getItem("usuario")) ||
+  JSON.parse(localStorage.getItem("datosUsuario")) ||
+  null;
+
+      if (!usuario || !usuario.mail) {
+        alert("Por favor, inicia sesión para ver y agregar comentarios.");
+        return;
+      }
+
       if (lista.classList.contains("show")) {
         lista.innerHTML = "<p>Cargando comentarios...</p>";
 
@@ -140,8 +201,8 @@ if (!usuario || !usuario.mail) {
           if (Array.isArray(data)) {
             lista.innerHTML = "";
             data.forEach(comentario => {
-              let p = document.createElement(usuario + ": " + "p");
-              p.textContent = comentario.texto;
+              let p = document.createElement("p");
+              p.textContent = `${comentario.usuario}: ${comentario.texto}`;
               lista.appendChild(p);
             });
           } else {
@@ -153,15 +214,31 @@ if (!usuario || !usuario.mail) {
 
     enviarBtn.addEventListener("click", (e) => {
       e.stopPropagation();
+
+      //Obtener usuario
+      let usuario =
+        JSON.parse(localStorage.getItem("usuarioLogueado")) ||
+        JSON.parse(localStorage.getItem("user")) ||
+        JSON.parse(localStorage.getItem("usuario")) ||
+        JSON.parse(localStorage.getItem("datosUsuario")) ||
+        null;
+
+      if (!usuario || !usuario.mail) {
+        alert("Debes iniciar sesión para comentar.");
+        return;
+      }
+
       if (textarea.value.trim() !== "") {
-        let nuevoComentario = document.createElement(usuario + ": " + "p");
-        nuevoComentario.textContent = textarea.value;
+        let nuevoComentario = document.createElement("p");
+        nuevoComentario.textContent = `${usuario.mail}: ${textarea.value}`;
         lista.appendChild(nuevoComentario);
-postEvent("guardarComentario", {
-  idPublicacion: publiData.id,
-  texto: nuevoComentario.textContent,
-  usuario: usuario ? usuario.mail : "Anónimo"
-});
+
+        postEvent("guardarComentario", {
+          idPublicacion: publiData.id,
+          texto: textarea.value,
+          usuario: usuario.mail
+        });
+
         textarea.value = "";
       }
     });

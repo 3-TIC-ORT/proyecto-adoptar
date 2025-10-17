@@ -1,19 +1,5 @@
 [
   {
-    "id": 1760400969307,
-    "nombreMascota": "Poxirrán",
-    "tipo": "Perro",
-    "genero": "Masculino",
-    "color": "Oscuro",
-    "raza": "Perro salchicha",
-    "edad": "3 años",
-    "enfermedad": "No",
-    "estado": "Perdido",
-    "descripcion": "Lo vi yendo a Morón pero me da miedo ir ahí, lo pueden buscar porfa?",
-    "lugar": "Tigre (la otra punta)",
-    "foto": "/Fotosmascotas/foto_1760400969306.jpeg"
-  },
-  {
     "id": 1760401909511,
     "nombreMascota": "Honda Civic",
     "tipo": "Perro",
@@ -134,5 +120,21 @@
     "lugar": "Casa de Ramiro Langsam",
     "fecha": "2025-05-05",
     "foto": "/Fotosmascotas/foto_1760662277310.jpeg"
+  },
+  {
+    "id": 1760733380076,
+    "nombreMascota": "Amén",
+    "tipo": "Perro",
+    "tamano": "Pequeño",
+    "genero": "Masculino",
+    "color": "Oscuro",
+    "raza": "Boyero de Berna",
+    "edad": "4 años",
+    "enfermedad": "No",
+    "estado": "Para adoptar",
+    "descripcion": "No",
+    "lugar": "Villa Luro",
+    "fecha": "2888-04-07",
+    "foto": "/Fotosmascotas/foto_1760733380075.jpeg"
   }
 ]
