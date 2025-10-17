@@ -88,12 +88,9 @@ function mostrarPublicaciones(publicaciones) {
     publi.classList.add("publicacion");
 
 let creador =
-  publiData.mail ||
-  publiData.email ||
-  publiData.correo ||
-  publiData.usuario ||
-  "Usuario desconocido";
-
+publiData.creadorNombre ||
+publiData.creadorMail ||
+"Anónimo";
 publi.innerHTML = `
   <p class="publicador">Publicado por: <strong>${creador}</strong></p>
   <img src="../../Back-end/${publiData.foto || "https://via.placeholder.com/150"}" alt="${publiData.nombreMascota}">
@@ -216,6 +213,7 @@ let usuario =
       e.stopPropagation();
 
       //Obtener usuario
+
       let usuario =
         JSON.parse(localStorage.getItem("usuarioLogueado")) ||
         JSON.parse(localStorage.getItem("user")) ||
@@ -229,15 +227,16 @@ let usuario =
       }
 
       if (textarea.value.trim() !== "") {
-        let nuevoComentario = document.createElement("p");
-        nuevoComentario.textContent = `${usuario.mail}: ${textarea.value}`;
-        lista.appendChild(nuevoComentario);
+let nombreUsuario = usuario.nombre || usuario.mail;
+let nuevoComentario = document.createElement("p");
+nuevoComentario.textContent = `${nombreUsuario}: ${textarea.value}`;
+lista.appendChild(nuevoComentario);
 
-        postEvent("guardarComentario", {
-          idPublicacion: publiData.id,
-          texto: textarea.value,
-          usuario: usuario.mail
-        });
+postEvent("guardarComentario", {
+  idPublicacion: publiData.id,
+  texto: textarea.value,
+  usuario: nombreUsuario
+});
 
         textarea.value = "";
       }

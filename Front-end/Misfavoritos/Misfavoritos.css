@@ -2,7 +2,6 @@ body {
     background-color:   #A1C0CB;
     background-image: url('../Iconos/Pattern.jpg');
     background-size: 450px 450px;
-    background-position: center;
     font-family: 'Poppins', sans-serif; 
     margin: 0; 
 } 
@@ -125,7 +124,7 @@ justify-content: center;
 align-items: flex-start; 
 height: 70vh; 
 padding-left: 1.5em; 
-gap: 50px;
+gap: 3rem;
 
 }
 
@@ -261,13 +260,11 @@ transform: translateX(0);
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     overflow: hidden;
-    min-height: 0px;
-    min-height: 380px;
-    max-height: 350px;
-    transition: max-height 0.3s ease, background-color 0.3s ease;
+    min-height: 400px;
+    max-height: 430px;
 }
 .publicacion.expandida{
-  max-height: 500px;
+  max-height: 570px;
 }
             
             .publicacion img:not(.Comentarios):not(.Corazon)

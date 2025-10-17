@@ -1,6 +1,6 @@
 connect2Server();
 
-// Menú lateral
+// MENÚ LATERAL
 let botonfiltros = document.querySelector(".rayasfiltro");
 let items = document.querySelectorAll(".menu-item");
 
@@ -14,7 +14,7 @@ document.addEventListener("click", (e) => {
   }
 });
 
-// Menú filtros secundarios
+// MENÚ FILTROS SECUNDARIOS
 let botonfiltros2 = document.querySelector("#Iconofiltrar");
 let selectores = document.querySelectorAll(".Selectores1, .Selectores2, .Selectores3, .Selectores4, .Selectores5");
 
@@ -29,7 +29,7 @@ document.addEventListener("click", (e) => {
   }
 });
 
-// FAVORITOS
+// USUARIO LOGUEADO
 let usuario =
   JSON.parse(localStorage.getItem("usuarioLogueado")) ||
   JSON.parse(localStorage.getItem("user")) ||
@@ -37,32 +37,33 @@ let usuario =
   JSON.parse(localStorage.getItem("datosUsuario")) ||
   null;
 
-//Detectar mail, email o correo automáticamente
 const mailUsuario = usuario?.mail || usuario?.email || usuario?.correo || null;
 
-// Cargar favoritos al iniciar
+// CARGAR FAVORITOS AL INICIAR
 if (mailUsuario) {
   postEvent("obtenerFavoritos", { mail: mailUsuario }, (publicaciones) => {
     mostrarPublicaciones(publicaciones);
   });
 }
 
-//Mostrar publicaciones
+// MOSTRAR PUBLICACIONES
 function mostrarPublicaciones(publicaciones) {
-  const contenedor = document.getElementById("contenedor-publicaciones");
+  const contenedor = document.querySelector(".publicaciones");
   if (!contenedor) {
-    console.warn("No se encontró #contenedor-publicaciones en el DOM");
+    console.warn("No se encontró el contenedor .publicaciones");
     return;
   }
-  contenedor.innerHTML = ""; 
-  let favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
+  contenedor.innerHTML = "";
 
+  let favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
   favoritos = favoritos.map(id => Number(id));
 
   publicaciones.forEach(publiData => {
-    let publi = document.createElement("div");
+    const publi = document.createElement("div");
     publi.classList.add("publicacion");
-    let fotoUrl = "https://via.placeholder.com/150";
+
+    // FOTO
+    let fotoUrl = "https://via.placeholder.com/200";
     if (publiData.foto) {
       if (publiData.foto.startsWith("/")) {
         fotoUrl = `../../Back-end${publiData.foto}`;
@@ -72,53 +73,107 @@ function mostrarPublicaciones(publicaciones) {
         fotoUrl = `../../Back-end/${publiData.foto}`;
       }
     }
-    publi.innerHTML = 
-    // Corazón (favoritos)
-    `<img src="${fotoUrl}" alt="Foto de ${publiData.tipo || 'mascota'}">
-      <div class="info">
-        <p><strong>Tipo:</strong> ${publiData.tipo || 'N/A'}</p>
-        <p><strong>Raza:</strong> ${publiData.raza || 'N/A'}</p>
-        <p><strong>Edad:</strong> ${publiData.edad || 'N/A'}</p>
-        <p><strong>Sexo:</strong> ${publiData.sexo || 'N/A'}</p>
-        <p><strong>Localidad:</strong> ${publiData.localidad || 'N/A'}</p>
-        <p><strong>Descripción:</strong> ${publiData.descripcion || 'N/A'}</p>
-        <p><strong>Contacto:</strong> ${publiData.contacto || 'N/A'}</p>
-      </div>`;
+    // ESTRUCTURA VISUAL
+    publi.innerHTML = `
+      <p class="creador">Publicado por: <strong>${publiData.usuarioCreador || "Usuario desconocido"}</strong></p>
+      <img src="${fotoUrl}" alt="${publiData.nombreMascota}">
+      <h3>${publiData.nombreMascota}</h3>
+      <p>Tipo: ${publiData.tipo}</p>
+      <p>Género: ${publiData.genero}</p>
+      <p>Color: ${publiData.color || "No especificado"}</p>
+      <p>Raza: ${publiData.raza || "No especificada"}</p>
+      <p>Edad: ${publiData.edad || "No especificada"}</p>
+      <p>Ubicación: ${publiData.localidad}, ${publiData.provincia}</p>
+      <p>Descripción: ${publiData.descripcion}</p>
+    `;
+   //Botón favorito
+   let div = publi;
+      let corazon = document.createElement("img");
+      corazon.src = "../Iconos/Iconocorazon.webp";
+      corazon.classList.add("Corazon");
+      div.prepend(corazon);
 
-    let corazon = document.createElement("div");
-    corazon.classList.add("corazon");
-    if (favoritos.includes(publiData.id)) corazon.classList.add("activo");
-    publi.prepend(corazon);
+      let favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
+      if (favoritos.includes(publi.id)) corazon.classList.add("activo");
 
-    corazon.addEventListener("click", (e) => {
-      e.stopPropagation();
-      corazon.classList.toggle("activo");
+      corazon.addEventListener("click", (e) => {
+        e.stopPropagation();
+        let favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
 
-      if (corazon.classList.contains("activo")) {
-        if (!favoritos.includes(publiData.id)) favoritos.push(publiData.id);
-      } else {
-        favoritos = favoritos.filter(id => id !== publiData.id);
-      }
+        if (corazon.classList.contains("activo")) {
+          corazon.classList.remove("activo");
+          favoritos = favoritos.filter(id => id !== publi.id);
+        } else {
+          corazon.classList.add("activo");
+          if (!favoritos.includes(publi.id)) favoritos.push(publi.id);
+        }
+        localStorage.setItem("favoritos", JSON.stringify(favoritos));
+      });
 
-      localStorage.setItem("favoritos", JSON.stringify(favoritos));
+      //Comentarios
+      let comentarios = document.createElement("img");
+      comentarios.src = "../Iconos/Iconocomentarios.png";
+      comentarios.classList.add("Comentarios");
+      div.appendChild(comentarios);
 
-      if (mailUsuario) {
-        postEvent("actualizarFavoritos", { mail: mailUsuario, favoritos });
-      }
+      let lista = document.createElement("div");
+      lista.classList.add("lista-comentarios");
+      div.appendChild(lista);
 
-      if (!corazon.classList.contains("activo")) {
-        publi.remove();
-      }
+      let textarea = document.createElement("textarea");
+      textarea.classList.add("Inputcomentarios");
+      textarea.placeholder = "Escribe un comentario...";
+      div.appendChild(textarea);
+
+      let enviarBtn = document.createElement("button");
+      enviarBtn.textContent = "Enviar";
+      enviarBtn.classList.add("EnviarComentario");
+      div.appendChild(enviarBtn);
+
+      comentarios.addEventListener("click", (e) => {
+        e.stopPropagation();
+        textarea.classList.toggle("show");
+        enviarBtn.classList.toggle("show");
+        lista.classList.toggle("show");
+        div.classList.toggle("expandida");
+      });
+
+      enviarBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        if (textarea.value.trim() !== "") {
+          let usuario = JSON.parse(localStorage.getItem("usuarioActual"));
+          let nombreUsuario = usuario?.nombre || usuario?.mail || "Anónimo";
+          let nuevoComentario = document.createElement("p");
+          nuevoComentario.textContent = `${nombreUsuario}: ${textarea.value}`;
+          lista.appendChild(nuevoComentario);
+          textarea.value = "";
+
+          postEvent("guardarComentario", {
+            idPublicacion: publi.id,
+            texto: textarea.value,
+            usuario: nombreUsuario
+          });
+        }
+      });
+
+      // Ir al detalle
+      div.addEventListener("click", (e) => {
+        if (
+          !e.target.closest(".Comentarios") &&
+          !e.target.closest(".Inputcomentarios") &&
+          !e.target.closest(".EnviarComentario")
+        ) {
+          window.location.href = `../Infopublicacion/Infopublicacion.html?id=${publi.id}`;
+        }
+      });
+
+      contenedor.appendChild(div);
     });
-
-    contenedor.appendChild(publi);
-  });
 }
 
-//Cambio de cantidad de columnas
+// CAMBIO DE COLUMNAS
+let contenedorPublicaciones = document.querySelector(".publicaciones");
 let radiosCantidad = document.querySelectorAll('input[value="Tres"], input[value="Cuatro"], input[value="Cinco"]');
-let contenedorPublicaciones = document.getElementById("contenedor-publicaciones");
-
 radiosCantidad.forEach(radio => {
   radio.addEventListener("change", () => {
     if (radio.value === "Tres") {
@@ -131,14 +186,12 @@ radiosCantidad.forEach(radio => {
   });
 });
 
-// REDIRECCIONES
-let botonperfil = document.querySelector(".circuloperfil");
-botonperfil.addEventListener("click", () => {
+//REDIRECCIONES
+document.querySelector(".circuloperfil").addEventListener("click", () => {
   window.location.href = "../Perfildeusuario/Perfildeusuario.html";
 });
 
-let botonformulario = document.querySelector(".circulo");
-botonformulario.addEventListener("click", () => {
+document.querySelector(".circulo").addEventListener("click", () => {
   window.location.href = "../Formulario/Formulario.html";
 });
 
