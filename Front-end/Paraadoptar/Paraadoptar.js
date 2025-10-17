@@ -50,7 +50,7 @@ window.addEventListener("DOMContentLoaded", () => {
     let div = document.createElement("div");
     div.classList.add("publicacion");
     div.innerHTML = `
-      <img src="${publi.foto}" alt="${publi.nombreMascota}">
+      <img src="../../Back-end/${publiData.foto || "https://via.placeholder.com/150"}" alt="${publiData.nombreMascota}">
       <h3>${publi.nombreMascota}</h3>
       <p>Tipo: ${publi.tipo}</p>
       <p>Género: ${publi.genero}</p>

@@ -45,6 +45,7 @@ function registrarUsuario(nombre, mail, password, fotoPerfil, edad) {
     ubicacion: "",
     descripcion: "",
     respuestas: [],
+    favoritos: []
   };
 
   usuarios.push(nuevoUsuario);
@@ -65,7 +66,6 @@ subscribePOSTEvent("loginUsuario", (data) => {
   if (!usuario) return({ error: "Correo o contraseña incorrectos." });
   return(usuario);
 });
-
 subscribePOSTEvent("actualizarUsuario", (data) => {
   let usuarios = leerUsuarios();
   let index = usuarios.findIndex((u) => u.mail === data.mail);
@@ -119,30 +119,34 @@ subscribePOSTEvent("crearPublicacion", (data) => {
 subscribeGETEvent("obtenerPublicaciones", () => {
   return leerPublicaciones();
 });
-
-subscribeGETEvent("obtenerPublicacionPorId", (data) => {
-  let publicaciones = leerPublicaciones();
-  let idBuscado = Number(data?.id || data);
-  return publicaciones.find((p) => p.id === idBuscado) || null;
-});
-// Favoritos
+//Favoritos
 subscribePOSTEvent("actualizarFavoritos", (data) => {
-  fs.writeFileSync("jsons/favoritos.json", JSON.stringify(data.favoritos || []));
+  let { mail, favoritos } = data;
+  let usuarios = leerUsuarios();
+  let index = usuarios.findIndex((u) => u.mail === mail);
+  if (index === -1) return { error: "Usuario no encontrado." };
+  usuarios[index].favoritos = favoritos;
+  guardarUsuarios(usuarios);
   return { ok: true };
 });
+subscribePOSTEvent("obtenerPublicacionPorId", (data) => {
+  let publicaciones = leerPublicaciones();
+  let publicacion = publicaciones.find((p) => p.id === Number(data.id));
+  return publicacion || null;
+});
 
-subscribeGETEvent("obtenerFavoritos", () => {
-  try {
-    let favs = JSON.parse(fs.readFileSync("favoritos.json", "utf-8"));
-    let publicaciones = leerPublicaciones();
-    return publicaciones.filter(p => favs.includes(p.id));
-  } catch {
-    return [];
-  }
+subscribePOSTEvent("obtenerFavoritos", (data) => {
+  let { mail } = data;
+  let usuarios = leerUsuarios();
+  let usuario = usuarios.find((u) => u.mail === mail);
+  if (!usuario) return { error: "Usuario no encontrado." };
+  let publicaciones = leerPublicaciones();
+  let favoritos = publicaciones.filter((p) => usuario.favoritos.includes(p.id));
+  return favoritos;
 });
 //Comentarios
 //Guardar comentarios en comentarios.json
-function guardarComentario(idPublicacion, comentario) {
+function guardarComentario(idPublicacion, comentario, usuario) {
   let comentarios = [];
   try {
     let data = fs.readFileSync(comentariosFile, "utf-8");
@@ -150,14 +154,14 @@ function guardarComentario(idPublicacion, comentario) {
   } catch {
     comentarios = [];
   }
-  comentarios.push({ idPublicacion, texto: comentario });
+  comentarios.push({ idPublicacion, texto: comentario, usuario });
   fs.writeFileSync(comentariosFile, JSON.stringify(comentarios, null, 2));
   return { ok: true };
 }
 
 subscribePOSTEvent("guardarComentario", (data) => {
-  let { idPublicacion, texto } = data;
-  return guardarComentario(idPublicacion, texto);
+  let { idPublicacion, texto, usuario } = data;
+  return guardarComentario(idPublicacion, texto, usuario);
 });
 //Obtener comentarios de una publicación
 subscribePOSTEvent("obtenerComentarios", (data) => {

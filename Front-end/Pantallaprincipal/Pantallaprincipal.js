@@ -38,6 +38,13 @@ document.addEventListener("click", (e) => {
   }
 });
 
+//Cargar usuario logueado
+let usuario =
+  JSON.parse(localStorage.getItem("usuarioLogueado")) ||
+  JSON.parse(localStorage.getItem("user")) ||
+  JSON.parse(localStorage.getItem("usuario")) ||
+  JSON.parse(localStorage.getItem("datosUsuario")) ||
+  null;
 // PUBLICACIONES
 let contenedorPublicaciones = document.querySelector(".publicaciones");
 let todasLasPublicaciones = [];
@@ -88,7 +95,10 @@ function mostrarPublicaciones(publicaciones) {
       }
 
       localStorage.setItem("favoritos", JSON.stringify(favoritos));
-      postEvent("actualizarFavoritos", { favoritos });
+      let usuario = JSON.parse(localStorage.getItem("usuarioLogueado"));
+if (usuario && usuario.mail) {
+  postEvent("actualizarFavoritos", { mail: usuario.mail, favoritos });
+}
     });
 
     // Comentarios
@@ -118,33 +128,40 @@ function mostrarPublicaciones(publicaciones) {
       lista.classList.toggle("show");
       publi.classList.toggle("expandida");
 
+      let usuario = JSON.parse(localStorage.getItem("usuarioLogueado"));
+if (!usuario || !usuario.mail) {
+  alert("Por favor, inicia sesión para ver y agregar comentarios.");
+  return;
+}
       if (lista.classList.contains("show")) {
         lista.innerHTML = "<p>Cargando comentarios...</p>";
 
         postEvent("obtenerComentarios", { idPublicacion: publiData.id }, (data) => {
-          lista.innerHTML = "";
-          if (Array.isArray(data) && data.length > 0) {
+          if (Array.isArray(data)) {
+            lista.innerHTML = "";
             data.forEach(comentario => {
-              let p = document.createElement("p");
+              let p = document.createElement(usuario + ": " + "p");
               p.textContent = comentario.texto;
               lista.appendChild(p);
             });
           } else {
-            lista.innerHTML = "<p>No hay comentarios aún.</p>";
+            lista.innerHTML = "<p>No se pudieron cargar los comentarios.</p>";
           }
         });
-      } else {
-        lista.innerHTML = "";
       }
     });
 
     enviarBtn.addEventListener("click", (e) => {
       e.stopPropagation();
       if (textarea.value.trim() !== "") {
-        let nuevoComentario = document.createElement("p");
+        let nuevoComentario = document.createElement(usuario + ": " + "p");
         nuevoComentario.textContent = textarea.value;
         lista.appendChild(nuevoComentario);
-        postEvent("guardarComentario", { idPublicacion: publiData.id, texto: nuevoComentario.textContent });
+postEvent("guardarComentario", {
+  idPublicacion: publiData.id,
+  texto: nuevoComentario.textContent,
+  usuario: usuario ? usuario.mail : "Anónimo"
+});
         textarea.value = "";
       }
     });
@@ -226,7 +243,7 @@ selectProvincia.addEventListener("change", () => {
     localidades.forEach(loc => {
       const opt = document.createElement("option");
       opt.value = loc;
-      opt.textContent = loc;
+      opt.textContent = loc.nombre;
       selectLocalidad.appendChild(opt);
     });
   });

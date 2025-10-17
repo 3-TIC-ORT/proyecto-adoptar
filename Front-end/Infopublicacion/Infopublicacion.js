@@ -1,49 +1,55 @@
 connect2Server();
+
 let volver = document.querySelector(".Iconovolver");
 volver.addEventListener("click", () => {
   window.location.href = "../Pantallaprincipal/Pantallaprincipal.html";
 });
-// Obtener parámetro "id" de la URL
+
+// OBTENER PARÁMETRO "id" DE LA URL
 function getQueryParam(name) {
   const params = new URLSearchParams(window.location.search);
   return params.get(name);
 }
 
-const boton = document.querySelector(".Boton");
 const postId = getQueryParam("id");
 
+// FUNCIONES AUXILIARES
+const mailUsuario = JSON.parse(localStorage.getItem("usuarioLogueado"))?.mail || null;
+
+let setText = (selector, text) => {
+  const element = document.querySelector(selector);
+  if (element) element.textContent = text;
+};
+
 if (postId) {
-  getEvent(`obtenerPublicacionPorId?id=${encodeURIComponent(postId)}`, (pub) => {
-    if (!pub) return;
-
-    const img = document.querySelector(".foto");
-    if (img && pub.foto) img.src = pub.foto;
-
-    function setText(selector, text) {
-      const node = document.querySelector(selector);
-      if (node) node.textContent = text;
+  postEvent("obtenerPublicacionPorId", { id: postId }, (publi) => {
+    if (!publi || typeof publi !== "object") {
+      console.warn("No se encontró la publicación o está vacía.");
+      return;
     }
-
-    setText(".Nombre", `Nombre: ${pub.nombreMascota || "No especificado"}`);
-    setText(".Tipo", `Tipo: ${pub.tipo || "No especificado"}`);
-    setText(".Tamaño", `Tamaño: ${pub.tamano || "No especificado"}`);
-    setText(".Género", `Género: ${pub.genero || "No especificado"}`);
-    setText(".Color", `Color: ${pub.color || "No especificado"}`);
-    setText(".Raza", `Raza: ${pub.raza || "No especificada"}`);
-    setText(".Edad", `Edad: ${pub.edad || "No especificada"}`);
-    setText(".Enfermedad", `Enfermedad: ${pub.enfermedad || "No especificada"}`);
-    setText(".Situacion", `Situación: ${pub.estado || "No especificada"}`);
-    setText(".Ubicacion", `Ubicación: ${pub.lugar || "No especificada"}`);
-    setText(".Fecha", `Fecha de publicación: ${pub.fecha || "No especificada"}`);
-    setText(".Descripcion", `Descripción: ${pub.descripcion || "No especificada"}`);
+// Actualizar la imagen
+    const imgElement = document.querySelector(".Foto");
+    if (imgElement) {
+      if (publi.foto) {
+        imgElement.src = "../../Back-end/Fotosmascotas" + publiData.foto;
+      } else {
+        imgElement.src = "https://via.placeholder.com/300x200?text=Sin+Imagen";
+      }
+      imgElement.alt = publi.nombreMascota || "Imagen de la mascota";
+    }
+    setText(".Nombre", `Nombre: ${publi.nombreMascota || "No especificado"}`);
+    setText(".Tipo", `Tipo: ${publi.tipo || "No especificado"}`);
+    setText(".Tamaño", `Tamaño: ${publi.tamano || "No especificado"}`);
+    setText(".Género", `Género: ${publi.genero || "No especificado"}`);
+    setText(".Color", `Color: ${publi.color || "No especificado"}`);
+    setText(".Raza", `Raza: ${publi.raza || "No especificada"}`);
+    setText(".Edad", `Edad: ${publi.edad || "No especificada"}`);
+    setText(".Enfermedad", `Enfermedad: ${publi.enfermedad || "No especificada"}`);
+    setText(".Situacion", `Situación: ${publi.estado || "No especificada"}`);
+    setText(".Ubicacion", `Ubicación: ${publi.lugar || "No especificada"}`);
+    setText(".Fecha", `Fecha de publicación: ${publi.fecha || "No especificada"}`);
+    setText(".Descripcion", `Descripción: ${publi.descripcion || "No especificada"}`);
   });
-}
-
-if (boton) {
-  boton.addEventListener("click", () => {
-    boton.classList.toggle("seleccionado");
-    boton.textContent = boton.classList.contains("seleccionado")
-      ? "¡Interesado!"
-      : "¡Me interesa!";
-  });
+} else {
+  console.warn("No se encontró el parámetro 'id' en la URL.");
 }

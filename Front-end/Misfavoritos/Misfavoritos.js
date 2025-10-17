@@ -1,6 +1,6 @@
 connect2Server();
 
-//Menú lateral
+// Menú lateral
 let botonfiltros = document.querySelector(".rayasfiltro");
 let items = document.querySelectorAll(".menu-item");
 
@@ -14,7 +14,7 @@ document.addEventListener("click", (e) => {
   }
 });
 
-//Menú filtros secundarios
+// Menú filtros secundarios
 let botonfiltros2 = document.querySelector("#Iconofiltrar");
 let selectores = document.querySelectorAll(".Selectores1, .Selectores2, .Selectores3, .Selectores4, .Selectores5");
 
@@ -29,60 +29,85 @@ document.addEventListener("click", (e) => {
   }
 });
 
-//FAVORITOS
-getEvent("obtenerFavoritos", (data) => {
-  if (Array.isArray(data)) {
-    mostrarPublicaciones(data);
-  } else {
-    console.warn("No se pudieron cargar los favoritos del backend.");
-  }
-});
+// FAVORITOS
+let usuario =
+  JSON.parse(localStorage.getItem("usuarioLogueado")) ||
+  JSON.parse(localStorage.getItem("user")) ||
+  JSON.parse(localStorage.getItem("usuario")) ||
+  JSON.parse(localStorage.getItem("datosUsuario")) ||
+  null;
 
-//FUNCIÓN: Mostrar publicaciones con mismo diseño que Pantallaprincipal
+//Detectar mail, email o correo automáticamente
+const mailUsuario = usuario?.mail || usuario?.email || usuario?.correo || null;
+
+// Cargar favoritos al iniciar
+if (mailUsuario) {
+  postEvent("obtenerFavoritos", { mail: mailUsuario }, (publicaciones) => {
+    mostrarPublicaciones(publicaciones);
+  });
+} else {
+  mostrarPublicaciones([]);
+}
+
+//Mostrar publicaciones
 function mostrarPublicaciones(publicaciones) {
   const contenedor = document.getElementById("contenedor-publicaciones");
-  contenedor.innerHTML = "";
-
-  if (!publicaciones || publicaciones.length === 0) {
-    contenedor.innerHTML = "<p>No tenés publicaciones favoritas todavía.</p>";
+  if (!contenedor) {
+    console.warn("No se encontró #contenedor-publicaciones en el DOM");
     return;
   }
-
+  contenedor.innerHTML = ""; 
   let favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
+
+  favoritos = favoritos.map(id => Number(id));
 
   publicaciones.forEach(publiData => {
     let publi = document.createElement("div");
     publi.classList.add("publicacion");
-
-    publi.innerHTML = `
-      <img src="${publiData.foto || "https://via.placeholder.com/150"}" alt="${publiData.nombreMascota}">
-      <h3>${publiData.nombreMascota}</h3>
-      <p>Tipo: ${publiData.tipo}</p>
-      <p>Género: ${publiData.genero}</p>
-      <p>Ubicación: ${publiData.lugar}</p>
-      <p>Estado: ${publiData.estado}</p>
-      <p>Enfermedad: ${publiData.enfermedad || "No especificada"}</p>
-    `;
-
+    let fotoUrl = "https://via.placeholder.com/150";
+    if (publiData.foto) {
+      if (publiData.foto.startsWith("/")) {
+        fotoUrl = `../../Back-end${publiData.foto}`;
+      } else if (publiData.foto.startsWith("http")) {
+        fotoUrl = publiData.foto;
+      } else {
+        fotoUrl = `../../Back-end/${publiData.foto}`;
+      }
+    }
+    publi.innerHTML = 
     // Corazón (favoritos)
-    let corazon = document.createElement("img");
-    corazon.src = "../Iconos/Iconocorazon.webp";
-    corazon.classList.add("Corazon");
+    `<img src="${fotoUrl}" alt="Foto de ${publiData.tipo || 'mascota'}">
+      <div class="info">
+        <p><strong>Tipo:</strong> ${publiData.tipo || 'N/A'}</p>
+        <p><strong>Raza:</strong> ${publiData.raza || 'N/A'}</p>
+        <p><strong>Edad:</strong> ${publiData.edad || 'N/A'}</p>
+        <p><strong>Sexo:</strong> ${publiData.sexo || 'N/A'}</p>
+        <p><strong>Localidad:</strong> ${publiData.localidad || 'N/A'}</p>
+        <p><strong>Descripción:</strong> ${publiData.descripcion || 'N/A'}</p>
+        <p><strong>Contacto:</strong> ${publiData.contacto || 'N/A'}</p>
+      </div>`;
+
+    let corazon = document.createElement("div");
+    corazon.classList.add("corazon");
     if (favoritos.includes(publiData.id)) corazon.classList.add("activo");
     publi.prepend(corazon);
 
     corazon.addEventListener("click", (e) => {
       e.stopPropagation();
       corazon.classList.toggle("activo");
+
       if (corazon.classList.contains("activo")) {
         if (!favoritos.includes(publiData.id)) favoritos.push(publiData.id);
       } else {
         favoritos = favoritos.filter(id => id !== publiData.id);
       }
-      localStorage.setItem("favoritos", JSON.stringify(favoritos));
-      postEvent("actualizarFavoritos", { favoritos });
 
-      // Si se desmarca en favoritos, sacarla del DOM
+      localStorage.setItem("favoritos", JSON.stringify(favoritos));
+
+      if (mailUsuario) {
+        postEvent("actualizarFavoritos", { mail: mailUsuario, favoritos });
+      }
+
       if (!corazon.classList.contains("activo")) {
         publi.remove();
       }
@@ -91,8 +116,11 @@ function mostrarPublicaciones(publicaciones) {
     contenedor.appendChild(publi);
   });
 }
-// CAMBIO DE COLUMNAS
+
+//Cambio de cantidad de columnas
 let radiosCantidad = document.querySelectorAll('input[value="Tres"], input[value="Cuatro"], input[value="Cinco"]');
+let contenedorPublicaciones = document.getElementById("contenedor-publicaciones");
+
 radiosCantidad.forEach(radio => {
   radio.addEventListener("change", () => {
     if (radio.value === "Tres") {
@@ -104,26 +132,8 @@ radiosCantidad.forEach(radio => {
     }
   });
 });
-//Filtros
-function aplicarFiltros() {
-  let tamanos = Array.from(document.querySelectorAll('.Selectores1 input[type="checkbox"]:checked')).map(c => c.value);
-  let colores = Array.from(document.querySelectorAll('.Selectores3 input[type="checkbox"]:checked')).map(c => c.value);
-  let tipos = Array.from(document.querySelectorAll('.Selectores4 input[type="checkbox"]:checked')).map(c => c.value);
 
-  if (!todasLasPublicaciones.length) return;
-
-  let filtradas = todasLasPublicaciones.filter(publi => {
-    return (
-      (tamanos.length === 0 || tamanos.includes(publi.tamano)) &&
-      (colores.length === 0 || colores.includes(publi.color)) &&
-      (tipos.length === 0 || tipos.includes(publi.tipo))
-    );
-  });
-
-  mostrarPublicaciones(filtradas);
-}
-
-//REDIRECCIONES
+// REDIRECCIONES
 let botonperfil = document.querySelector(".circuloperfil");
 botonperfil.addEventListener("click", () => {
   window.location.href = "../Perfildeusuario/Perfildeusuario.html";

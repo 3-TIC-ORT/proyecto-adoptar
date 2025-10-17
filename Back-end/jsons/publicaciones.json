@@ -118,5 +118,21 @@
     "lugar": "Ultima vez visto en arenales 1202",
     "fecha": "2025-10-16",
     "foto": "/Fotosmascotas/foto_1760625454124.jpeg"
+  },
+  {
+    "id": 1760662277311,
+    "nombreMascota": "Tadeo",
+    "tipo": "Perro",
+    "tamano": "Mediano",
+    "genero": "Masculino",
+    "color": "Oscuro",
+    "raza": "Border Collie",
+    "edad": "1 año",
+    "enfermedad": "No",
+    "estado": "Para adoptar",
+    "descripcion": "Corre rapidísimo",
+    "lugar": "Casa de Ramiro Langsam",
+    "fecha": "2025-05-05",
+    "foto": "/Fotosmascotas/foto_1760662277310.jpeg"
   }
 ]

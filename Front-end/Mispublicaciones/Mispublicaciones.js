@@ -68,52 +68,58 @@ document.querySelectorAll(".publicacionborder").forEach(card => {
 document.addEventListener("click", () => {
   document.querySelectorAll(".Editores.show").forEach(ed => ed.classList.remove("show"));
 });
-
-     document.querySelectorAll(".publicacionborder").forEach(card => {
-      const editorSelect = card.querySelector(".Editores select");
-    
-     
-      card.dataset.estado = "activo";
-    
-      editorSelect.addEventListener("change", (e) => {
-        const opcion = e.target.value;
-    
-        if (opcion === "Editar") {
-          window.location.href = "../EditarPublicacion/EditarPublicacion.html";
-        }
-        else if (opcion === "Borrar") {
-          const confirmar = confirm("¿Seguro que quieres borrar esta publicación?");
-          if (confirmar) {
-            card.remove(); 
-            alert("Publicación borrada.");
-          }
-        }
-        else if (opcion === "Pausar" || opcion === "Restaurar") {
-          if (card.dataset.estado === "pausado") {
-            card.style.opacity = "1";       
-            card.dataset.estado = "activo"; 
-            editorSelect.options[2].text = "Pausar"; 
-            alert("Publicación restaurada.");
-          } else {
-            card.style.opacity = "0.5";    
-            card.dataset.estado = "pausado";
-            editorSelect.options[2].text = "Restaurar"; 
-            alert("Publicación pausada.");
-          }
-        }
-    
-        e.target.selectedIndex = 0; 
-      });
-    });
-    let todasLasPublicaciones = [];
-
-// Cuando se cargan desde el backend, guardamos todas:
-getEvent("obtenerPublicaciones", (data) => {
-  if (Array.isArray(data)) {
-    todasLasPublicaciones = data;
-    mostrarPublicaciones(data);
+// PUBLICACIONES
+let contenedorPublicaciones = document.querySelector(".publicaciones");
+let publicacionespropias = [];
+//Mostrar publicaciones del mismo usuario
+let usuario =
+  JSON.parse(localStorage.getItem("usuarioLogueado")) ||
+  JSON.parse(localStorage.getItem("user")) ||
+  JSON.parse(localStorage.getItem("usuario")) ||
+  JSON.parse(localStorage.getItem("datosUsuario")) ||
+  null;
+//Detectar mail, email o correo automáticamente
+const mailUsuario = usuario?.mail || usuario?.email || usuario?.correo || null;
+if (mailUsuario) {
+  postEvent("obtenerPublicaciones", {}, (data) => {
+    if (Array.isArray(data)) {
+      publicacionespropias = data.filter(p => p.mail === mailUsuario);
+      mostrarPublicaciones(publicacionespropias);
+    } else if (data && data.error) {
+      console.error("Error al obtener publicaciones:", data);
+    }
+  });
+} else {
+  mostrarPublicaciones([]);
+}
+function mostrarPublicaciones(publicaciones) {
+  if (!contenedorPublicaciones) {
+    console.warn("No se encontró .publicaciones en el DOM");
+    return;
   }
-});
+  contenedorPublicaciones.innerHTML = ""; 
+  if (publicaciones.length === 0) {
+    contenedorPublicaciones.innerHTML = "<p>No tienes publicaciones aún.</p>";
+    return;
+  }
+  publicaciones.forEach(publiData => {
+    let publi = document.createElement("div");
+    publi.className = "publicacion";
+    publi.tamano = publiData.tamano || "";
+    publi.color = publiData.color || "";
+    publi.tipo = publiData.tipo || "";
+    let fotoUrl = publiData.fotos && publiData.fotos.length > 0 ? publiData.fotos[0] : "../Iconos/Noimagen.png";
+    publi.innerHTML = `
+      <img src="${fotoUrl}" alt="${publiData.nombreMascota || "Mascota"}">
+      <h3>${publiData.nombreMascota || "Sin nombre"}</h3>
+      <p>Tipo: ${publiData.tipo || "No especificado"}</p>
+      <p>Género: ${publiData.genero || "No especificado"}</p>
+    `;
+    contenedorPublicaciones.appendChild(publi);
+  });
+  todasLasPublicaciones = Array.from(contenedorPublicaciones.children);
+}
+
 
 // Si todavía no hay backend (usa las del HTML actual)
 if (document.querySelectorAll(".publicacion").length > 0 && todasLasPublicaciones.length === 0) {
