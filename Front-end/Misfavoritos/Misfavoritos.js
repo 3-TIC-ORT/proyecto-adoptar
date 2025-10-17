@@ -1,31 +1,40 @@
 connect2Server();
 
-// MENÚ LATERAL
+// Menu desplegable
 let botonfiltros = document.querySelector(".rayasfiltro");
+let menuLateral = document.querySelector(".Cuadradomenu");
 let items = document.querySelectorAll(".menu-item");
 
-botonfiltros.addEventListener("click", () => {
-  items.forEach(item => item.classList.toggle("show"));
+botonfiltros.addEventListener("click", (e) => {
+  e.stopPropagation();
+  menuLateral.classList.toggle("open");
+  let abierto = menuLateral.classList.contains("open");
+  items.forEach(item => item.classList.toggle("show", abierto));
 });
 
 document.addEventListener("click", (e) => {
-  if (!botonfiltros.contains(e.target) && !e.target.classList.contains("menu-item")) {
+  if (!menuLateral.contains(e.target) && !botonfiltros.contains(e.target)) {
+    menuLateral.classList.remove("open");
     items.forEach(item => item.classList.remove("show"));
   }
 });
 
-// MENÚ FILTROS SECUNDARIOS
+// Menu selectores
 let botonfiltros2 = document.querySelector("#Iconofiltrar");
 let selectores = document.querySelectorAll(".Selectores1, .Selectores2, .Selectores3, .Selectores4, .Selectores5");
+let cuadradoselector = document.querySelector(".Cuadradoselectores");
 
 botonfiltros2.addEventListener("click", (e) => {
   e.stopPropagation();
-  selectores.forEach(sel => sel.classList.toggle("show"));
+  cuadradoselector.classList.toggle("open");
+  let abiertoo = cuadradoselector.classList.contains("open");
+  selectores.forEach(selector => selector.classList.toggle("show", abiertoo));
 });
 
 document.addEventListener("click", (e) => {
-  if (!botonfiltros.contains(e.target) && !e.target.classList.contains("menu-item")) {
-    items.forEach(item => item.classList.remove("show"));
+  if (!cuadradoselector.contains(e.target) && !botonfiltros2.contains(e.target)) {
+    cuadradoselector.classList.remove("open");
+    selectores.forEach(selector => selector.classList.remove("show"));
   }
 });
 
