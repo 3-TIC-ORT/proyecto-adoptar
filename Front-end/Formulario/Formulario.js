@@ -1,4 +1,4 @@
-connect2Server(3000);
+connect2Server();
 let botonvolver = document.querySelector(".Iconovolver");
 botonvolver.addEventListener("click", () => {
   window.location.href = "../Pantallaprincipal/Pantallaprincipal.html";
@@ -15,9 +15,9 @@ botonEnviar.addEventListener("click", async (e) => {
   }
 
   // Tomar los valores del formulario
- let nombreMascota = document.querySelector("#nombreMascota").value;
+  let nombreMascota = document.querySelector("#nombreMascota").value;
   let tipo = document.querySelector("#tipo").value;
-  let tamano = document.querySelector("#tamano").value; // nuevo
+  let tamano = document.querySelector("#tamano").value;
   let genero = document.querySelector("#genero").value;
   let color = document.querySelector("#color").value;
   let raza = document.querySelector("#raza").value;
@@ -26,13 +26,26 @@ botonEnviar.addEventListener("click", async (e) => {
   let estado = document.querySelector("#estado").value;
   let descripcion = document.querySelector("#descripcion").value;
   let lugar = document.querySelector("#lugar").value;
-  let fecha = document.querySelector("#fecha").value; // nuevo
+  let fecha = document.querySelector("#fecha").value;
   let fotoInput = document.querySelector("#foto");
 
   let imagenBase64 = "";
   if (fotoInput.files.length > 0) {
     imagenBase64 = await convertirImagenABase64(fotoInput.files[0]);
   }
+
+  //OBTENER USUARIO LOGUEADO
+  let usuario =
+    JSON.parse(localStorage.getItem("usuarioLogueado")) ||
+    JSON.parse(localStorage.getItem("usuarioActual")) ||
+    JSON.parse(localStorage.getItem("user")) ||
+    JSON.parse(localStorage.getItem("usuario")) ||
+    JSON.parse(localStorage.getItem("datosUsuario")) ||
+    null;
+
+  // Tomar datos del creador
+  let creadorMail = usuario?.mail || usuario?.email || usuario?.correo || null;
+  let creadorNombre = usuario?.nombre || "Anónimo";
 
   // Crear el objeto publicación
   let nuevaPublicacion = {
@@ -49,6 +62,8 @@ botonEnviar.addEventListener("click", async (e) => {
     lugar,
     fecha,
     foto: imagenBase64,
+    creadorMail, 
+    creadorNombre,   
   };
 
   // Enviar al backend
@@ -57,7 +72,6 @@ botonEnviar.addEventListener("click", async (e) => {
 
     if (respuesta) {
       alert("¡Publicación creada con éxito!");
-
 
       let todas = JSON.parse(localStorage.getItem("publicaciones")) || [];
       todas.push(respuesta);

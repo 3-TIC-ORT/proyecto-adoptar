@@ -14,48 +14,61 @@ function getQueryParam(name) {
 const postId = getQueryParam("id");
 
 // FUNCIONES AUXILIARES
-const mailUsuario = JSON.parse(localStorage.getItem("usuarioLogueado"))?.mail || null;
+const mailUsuario = JSON.parse(localStorage.getItem("usuarioActual"))?.mail || null;
 
 let setText = (selector, text) => {
   const element = document.querySelector(selector);
   if (element) element.textContent = text;
 };
-
+// SI EXISTE EL ID DE LA PUBLICACIÓN, TRAER SUS DATOS
 if (postId) {
-  postEvent("obtenerPublicacionPorId", { id: postId }, (publi) => {
-    if (!publi || typeof publi !== "object") {
-      console.warn("No se encontró la publicación o está vacía.");
+  postEvent("obtenerPublicacionPorId", { id: Number(postId) }, (publi) => {
+    if (!publi) {
+      alert("Publicación no encontrada.");
       return;
     }
-// Actualizar la imagen
-    const imgElement = document.querySelector(".Foto");
-if (imgElement) {
-  if (publi.foto) {
-    if (publi.foto.startsWith("/")) {
-      imgElement.src = `../../Back-end${publi.foto}`;
-    } else if (publi.foto.startsWith("http")) {
-      imgElement.src = publi.foto;
-    } else {
-      imgElement.src = `../../Back-end/Fotosmascotas/${publi.foto}`;
+
+    // Mostrar el creador
+    setText(".creador", `Publicado por: ${publi.usuarioCreador || "Usuario desconocido"}`);
+
+    // Mostrar imagen
+    let fotoUrl = "https://via.placeholder.com/200";
+    if (publi.foto) {
+      if (publi.foto.startsWith("/")) {
+        fotoUrl = `../../Back-end${publi.foto}`;
+      } else if (publi.foto.startsWith("http")) {
+        fotoUrl = publi.foto;
+      } else {
+        fotoUrl = `../../Back-end/${publi.foto}`;
+      }
     }
-  } else {
-    imgElement.src = "https://via.placeholder.com/300x200?text=Sin+Imagen";
-  }
-  imgElement.alt = publi.nombreMascota || "Imagen de la mascota";
-}
-    setText(".Nombre", `Nombre: ${publi.nombreMascota || "No especificado"}`);
-    setText(".Tipo", `Tipo: ${publi.tipo || "No especificado"}`);
-    setText(".Tamaño", `Tamaño: ${publi.tamano || "No especificado"}`);
-    setText(".Género", `Género: ${publi.genero || "No especificado"}`);
-    setText(".Color", `Color: ${publi.color || "No especificado"}`);
-    setText(".Raza", `Raza: ${publi.raza || "No especificada"}`);
-    setText(".Edad", `Edad: ${publi.edad || "No especificada"}`);
-    setText(".Enfermedad", `Enfermedad: ${publi.enfermedad || "No especificada"}`);
-    setText(".Situacion", `Situación: ${publi.estado || "No especificada"}`);
-    setText(".Ubicacion", `Ubicación: ${publi.lugar || "No especificada"}`);
-    setText(".Fecha", `Fecha de publicación: ${publi.fecha || "No especificada"}`);
-    setText(".Descripcion", `Descripción: ${publi.descripcion || "No especificada"}`);
+    const imgElement = document.querySelector(".fotoMascota");
+    if (imgElement) imgElement.src = fotoUrl;
+
+    // Mostrar los demás datos
+    setText(".nombreMascota", publi.nombreMascota || "Nombre no especificado");
+    setText(".tipo", `Tipo: ${publi.tipo || "No especificado"}`);
+    setText(".genero", `Género: ${publi.genero || "No especificado"}`);
+    setText(".color", `Color: ${publi.color || "No especificado"}`);
+    setText(".raza", `Raza: ${publi.raza || "No especificada"}`);
+    setText(".edad", `Edad: ${publi.edad || "No especificada"}`);
+    setText(".ubicacion", `Ubicación: ${publi.localidad || "No especificada"}, ${publi.provincia || "No especificada"}`);
+    setText(".descripcion", `Descripción: ${publi.descripcion || "No especificada"}`);
+
+    // Obtener comentarios asociados
+    postEvent("obtenerComentarios", { idPublicacion: postId }, (comentarios) => {
+      const lista = document.querySelector(".lista-comentarios");
+      if (!lista) return;
+      lista.innerHTML = "";
+      if (comentarios.length === 0) {
+        lista.innerHTML = "<p>No hay comentarios aún.</p>";
+      } else {
+        comentarios.forEach(c => {
+          const p = document.createElement("p");
+          p.textContent = `${c.usuario}: ${c.texto}`;
+          lista.appendChild(p);
+        });
+      }
+    });
   });
-} else {
-  console.warn("No se encontró el parámetro 'id' en la URL.");
 }

@@ -91,6 +91,11 @@ function guardarPublicaciones(publicaciones) {
 function crearPublicacion(data) {
   let publicaciones = leerPublicaciones();
 
+  // Asegurar que venga con info del usuario
+  if (!data.mailUsuario && !data.usuarioCreador) {
+    console.warn("Publicación creada sin usuario. Revisar frontend.");
+  }
+
   if (data.foto && data.foto.startsWith("data:image/")) {
     let matches = data.foto.match(/^data:image\/([a-zA-Z]+);base64,(.+)$/);
     if (matches) {
@@ -104,8 +109,13 @@ function crearPublicacion(data) {
   } else {
     data.foto = null;
   }
+  let nueva = {
+    id: Date.now(),
+    ...data,
+    creadorMail: data.mailUsuario || data.mail || null,
+    creadorNombre: data.nombreUsuario || data.usuarioCreador || null
+  };
 
-  let nueva = { id: Date.now(), ...data };
   publicaciones.push(nueva);
   guardarPublicaciones(publicaciones);
   return nueva;

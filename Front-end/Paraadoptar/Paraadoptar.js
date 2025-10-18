@@ -42,9 +42,10 @@ document.addEventListener("click", (e) => {
 window.addEventListener("DOMContentLoaded", () => {
   let contenedor = document.querySelector(".publicaciones");
 
+let publiData = {};
+
   getEvent("obtenerPublicaciones", (publicaciones) => {
     let filtradas = publicaciones.filter(pub => pub.estado === "Para adoptar");
-
     contenedor.innerHTML = "";
     filtradas.forEach(publi => {
       let div = document.createElement("div");
@@ -52,7 +53,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
       div.innerHTML = `
       <p class="creador">Publicado por: <strong>${publi.usuarioCreador || "Usuario desconocido"}</strong></p>
-        <img src="../../Back/Fotosmascotas/${publi.foto}" alt="${publi.nombreMascota}">
+      <img src="../../Back-end/${publiData.foto || "https://via.placeholder.com/150"}" alt="${publiData.nombreMascota}">
         <h3>${publi.nombreMascota}</h3>
         <p>Tipo: ${publi.tipo}</p>
         <p>Género: ${publi.genero}</p>

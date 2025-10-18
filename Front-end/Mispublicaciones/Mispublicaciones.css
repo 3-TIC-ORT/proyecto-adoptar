@@ -368,42 +368,6 @@ transform: translateX(0);
                 overflow-y: auto;
             }
 
-/* Publicaciones */
- .publicacionborder
-{
- z-index: 1;
-position: relative;
-display: flex;
-flex-direction: column;
-align-items: center;
-width: 200px;
-background-color: #F5F5DC;
-padding: 10px;
-border-radius: 10px;
-box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-text-align: center;
-font-size: 14px;
- top: 10rem;
-left: 4rem;
- }
-.Foto
-{
-z-index: 1;
- width: 200px;
-height: 175px;
-object-fit:fill;
-border-radius: 5px;
-margin-bottom: 10px;
-}
-.publicacionborder:hover
-{
-background-color: #66b2b2;
- cursor: pointer;
-}
-.Nombre{
-    font-weight: bold;
-    font-size: x-large;
-}
 /* Editores de publicaciones (tres puntitos) */
 .Iconotrespuntitos{
     z-index: 2;

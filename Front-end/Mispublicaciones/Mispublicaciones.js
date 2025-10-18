@@ -1,147 +1,141 @@
 connect2Server();
 
-// Menú desplegable
-let botonfiltros= document.querySelector(".rayasfiltro");
+// Menú lateral
+let botonFiltros = document.querySelector(".rayasfiltro");
 let menuLateral = document.querySelector(".Cuadradomenu");
 let items = document.querySelectorAll(".menu-item");
 
-botonfiltros.addEventListener("click", (e) => {
+botonFiltros.addEventListener("click", (e) => {
   e.stopPropagation();
   menuLateral.classList.toggle("open");
-  const abierto = menuLateral.classList.contains("open");
+  let abierto = menuLateral.classList.contains("open");
   items.forEach(item => item.classList.toggle("show", abierto));
 });
 
 document.addEventListener("click", (e) => {
-  if (!menuLateral.contains(e.target) && !botonfiltros.contains(e.target)) {
+  if (!menuLateral.contains(e.target) && !botonFiltros.contains(e.target)) {
     menuLateral.classList.remove("open");
     items.forEach(item => item.classList.remove("show"));
   }
 });
-// Filtros de publicaciones
-let botonfiltros2 = document.querySelector("#Iconofiltrar");
+
+// Filtros
+let botonFiltros2 = document.querySelector("#Iconofiltrar");
 let selectores = document.querySelectorAll(".Selectores1, .Selectores2, .Selectores3, .Selectores4, .Selectores5");
+let cuadroSelectores = document.querySelector(".Cuadradoselectores");
 
-botonfiltros2.addEventListener("click", (e) => {
-    e.stopPropagation();
-    selectores.forEach(sel => {
-        sel.classList.toggle("show");
-    });
+botonFiltros2.addEventListener("click", (e) => {
+  e.stopPropagation();
+  cuadroSelectores.classList.toggle("open");
+  let abierto = cuadroSelectores.classList.contains("open");
+  selectores.forEach(selector => selector.classList.toggle("show", abierto));
 });
 
 document.addEventListener("click", (e) => {
-    if (!botonfiltros2.contains(e.target) && ![...selectores].some(sel => sel.contains(e.target))) {
-        selectores.forEach(sel => sel.classList.remove("show"));
-    }
-});
-document.addEventListener("click", (e) => {
-    if (!botonfiltros.contains(e.target) && !e.target.classList.contains("menu-item")) {
-        items.forEach(item => item.classList.remove("show"));
-    }
+  if (!cuadroSelectores.contains(e.target) && !botonFiltros2.contains(e.target)) {
+    cuadroSelectores.classList.remove("open");
+    selectores.forEach(selector => selector.classList.remove("show"));
+  }
 });
 
-// Editores de publicaciones
-document.querySelectorAll(".publicacionborder").forEach(card => {
-  const dots = card.querySelector(".Iconotrespuntitos");
-  const editor = card.querySelector(".Editores");
-
-  // Abrir/cerrar el menú SOLO desde los tres puntitos
-  dots.addEventListener("click", (e) => {
-    e.stopPropagation();
-
-    // cerrar otros abiertos
-    document.querySelectorAll(".Editores.show").forEach(ed => {
-      if (ed !== editor) ed.classList.remove("show");
-    });
-    editor.classList.toggle("show");
-  });
-
-  // Ir al detalle si clickeo el card pero NO el menú ni los puntitos
-  card.addEventListener("click", (e) => {
-    if (!e.target.closest(".Iconotrespuntitos") && !e.target.closest(".Editores")) {
-      window.location.href = "pagina-de-publicacion.html";
-    }
-  });
-});
-
-// Cerrar menús si clickeo fuera
-document.addEventListener("click", () => {
-  document.querySelectorAll(".Editores.show").forEach(ed => ed.classList.remove("show"));
-});
-// PUBLICACIONES
 let contenedorPublicaciones = document.querySelector(".publicaciones");
-let publicacionespropias = [];
-//Mostrar publicaciones del mismo usuario
-let usuario =
-  JSON.parse(localStorage.getItem("usuarioLogueado")) ||
-  JSON.parse(localStorage.getItem("user")) ||
-  JSON.parse(localStorage.getItem("usuario")) ||
-  JSON.parse(localStorage.getItem("datosUsuario")) ||
-  null;
-//Detectar mail, email o correo automáticamente
-let mailUsuario = usuario ? (usuario.mail || usuario.email || usuario.correo || usuario.usuario || usuario.mailUsuario) : null;
 let todasLasPublicaciones = [];
-if (mailUsuario) {
-  postEvent("obtenerPublicaciones", {}, (data) => {
-    if (Array.isArray(data)) {
-      // Filtra publicaciones según distintas posibles claves de usuario
-      publicacionespropias = data.filter(p =>
-        p.mail === mailUsuario ||
-        p.email === mailUsuario ||
-        p.correo === mailUsuario ||
-        p.usuario === mailUsuario ||
-        p.mailUsuario === mailUsuario
-      );
-      mostrarPublicaciones(publicacionespropias);
-    } else if (data && data.error) {
-      console.error("Error al obtener publicaciones:", data);
-    }
-  });
-} else {
-  mostrarPublicaciones([]);
-}
+
 function mostrarPublicaciones(publicaciones) {
   if (!contenedorPublicaciones) {
     console.warn("No se encontró .publicaciones en el DOM");
     return;
   }
-  contenedorPublicaciones.innerHTML = ""; 
+
+  contenedorPublicaciones.innerHTML = "";
   if (publicaciones.length === 0) {
     contenedorPublicaciones.innerHTML = "<p>No tienes publicaciones aún.</p>";
     return;
   }
-  publicaciones.forEach(publiData => {
-    let publi = document.createElement("div");
-    publi.className = "publicacion";
-    publi.tamano = publiData.tamano || "";
-    publi.color = publiData.color || "";
-    publi.tipo = publiData.tipo || "";
-    let fotoUrl = "../Iconos/Noimagen.png";
-if (publiData.fotos && publiData.fotos.length > 0) {
-  // Si ya viene con ruta completa, usarla directamente
-  if (publiData.fotos[0].startsWith("http")) {
-    fotoUrl = publiData.fotos[0];
-  } else {
-    // Si solo guarda el nombre del archivo, usar la carpeta del backend
-    fotoUrl = `http://localhost:3000/Fotosmascotas/${publiData.fotos[0]}`;
-  }
-}
-    publi.innerHTML = `
-      <img src="${fotoUrl}" alt="${publiData.nombreMascota || "Mascota"}">
-      <h3>${publiData.nombreMascota || "Sin nombre"}</h3>
-      <p>Tipo: ${publiData.tipo || "No especificado"}</p>
-      <p>Género: ${publiData.genero || "No especificado"}</p>
-    `;
+
+  publicaciones.forEach((publiData) => {
+    // Crear contenedor principal igual que en Pantallaprincipal
+    let fotoUrl = publiData.fotoUrl || publiData.foto || publiData.imagen || "https://via.placeholder.com/150";
+    let creador = publiData.creador || publiData.usuario || publiData.mailUsuario || "Desconocido";
+let publi = document.createElement("div");
+publi.classList.add("publicacion");
+publi.innerHTML = `
+  <div class="Iconotrespuntitos">⋮</div>
+  <div class="Editores">
+    <button class="editar">Editar</button>
+    <button class="eliminar">Eliminar</button>
+  </div>
+  <img src="${fotoUrl}" alt="${publiData.nombreMascota || "Mascota"}" class="fotomascota">
+  <div class="infomascota">
+    <h3>${publiData.nombreMascota || "Sin nombre"}</h3>
+    <p><strong>Publicado por:</strong> ${creador}</p>
+    <p><strong>Tamaño:</strong> ${publiData.tamano || "No especificado"}</p>
+    <p><strong>Tipo:</strong> ${publiData.tipo || "No especificado"}</p>
+    <p><strong>Género:</strong> ${publiData.genero || "No especificado"}</p>
+    <p><strong>Ubicación:</strong> ${publiData.lugar || "No especificada"}</p>
+    <p><strong>Estado:</strong> ${publiData.estado || "No especificado"}</p>
+  </div>
+`;
+    // Redirección al detalle
+    publi.addEventListener("click", (e) => {
+      if (!e.target.closest(".Iconotrespuntitos") && !e.target.closest(".Editores")) {
+        window.location.href = `../Infopublicacion/Infopublicacion.html?id=${publiData.id}`;
+      }
+    });
+
+    // Lógica para abrir/cerrar menú de tres puntitos
+    const dots = publi.querySelector(".Iconotrespuntitos");
+    const editor = publi.querySelector(".Editores");
+
+    dots.addEventListener("click", (e) => {
+      e.stopPropagation();
+      document.querySelectorAll(".Editores.show").forEach(ed => {
+        if (ed !== editor) ed.classList.remove("show");
+      });
+      editor.classList.toggle("show");
+    });
+
     contenedorPublicaciones.appendChild(publi);
   });
+
+  // Cerrar menús al hacer click fuera
+  document.addEventListener("click", () => {
+    document.querySelectorAll(".Editores.show").forEach(ed => ed.classList.remove("show"));
+  });
+
   todasLasPublicaciones = Array.from(contenedorPublicaciones.children);
 }
 
+getEvent("obtenerPublicaciones", (data) => {
+  if (!data || !Array.isArray(data)) {
+    console.error("Error al obtener publicaciones:", data);
+    return;
+  }
+
+  let usuarioActivo = JSON.parse(localStorage.getItem("usuarioActual"));
+  if (!usuarioActivo) {
+    contenedorPublicaciones.innerHTML = "<p>Iniciá sesión para ver tus publicaciones.</p>";
+    return;
+  }
+
+  let mailUsuario = usuarioActivo.mail;
+
+  // Filtra las publicaciones del usuario logueado
+  let publicacionesPropias = data.filter(p =>
+    p.creadorMail === mailUsuario ||
+    p.mailUsuario === mailUsuario ||
+    p.mail === mailUsuario ||
+    p.usuario === mailUsuario
+  );
+
+  mostrarPublicaciones(publicacionesPropias);
+});
 
 // Si todavía no hay backend (usa las del HTML actual)
 if (document.querySelectorAll(".publicacion").length > 0 && todasLasPublicaciones.length === 0) {
   todasLasPublicaciones = Array.from(document.querySelectorAll(".publicacion"));
 }
+
 // CAMBIO DE COLUMNAS
 let radiosCantidad = document.querySelectorAll('input[value="Tres"], input[value="Cuatro"], input[value="Cinco"]');
 radiosCantidad.forEach(radio => {
@@ -155,7 +149,8 @@ radiosCantidad.forEach(radio => {
     }
   });
 });
-//Filtros
+
+// FILTROS
 function aplicarFiltros() {
   let tamanos = Array.from(document.querySelectorAll('.Selectores1 input[type="checkbox"]:checked')).map(c => c.value);
   let colores = Array.from(document.querySelectorAll('.Selectores3 input[type="checkbox"]:checked')).map(c => c.value);
@@ -173,43 +168,44 @@ function aplicarFiltros() {
 
   mostrarPublicaciones(filtradas);
 }
+
 /* Redirecciones de botones */
 let botonperfil = document.querySelector(".circuloperfil");
 botonperfil.addEventListener("click", () => {
-window.location.href = "../Perfildeusuario/Perfildeusuario.html";
+  window.location.href = "../Perfildeusuario/Perfildeusuario.html";
 });
 
-let botonformulario= document.querySelector(".circulo");
+let botonformulario = document.querySelector(".circulo");
 botonformulario.addEventListener("click", () => {
-window.location.href = "../Formulario/Formulario.html";
+  window.location.href = "../Formulario/Formulario.html";
 });
 
-let irhome= document.getElementById("Home");
+let irhome = document.getElementById("Home");
 irhome.addEventListener("click", () => {
-    window.location.href = "../Pantallaprincipal/Pantallaprincipal.html";
-    });
+  window.location.href = "../Pantallaprincipal/Pantallaprincipal.html";
+});
 
-    let iradoptar= document.getElementById("Paraadoptar");
+let iradoptar = document.getElementById("Paraadoptar");
 iradoptar.addEventListener("click", () => {
-    window.location.href = "../Paraadoptar/Paraadoptar.html";
-    });
+  window.location.href = "../Paraadoptar/Paraadoptar.html";
+});
 
-    let irtransitar= document.getElementById("Paratransitar");
-    irtransitar.addEventListener("click", () => {
-        window.location.href = "../Paratransitar/Paratransitar.html";
-        });
+let irtransitar = document.getElementById("Paratransitar");
+irtransitar.addEventListener("click", () => {
+  window.location.href = "../Paratransitar/Paratransitar.html";
+});
 
-    let irperdidos= document.getElementById("Perdidos");
+let irperdidos = document.getElementById("Perdidos");
 irperdidos.addEventListener("click", () => {
-    window.location.href = "../Perdidos/Perdidos.html";
-         });
+  window.location.href = "../Perdidos/Perdidos.html";
+});
 
-     let irencontrados= document.getElementById("Encontrados");
-    irencontrados.addEventListener("click", () => {
-    window.location.href = "../Encontrados/Encontrados.html";
-    });
+let irencontrados = document.getElementById("Encontrados");
+irencontrados.addEventListener("click", () => {
+  window.location.href = "../Encontrados/Encontrados.html";
+});
 
-      let irmisfavoritos= document.getElementById("Misfavoritos");
-     irmisfavoritos.addEventListener("click", () => {
-    window.location.href = "../Misfavoritos/Misfavoritos.html";
-     });
+let irmisfavoritos = document.getElementById("Misfavoritos");
+irmisfavoritos.addEventListener("click", () => {
+  window.location.href = "../Misfavoritos/Misfavoritos.html";
+});
