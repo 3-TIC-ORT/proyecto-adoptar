@@ -74,22 +74,6 @@
     "foto": "/Fotosmascotas/foto_1760553600944.jpeg"
   },
   {
-    "id": 1760618591279,
-    "nombreMascota": "Rocco",
-    "tipo": "Perro",
-    "tamano": "Grande",
-    "genero": "Masculino",
-    "color": "Claro",
-    "raza": "Humano",
-    "edad": "15",
-    "enfermedad": "Sí",
-    "estado": "Encontrado",
-    "descripcion": "Rocco es un humano",
-    "lugar": "Vicente Lopez",
-    "fecha": "2010-03-26",
-    "foto": "/Fotosmascotas/foto_1760618591277.png"
-  },
-  {
     "id": 1760625454138,
     "nombreMascota": "Jose",
     "tipo": "Perro",
@@ -154,5 +138,23 @@
     "foto": "/Fotosmascotas/foto_1760800064396.webp",
     "creadorMail": "brunoferro2010@gmail.com",
     "creadorNombre": "Bruno Ferro 2"
+  },
+  {
+    "id": 1760886651175,
+    "nombreMascota": "Apolo",
+    "tipo": "Perro",
+    "tamano": "Grande",
+    "genero": "Masculino",
+    "color": "Oscuro",
+    "raza": "Golden Retriever",
+    "edad": "5 meses",
+    "enfermedad": "No",
+    "estado": "Para adoptar",
+    "descripcion": "Le gusta disfrazarse",
+    "lugar": "Vicente López, Buenos Aires-GBA",
+    "fecha": "2025-10-19",
+    "foto": "/Fotosmascotas/foto_1760886651174.jpeg",
+    "creadorMail": null,
+    "creadorNombre": null
   }
 ]

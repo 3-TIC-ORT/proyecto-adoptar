@@ -261,12 +261,11 @@ transform: translateX(0);
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     overflow: hidden;
     min-height: 0px;
-    min-height: 380px;
-    max-height: 350px;
-    transition: max-height 0.3s ease, background-color 0.3s ease;
+    min-height: 400px;
+    max-height: 430px;
 }
 .publicacion.expandida{
-  max-height: 500px;
+  max-height: 570px;
 }
             
             .publicacion img:not(.Comentarios):not(.Corazon)

@@ -98,9 +98,8 @@ publi.innerHTML = `
   <p>Tamaño: ${publiData.tamano}</p>
   <p>Tipo: ${publiData.tipo}</p>
   <p>Género: ${publiData.genero}</p>
-  <p>Ubicación: ${publiData.lugar}</p>
   <p>Estado: ${publiData.estado}</p>
-  <p>Enfermedad: ${publiData.enfermedad || "No especificada"}</p>
+  <p>Ubicación: ${publiData.lugar}</p>
 `;
 
     // Corazón (favoritos)

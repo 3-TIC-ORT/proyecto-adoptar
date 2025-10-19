@@ -109,3 +109,43 @@ function convertirImagenABase64(file) {
     reader.readAsDataURL(file);
   });
 }
+//Localidades
+const selectProvincia = document.getElementById("provincia");
+const selectLocalidad = document.getElementById("localidad");
+
+// Cargar provincias al iniciar
+getEvent("obtenerProvincias", (provincias) => {
+  if (!selectProvincia) return;
+  selectProvincia.innerHTML = '<option value="">Seleccione provincia</option>';
+  provincias.forEach(prov => {
+    const opt = document.createElement("option");
+    opt.value = prov.id; // usamos el id para pedir las localidades
+    opt.textContent = prov.nombre;
+    selectProvincia.appendChild(opt);
+  });
+});
+
+// Cuando cambia la provincia, cargar las localidades
+if (selectProvincia && selectLocalidad) {
+  selectProvincia.addEventListener("change", () => {
+    const idProvincia = selectProvincia.value;
+    selectLocalidad.innerHTML = '<option value="">Seleccione localidad</option>';
+
+    if (!idProvincia) return;
+
+    postEvent("obtenerLocalidades", { provinciaId: idProvincia }, (localidades) => {
+      selectLocalidad.innerHTML = '<option value="">Seleccione localidad</option>';
+      localidades.forEach(loc => {
+        const opt = document.createElement("option");
+        opt.value = loc.id;
+        opt.textContent = loc.nombre;
+        selectLocalidad.appendChild(opt);
+      });
+    });
+  });
+}
+lugar.addEventListener("change", () => {
+  const provincia = selectProvincia.options[selectProvincia.selectedIndex].text;
+  const localidad = selectLocalidad.options[selectLocalidad.selectedIndex].text;
+  lugar.value = `${localidad}, ${provincia}`;
+});

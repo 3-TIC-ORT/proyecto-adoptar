@@ -55,7 +55,6 @@ function mostrarPublicaciones(publicaciones) {
 
   publicaciones.forEach((publiData) => {
     // Crear contenedor principal igual que en Pantallaprincipal
-    let fotoUrl = publiData.fotoUrl || publiData.foto || publiData.imagen || "https://via.placeholder.com/150";
     let creador = publiData.creador || publiData.usuario || publiData.mailUsuario || "Desconocido";
 let publi = document.createElement("div");
 publi.classList.add("publicacion");
@@ -65,14 +64,13 @@ publi.innerHTML = `
     <button class="editar">Editar</button>
     <button class="eliminar">Eliminar</button>
   </div>
-  <img src="${fotoUrl}" alt="${publiData.nombreMascota || "Mascota"}" class="fotomascota">
+      <p><strong>Publicado por:</strong> ${creador}</p>
+   <img src="../../Back-end/${publi.foto || "https://via.placeholder.com/150"}" alt="${publi.nombreMascota}">
   <div class="infomascota">
     <h3>${publiData.nombreMascota || "Sin nombre"}</h3>
-    <p><strong>Publicado por:</strong> ${creador}</p>
     <p><strong>Tamaño:</strong> ${publiData.tamano || "No especificado"}</p>
     <p><strong>Tipo:</strong> ${publiData.tipo || "No especificado"}</p>
     <p><strong>Género:</strong> ${publiData.genero || "No especificado"}</p>
-    <p><strong>Ubicación:</strong> ${publiData.lugar || "No especificada"}</p>
     <p><strong>Estado:</strong> ${publiData.estado || "No especificado"}</p>
   </div>
 `;
@@ -168,8 +166,42 @@ function aplicarFiltros() {
 
   mostrarPublicaciones(filtradas);
 }
+//Localidades
+const selectProvincia = document.getElementById("provincia");
+const selectLocalidad = document.getElementById("localidad");
 
-/* Redirecciones de botones */
+// Cargar provincias al iniciar
+getEvent("obtenerProvincias", (provincias) => {
+  if (!selectProvincia) return;
+  selectProvincia.innerHTML = '<option value="">Seleccione provincia</option>';
+  provincias.forEach(prov => {
+    const opt = document.createElement("option");
+    opt.value = prov.id; // usamos el id para pedir las localidades
+    opt.textContent = prov.nombre;
+    selectProvincia.appendChild(opt);
+  });
+});
+
+// Cuando cambia la provincia, cargar las localidades
+if (selectProvincia && selectLocalidad) {
+  selectProvincia.addEventListener("change", () => {
+    const idProvincia = selectProvincia.value;
+    selectLocalidad.innerHTML = '<option value="">Seleccione localidad</option>';
+
+    if (!idProvincia) return;
+
+    postEvent("obtenerLocalidades", { provinciaId: idProvincia }, (localidades) => {
+      selectLocalidad.innerHTML = '<option value="">Seleccione localidad</option>';
+      localidades.forEach(loc => {
+        const opt = document.createElement("option");
+        opt.value = loc.id;
+        opt.textContent = loc.nombre;
+        selectLocalidad.appendChild(opt);
+      });
+    });
+  });
+}
+//Redirecciones de botones
 let botonperfil = document.querySelector(".circuloperfil");
 botonperfil.addEventListener("click", () => {
   window.location.href = "../Perfildeusuario/Perfildeusuario.html";

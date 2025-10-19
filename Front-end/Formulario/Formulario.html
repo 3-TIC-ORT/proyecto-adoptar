@@ -80,7 +80,12 @@
         <input type="tel" id="Telefono" name="telefono" maxlength="17" pattern="[0-9]{8,17}" placeholder="Ej: 1112345678" required oninput="this.value = this.value.replace(/[^0-9]/g, '')"/>
 
         <h3>Ubicación de la mascota</h3>
-        <input type="text" id="lugar" name="lugar" required placeholder="Ej: Villa Urquiza, CABA"/>
+        <div id="lugar">
+        <label for="provincia">Provincia:</label>
+<select id="provincia"></select>
+<label for="localidad">Localidad:</label>
+<select id="localidad"></select>
+</div>
 
         <label for="fecha"><h3>Fecha de publicación (Introducí la de hoy)</h3></label>
         <input type="date" id="fecha" name="fecha" required />

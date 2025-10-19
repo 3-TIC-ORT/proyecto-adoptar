@@ -52,15 +52,14 @@ window.addEventListener("DOMContentLoaded", () => {
 
       div.innerHTML = `
       <p class="creador">Publicado por: <strong>${publi.usuarioCreador || "Usuario desconocido"}</strong></p>
-        <img src="../../Back/Fotosmascotas/${publi.foto}" alt="${publi.nombreMascota}">
+         <img src="../../Back-end/${publi.foto || "https://via.placeholder.com/150"}" alt="${publi.nombreMascota}">
         <h3>${publi.nombreMascota}</h3>
         <p>Tipo: ${publi.tipo}</p>
         <p>Género: ${publi.genero}</p>
         <p>Color: ${publi.color || "No especificado"}</p>
         <p>Raza: ${publi.raza || "No especificada"}</p>
         <p>Edad: ${publi.edad || "No especificada"}</p>
-        <p>Ubicación: ${publi.localidad}, ${publi.provincia}</p>
-        <p>Descripción: ${publi.descripcion}</p>
+       <p>Ubicación: ${publi.lugar || "Sin ubicación"}</p>
       `;
 
       //Botón favorito
@@ -162,7 +161,41 @@ radiosCantidad.forEach(radio => {
     }
   });
 });
+//Localidades
+const selectProvincia = document.getElementById("provincia");
+const selectLocalidad = document.getElementById("localidad");
 
+// Cargar provincias al iniciar
+getEvent("obtenerProvincias", (provincias) => {
+  if (!selectProvincia) return;
+  selectProvincia.innerHTML = '<option value="">Seleccione provincia</option>';
+  provincias.forEach(prov => {
+    const opt = document.createElement("option");
+    opt.value = prov.id; // usamos el id para pedir las localidades
+    opt.textContent = prov.nombre;
+    selectProvincia.appendChild(opt);
+  });
+});
+
+// Cuando cambia la provincia, cargar las localidades
+if (selectProvincia && selectLocalidad) {
+  selectProvincia.addEventListener("change", () => {
+    const idProvincia = selectProvincia.value;
+    selectLocalidad.innerHTML = '<option value="">Seleccione localidad</option>';
+
+    if (!idProvincia) return;
+
+    postEvent("obtenerLocalidades", { provinciaId: idProvincia }, (localidades) => {
+      selectLocalidad.innerHTML = '<option value="">Seleccione localidad</option>';
+      localidades.forEach(loc => {
+        const opt = document.createElement("option");
+        opt.value = loc.id;
+        opt.textContent = loc.nombre;
+        selectLocalidad.appendChild(opt);
+      });
+    });
+  });
+}
 // Redirecciones
 document.querySelector(".circuloperfil").addEventListener("click", () => {
   window.location.href = "../Perfildeusuario/Perfildeusuario.html";

@@ -71,29 +71,17 @@ function mostrarPublicaciones(publicaciones) {
     const publi = document.createElement("div");
     publi.classList.add("publicacion");
 
-    // FOTO
-    let fotoUrl = "https://via.placeholder.com/200";
-    if (publiData.foto) {
-      if (publiData.foto.startsWith("/")) {
-        fotoUrl = `../../Back-end${publiData.foto}`;
-      } else if (publiData.foto.startsWith("http")) {
-        fotoUrl = publiData.foto;
-      } else {
-        fotoUrl = `../../Back-end/${publiData.foto}`;
-      }
-    }
     // ESTRUCTURA VISUAL
     publi.innerHTML = `
       <p class="creador">Publicado por: <strong>${publiData.usuarioCreador || "Usuario desconocido"}</strong></p>
-      <img src="${fotoUrl}" alt="${publiData.nombreMascota}">
+       <img src="../../Back-end/${publi.foto || "https://via.placeholder.com/150"}" alt="${publi.nombreMascota}">
       <h3>${publiData.nombreMascota}</h3>
       <p>Tipo: ${publiData.tipo}</p>
       <p>Género: ${publiData.genero}</p>
       <p>Color: ${publiData.color || "No especificado"}</p>
       <p>Raza: ${publiData.raza || "No especificada"}</p>
       <p>Edad: ${publiData.edad || "No especificada"}</p>
-      <p>Ubicación: ${publiData.localidad}, ${publiData.provincia}</p>
-      <p>Descripción: ${publiData.descripcion}</p>
+      <p>Ubicación: ${publi.lugar || "Sin ubicación"}</p>
     `;
    //Botón favorito
    let div = publi;
@@ -194,7 +182,41 @@ radiosCantidad.forEach(radio => {
     }
   });
 });
+//Localidades
+const selectProvincia = document.getElementById("provincia");
+const selectLocalidad = document.getElementById("localidad");
 
+// Cargar provincias al iniciar
+getEvent("obtenerProvincias", (provincias) => {
+  if (!selectProvincia) return;
+  selectProvincia.innerHTML = '<option value="">Seleccione provincia</option>';
+  provincias.forEach(prov => {
+    const opt = document.createElement("option");
+    opt.value = prov.id; // usamos el id para pedir las localidades
+    opt.textContent = prov.nombre;
+    selectProvincia.appendChild(opt);
+  });
+});
+
+// Cuando cambia la provincia, cargar las localidades
+if (selectProvincia && selectLocalidad) {
+  selectProvincia.addEventListener("change", () => {
+    const idProvincia = selectProvincia.value;
+    selectLocalidad.innerHTML = '<option value="">Seleccione localidad</option>';
+
+    if (!idProvincia) return;
+
+    postEvent("obtenerLocalidades", { provinciaId: idProvincia }, (localidades) => {
+      selectLocalidad.innerHTML = '<option value="">Seleccione localidad</option>';
+      localidades.forEach(loc => {
+        const opt = document.createElement("option");
+        opt.value = loc.id;
+        opt.textContent = loc.nombre;
+        selectLocalidad.appendChild(opt);
+      });
+    });
+  });
+}
 //REDIRECCIONES
 document.querySelector(".circuloperfil").addEventListener("click", () => {
   window.location.href = "../Perfildeusuario/Perfildeusuario.html";
