@@ -57,3 +57,21 @@ function calcularEdad(fechaNacimiento) {
   }
   return edad;
 }
+window.onload = function () {
+  google.accounts.id.initialize({
+      client_id: 'TU_CLIENT_ID_DE_GOOGLE.apps.googleusercontent.com',
+      callback: handleCredentialResponse
+  });
+
+  google.accounts.id.renderButton(
+      document.getElementById('googleSignInButton'),
+      { theme: 'outline', size: 'large', width: 300 }  
+  );
+}
+
+function handleCredentialResponse(response) {
+ 
+  console.log("Token de Google:", response.credential);
+
+  
+}

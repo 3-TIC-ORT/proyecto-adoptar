@@ -125,3 +125,10 @@ label, h3 {
     padding: 5px;
     box-sizing: border-box;
 }
+#lugar {
+    display: flex;
+    flex-direction: column; 
+    gap: 10px; 
+    width: 300px; 
+    margin-bottom: 15px; 
+}
