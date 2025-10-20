@@ -236,6 +236,33 @@ document.addEventListener("click", (e) => {
     }
   }
 });
+function aplicarFiltros() {
+  let tamanos = Array.from(document.querySelectorAll('.Selectores1 input[type="checkbox"]:checked')).map(c => c.value);
+  let colores = Array.from(document.querySelectorAll('.Selectores3 input[type="checkbox"]:checked')).map(c => c.value);
+  let tipos = Array.from(document.querySelectorAll('.Selectores4 input[type="checkbox"]:checked')).map(c => c.value);
+
+  let provinciaSeleccionada = selectProvincia.options[selectProvincia.selectedIndex]?.text || "";
+  let localidadSeleccionada = selectLocalidad.options[selectLocalidad.selectedIndex]?.text || "";
+
+  if (!todasLasPublicaciones.length) return;
+
+  let filtradas = todasLasPublicaciones.filter(publi => {
+    let coincideProvincia = !provinciaSeleccionada || publi.provincia === provinciaSeleccionada;
+let coincideLocalidad = !localidadSeleccionada || publi.localidad === localidadSeleccionada;
+
+    return (
+      (tamanos.length === 0 || tamanos.includes(publi.tamano)) &&
+      (colores.length === 0 || colores.includes(publi.color)) &&
+      (tipos.length === 0 || tipos.includes(publi.tipo))
+    );
+  });
+
+  mostrarPublicaciones(filtradas);
+}
+
+// Escuchar cambios en todos los filtros
+document.querySelectorAll('.Selectores1 input, .Selectores3 input, .Selectores4 input')
+  .forEach(input => input.addEventListener("change", aplicarFiltros));
 //Redirecciones de botones
 let botonperfil = document.querySelector(".circuloperfil");
 botonperfil.addEventListener("click", () => {
