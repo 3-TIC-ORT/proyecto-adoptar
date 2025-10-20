@@ -213,5 +213,26 @@
     "foto": "/Fotosmascotas/foto_1760967021686.webp",
     "creadorMail": "ramirolangsam@gmail.com",
     "creadorNombre": "ramiro"
+  },
+  {
+    "id": 1760972427017,
+    "nombreMascota": "ko",
+    "tipo": "Gato",
+    "tamano": "Mediano",
+    "genero": "Femenino",
+    "color": "Oscuro",
+    "raza": ",",
+    "edad": "3",
+    "enfermedad": "No",
+    "estado": "Para transitar",
+    "descripcion": "qWswdfghjjbmnk,.",
+    "telefono": "12345678",
+    "lugar": "Seleccione provincia",
+    "provincia": "Seleccione provincia",
+    "localidad": "",
+    "fecha": "2025-10-21",
+    "foto": "/Fotosmascotas/foto_1760972427014.jpeg",
+    "creadorMail": "ramirolangsam@gmail.com",
+    "creadorNombre": "ramiro langsam"
   }
 ]
