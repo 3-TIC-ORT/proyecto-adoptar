@@ -26,7 +26,11 @@ botonEnviar.addEventListener("click", async (e) => {
   let estado = document.querySelector("#estado").value;
   let descripcion = document.querySelector("#descripcion").value;
   let telefono = document.querySelector("#telefono").value;
-  let lugar = document.querySelector("#lugar").value;
+  let provinciaSeleccionada = selectProvincia.options[selectProvincia.selectedIndex]?.text || "";
+let localidadSeleccionada = selectLocalidad.options[selectLocalidad.selectedIndex]?.text || "";
+let lugar = localidadSeleccionada && provinciaSeleccionada
+  ? `${localidadSeleccionada}, ${provinciaSeleccionada}`
+  : localidadSeleccionada || provinciaSeleccionada || "";
   let fecha = document.querySelector("#fecha").value;
   let fotoInput = document.querySelector("#foto");
 
@@ -43,7 +47,7 @@ botonEnviar.addEventListener("click", async (e) => {
     JSON.parse(localStorage.getItem("datosUsuario")) ||
     null;
 
-  // 🔧 Tomar datos del creador (corrección robusta)
+  //Tomar datos del creador (corrección robusta)
   let creadorMail =
     usuario?.mail ||
     usuario?.email ||
@@ -73,6 +77,8 @@ botonEnviar.addEventListener("click", async (e) => {
     descripcion,
     telefono,
     lugar,
+    provincia: provinciaSeleccionada,
+  localidad: localidadSeleccionada,
     fecha,
     foto: imagenBase64,
     creadorMail,

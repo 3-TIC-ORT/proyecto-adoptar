@@ -38,7 +38,7 @@ document.addEventListener("click", (e) => {
   }
 });
 
-//Cargar usuario logueado
+// Cargar usuario logueado
 let usuario =
   JSON.parse(localStorage.getItem("usuarioActual")) ||
   JSON.parse(localStorage.getItem("usuarioLogueado")) ||
@@ -46,6 +46,7 @@ let usuario =
   JSON.parse(localStorage.getItem("usuario")) ||
   JSON.parse(localStorage.getItem("datosUsuario")) ||
   null;
+
 if (usuario) {
   if (typeof usuario === "string") {
     try {
@@ -55,12 +56,10 @@ if (usuario) {
     }
   }
 
-  // Asegurar campo mail
   if (usuario && !usuario.mail) {
     usuario.mail = usuario.email || usuario.correo || null;
   }
 
-  // Guardar versión normalizada
   localStorage.setItem("usuarioActual", JSON.stringify(usuario));
 }
 
@@ -87,20 +86,21 @@ function mostrarPublicaciones(publicaciones) {
     let publi = document.createElement("div");
     publi.classList.add("publicacion");
 
-let creador =
-publiData.creadorNombre ||
-publiData.creadorMail ||
-"Anónimo";
-publi.innerHTML = `
-  <p class="publicador">Publicado por: <strong>${creador}</strong></p>
-  <img src="../../Back-end/${publiData.foto || "https://via.placeholder.com/150"}" alt="${publiData.nombreMascota}">
-  <h3>${publiData.nombreMascota}</h3>
-  <p>Tamaño: ${publiData.tamano}</p>
-  <p>Tipo: ${publiData.tipo}</p>
-  <p>Género: ${publiData.genero}</p>
-  <p>Estado: ${publiData.estado}</p>
-  <p>Ubicación: ${publiData.lugar}</p>
-`;
+    let creador =
+      publiData.creadorNombre ||
+      publiData.creadorMail ||
+      "Anónimo";
+
+    publi.innerHTML = `
+      <p class="publicador">Publicado por: <strong>${creador}</strong></p>
+      <img src="../../Back-end/${publiData.foto || "https://via.placeholder.com/150"}" alt="${publiData.nombreMascota}">
+      <h3>${publiData.nombreMascota}</h3>
+      <p>Tamaño: ${publiData.tamano}</p>
+      <p>Tipo: ${publiData.tipo}</p>
+      <p>Género: ${publiData.genero}</p>
+      <p>Estado: ${publiData.estado}</p>
+      <p>Ubicación: ${publiData.lugar}</p>
+    `;
 
     // Corazón (favoritos)
     let corazon = document.createElement("img");
@@ -110,43 +110,39 @@ publi.innerHTML = `
     publi.prepend(corazon);
 
     corazon.addEventListener("click", (e) => {
-  e.stopPropagation();
-  corazon.classList.toggle("activo");
+      e.stopPropagation();
+      corazon.classList.toggle("activo");
 
-  if (corazon.classList.contains("activo")) {
-    if (!favoritos.includes(publiData.id)) favoritos.push(publiData.id);
-  } else {
-    favoritos = favoritos.filter(id => id !== publiData.id);
-  }
+      if (corazon.classList.contains("activo")) {
+        if (!favoritos.includes(publiData.id)) favoritos.push(publiData.id);
+      } else {
+        favoritos = favoritos.filter(id => id !== publiData.id);
+      }
 
-  // Guardar favoritos en localStorage
-  localStorage.setItem("favoritos", JSON.stringify(favoritos));
+      localStorage.setItem("favoritos", JSON.stringify(favoritos));
 
-  // Obtener usuario logueado o actual
-  let usuario =
-    JSON.parse(localStorage.getItem("usuarioLogueado")) ||
-    JSON.parse(localStorage.getItem("usuarioActual")) ||
-    JSON.parse(localStorage.getItem("user")) ||
-    JSON.parse(localStorage.getItem("usuario")) ||
-    JSON.parse(localStorage.getItem("datosUsuario")) ||
-    null;
+      let usuario =
+        JSON.parse(localStorage.getItem("usuarioLogueado")) ||
+        JSON.parse(localStorage.getItem("usuarioActual")) ||
+        JSON.parse(localStorage.getItem("user")) ||
+        JSON.parse(localStorage.getItem("usuario")) ||
+        JSON.parse(localStorage.getItem("datosUsuario")) ||
+        null;
 
-  // Detectar campo de correo válido
-  const mailUsuario = usuario?.mail || usuario?.email || usuario?.correo || null;
+      const mailUsuario = usuario?.mail || usuario?.email || usuario?.correo || null;
 
-  if (mailUsuario) {
-    //Actualizar favoritos directamente en el servidor
-    postEvent("actualizarFavoritos", { mail: mailUsuario, favoritos }, (respuesta) => {
-      if (respuesta?.ok) {
-        console.log("Favoritos actualizados en el servidor correctamente");
-      } else{
-        console.warn("Error al actualizar favoritos:", respuesta?.error || "Respuesta inválida");
+      if (mailUsuario) {
+        postEvent("actualizarFavoritos", { mail: mailUsuario, favoritos }, (respuesta) => {
+          if (respuesta?.ok) {
+            console.log("Favoritos actualizados en el servidor correctamente");
+          } else {
+            console.warn("Error al actualizar favoritos:", respuesta?.error || "Respuesta inválida");
+          }
+        });
+      } else {
+        console.warn("No hay usuario logueado, no se puede sincronizar con el servidor");
       }
     });
-  } else {
-    console.warn("No hay usuario logueado, no se puede sincronizar con el servidor");
-  }
-});
 
     // Comentarios
     let iconoComentarios = document.createElement("img");
@@ -168,7 +164,7 @@ publi.innerHTML = `
     enviarBtn.classList.add("EnviarComentario");
     publi.appendChild(enviarBtn);
 
-     iconoComentarios.addEventListener("click", (e) => {
+    iconoComentarios.addEventListener("click", (e) => {
       e.stopPropagation();
 
       textarea.classList.toggle("show");
@@ -176,14 +172,13 @@ publi.innerHTML = `
       lista.classList.toggle("show");
       publi.classList.toggle("expandida");
 
-      //Obtener usuario
-let usuario =
-  JSON.parse(localStorage.getItem("usuarioActual")) ||
-  JSON.parse(localStorage.getItem("usuarioLogueado")) ||
-  JSON.parse(localStorage.getItem("user")) ||
-  JSON.parse(localStorage.getItem("usuario")) ||
-  JSON.parse(localStorage.getItem("datosUsuario")) ||
-  null;
+      let usuario =
+        JSON.parse(localStorage.getItem("usuarioActual")) ||
+        JSON.parse(localStorage.getItem("usuarioLogueado")) ||
+        JSON.parse(localStorage.getItem("user")) ||
+        JSON.parse(localStorage.getItem("usuario")) ||
+        JSON.parse(localStorage.getItem("datosUsuario")) ||
+        null;
 
       if (!usuario || !usuario.mail) {
         alert("Por favor, inicia sesión para ver y agregar comentarios.");
@@ -211,8 +206,6 @@ let usuario =
     enviarBtn.addEventListener("click", (e) => {
       e.stopPropagation();
 
-      //Obtener usuario
-
       let usuario =
         JSON.parse(localStorage.getItem("usuarioActual")) ||
         JSON.parse(localStorage.getItem("user")) ||
@@ -226,16 +219,16 @@ let usuario =
       }
 
       if (textarea.value.trim() !== "") {
-let nombreUsuario = usuario.nombre || usuario.mail;
-let nuevoComentario = document.createElement("p");
-nuevoComentario.textContent = `${nombreUsuario}: ${textarea.value}`;
-lista.appendChild(nuevoComentario);
+        let nombreUsuario = usuario.nombre || usuario.mail;
+        let nuevoComentario = document.createElement("p");
+        nuevoComentario.textContent = `${nombreUsuario}: ${textarea.value}`;
+        lista.appendChild(nuevoComentario);
 
-postEvent("guardarComentario", {
-  idPublicacion: publiData.id,
-  texto: textarea.value,
-  usuario: nombreUsuario
-});
+        postEvent("guardarComentario", {
+          idPublicacion: publiData.id,
+          texto: textarea.value,
+          usuario: nombreUsuario
+        });
 
         textarea.value = "";
       }
@@ -270,16 +263,58 @@ radiosCantidad.forEach(radio => {
     }
   });
 });
-//Filtros
+// LOCALIDADES
+const selectProvincia = document.getElementById("provincia");
+const selectLocalidad = document.getElementById("localidad");
+
+// Cargar provincias al iniciar
+getEvent("obtenerProvincias", (provincias) => {
+  selectProvincia.innerHTML = '<option value="">Seleccione provincia</option>';
+  provincias.forEach(prov => {
+    const opt = document.createElement("option");
+    opt.value = prov.id;
+    opt.textContent = prov.nombre;
+    selectProvincia.appendChild(opt);
+  });
+});
+
+selectProvincia.addEventListener("change", () => {
+  const idProvincia = selectProvincia.value;
+  selectLocalidad.innerHTML = '<option value="">Seleccione localidad</option>';
+  if (!idProvincia) return;
+
+  postEvent("obtenerLocalidades", { provinciaId: idProvincia }, (localidades) => {
+    selectLocalidad.innerHTML = '<option value="">Seleccione localidad</option>';
+    localidades.forEach(loc => {
+      const opt = document.createElement("option");
+      opt.value = loc.nombre;
+      opt.textContent = loc.nombre;
+      selectLocalidad.appendChild(opt);
+    });
+  });
+
+  aplicarFiltros();
+});
+
+selectLocalidad.addEventListener("change", aplicarFiltros);
+
 function aplicarFiltros() {
   let tamanos = Array.from(document.querySelectorAll('.Selectores1 input[type="checkbox"]:checked')).map(c => c.value);
   let colores = Array.from(document.querySelectorAll('.Selectores3 input[type="checkbox"]:checked')).map(c => c.value);
   let tipos = Array.from(document.querySelectorAll('.Selectores4 input[type="checkbox"]:checked')).map(c => c.value);
 
+  let provinciaSeleccionada = selectProvincia.options[selectProvincia.selectedIndex]?.text || "";
+  let localidadSeleccionada = selectLocalidad.options[selectLocalidad.selectedIndex]?.text || "";
+
   if (!todasLasPublicaciones.length) return;
 
   let filtradas = todasLasPublicaciones.filter(publi => {
+    let coincideProvincia = !provinciaSeleccionada || publi.provincia === provinciaSeleccionada;
+let coincideLocalidad = !localidadSeleccionada || publi.localidad === localidadSeleccionada;
+
     return (
+      coincideProvincia &&
+      coincideLocalidad &&
       (tamanos.length === 0 || tamanos.includes(publi.tamano)) &&
       (colores.length === 0 || colores.includes(publi.color)) &&
       (tipos.length === 0 || tipos.includes(publi.tipo))
@@ -289,58 +324,10 @@ function aplicarFiltros() {
   mostrarPublicaciones(filtradas);
 }
 
-// Escuchar cambios en todos los checkboxes
+// Escuchar cambios en todos los filtros
 document.querySelectorAll('.Selectores1 input, .Selectores3 input, .Selectores4 input')
   .forEach(input => input.addEventListener("change", aplicarFiltros));
-//Localidades
-const selectProvincia = document.getElementById("provincia");
-const selectLocalidad = document.getElementById("localidad");
 
-// Cargar provincias al iniciar
-getEvent("obtenerProvincias", (provincias) => {
-  selectProvincia.innerHTML = '<option value="">Seleccione provincia</option>';
-  provincias.forEach(prov => {
-    const opt = document.createElement("option");
-    opt.value = prov.id; // usamos el id para pedir las localidades
-    opt.textContent = prov.nombre;
-    selectProvincia.appendChild(opt);
-  });
-});
-
-selectProvincia.addEventListener("change", () => {
-  const idProvincia = selectProvincia.value;
-  selectLocalidad.innerHTML = '<option value="">Seleccione localidad</option>';
-
-  if (!idProvincia) return;
-
-  postEvent("obtenerLocalidades", { provinciaId: idProvincia }, (localidades) => {
-    selectLocalidad.innerHTML = '<option value="">Seleccione localidad</option>';
-    localidades.forEach(loc => {
-      const opt = document.createElement("option");
-      opt.value = loc;
-      opt.textContent = loc.nombre;
-      selectLocalidad.appendChild(opt);
-    });
-  });
-});
-
-// Cuando cambia la provincia, cargar las localidades
-selectProvincia.addEventListener("change", () => {
-  const idProvincia = selectProvincia.value;
-  selectLocalidad.innerHTML = '<option value="">Seleccione localidad</option>';
-
-  if (!idProvincia) return;
-
-postEvent("obtenerLocalidades", { provinciaId: idProvincia }, (localidades) => {
-  selectLocalidad.innerHTML = '<option value="">Seleccione localidad</option>';
-  localidades.forEach(loc => {
-    const opt = document.createElement("option");
-    opt.value = loc.id;
-    opt.textContent = loc.nombre;
-    selectLocalidad.appendChild(opt);
-  });
-});
-}); 
 
 // Redirecciones
 document.querySelector(".circuloperfil").addEventListener("click", () => {
