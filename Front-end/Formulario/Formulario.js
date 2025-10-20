@@ -25,6 +25,7 @@ botonEnviar.addEventListener("click", async (e) => {
   let enfermedad = document.querySelector("#enfermedad").value;
   let estado = document.querySelector("#estado").value;
   let descripcion = document.querySelector("#descripcion").value;
+  let telefono = document.querySelector("#telefono").value;
   let lugar = document.querySelector("#lugar").value;
   let fecha = document.querySelector("#fecha").value;
   let fotoInput = document.querySelector("#foto");
@@ -34,18 +35,29 @@ botonEnviar.addEventListener("click", async (e) => {
     imagenBase64 = await convertirImagenABase64(fotoInput.files[0]);
   }
 
-  //OBTENER USUARIO LOGUEADO
+  // OBTENER USUARIO LOGUEADO (corregido)
   let usuario =
-    JSON.parse(localStorage.getItem("usuarioLogueado")) ||
     JSON.parse(localStorage.getItem("usuarioActual")) ||
     JSON.parse(localStorage.getItem("user")) ||
     JSON.parse(localStorage.getItem("usuario")) ||
     JSON.parse(localStorage.getItem("datosUsuario")) ||
     null;
 
-  // Tomar datos del creador
-  let creadorMail = usuario?.mail || usuario?.email || usuario?.correo || null;
-  let creadorNombre = usuario?.nombre || "Anónimo";
+  // 🔧 Tomar datos del creador (corrección robusta)
+  let creadorMail =
+    usuario?.mail ||
+    usuario?.email ||
+    usuario?.correo ||
+    usuario?.userMail ||
+    null;
+
+  let creadorNombre =
+    usuario?.nombre ||
+    usuario?.nombreUsuario ||
+    usuario?.username ||
+    usuario?.userName ||
+    creadorMail ||
+    "Anónimo";
 
   // Crear el objeto publicación
   let nuevaPublicacion = {
@@ -59,11 +71,12 @@ botonEnviar.addEventListener("click", async (e) => {
     enfermedad,
     estado,
     descripcion,
+    telefono,
     lugar,
     fecha,
     foto: imagenBase64,
-    creadorMail, 
-    creadorNombre,   
+    creadorMail,
+    creadorNombre,
   };
 
   // Enviar al backend
@@ -109,7 +122,8 @@ function convertirImagenABase64(file) {
     reader.readAsDataURL(file);
   });
 }
-//Localidades
+
+// Localidades
 const selectProvincia = document.getElementById("provincia");
 const selectLocalidad = document.getElementById("localidad");
 
@@ -117,7 +131,7 @@ const selectLocalidad = document.getElementById("localidad");
 getEvent("obtenerProvincias", (provincias) => {
   if (!selectProvincia) return;
   selectProvincia.innerHTML = '<option value="">Seleccione provincia</option>';
-  provincias.forEach(prov => {
+  provincias.forEach((prov) => {
     const opt = document.createElement("option");
     opt.value = prov.id; // usamos el id para pedir las localidades
     opt.textContent = prov.nombre;
@@ -135,7 +149,7 @@ if (selectProvincia && selectLocalidad) {
 
     postEvent("obtenerLocalidades", { provinciaId: idProvincia }, (localidades) => {
       selectLocalidad.innerHTML = '<option value="">Seleccione localidad</option>';
-      localidades.forEach(loc => {
+      localidades.forEach((loc) => {
         const opt = document.createElement("option");
         opt.value = loc.id;
         opt.textContent = loc.nombre;
@@ -144,8 +158,34 @@ if (selectProvincia && selectLocalidad) {
     });
   });
 }
+
 lugar.addEventListener("change", () => {
   const provincia = selectProvincia.options[selectProvincia.selectedIndex].text;
   const localidad = selectLocalidad.options[selectLocalidad.selectedIndex].text;
   lugar.value = `${localidad}, ${provincia}`;
 });
+
+// Editar publicación
+let urlParams = new URLSearchParams(window.location.search);
+let editarId = urlParams.get("editarId");
+
+if (editarId) {
+  postEvent("obtenerPublicacionPorId", { id: editarId }, (publicacion) => {
+    if (publicacion) {
+      document.querySelector("#nombreMascota").value = publicacion.nombreMascota || "";
+      document.querySelector("#tipo").value = publicacion.tipo || "";
+      document.querySelector("#tamano").value = publicacion.tamano || "";
+      document.querySelector("#genero").value = publicacion.genero || "";
+      document.querySelector("#color").value = publicacion.color || "";
+      document.querySelector("#raza").value = publicacion.raza || "";
+      document.querySelector("#edad").value = publicacion.edad || "";
+      document.querySelector("#enfermedad").value = publicacion.enfermedad || "";
+      document.querySelector("#estado").value = publicacion.estado || "";
+      document.querySelector("#descripcion").value = publicacion.descripcion || "";
+      document.querySelector("#lugar").value = publicacion.lugar || "";
+      document.querySelector("#fecha").value = publicacion.fecha || "";
+    } else {
+      console.warn("No se encontró la publicación a editar.");
+    }
+  });
+}

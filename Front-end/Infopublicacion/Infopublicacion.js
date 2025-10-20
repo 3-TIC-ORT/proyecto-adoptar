@@ -53,6 +53,7 @@ if (postId) {
       <p>Raza: ${publiData.raza || "No especificada"}</p>
       <p>Edad: ${publiData.edad || "No especificada"}</p>
       <p>Descripción: ${publiData.descripcion || "No especificada"}</p>
+      <p>Teléfono: ${publiData.telefono || "No especificada"}</p>
       <p>Ubicación: ${publiData.lugar || "Sin ubicación"}</p>
       <button class="Boton">¡Me interesa!</button>
     `;

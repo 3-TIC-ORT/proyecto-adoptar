@@ -109,12 +109,12 @@ function crearPublicacion(data) {
   } else {
     data.foto = null;
   }
-  let nueva = {
-    id: Date.now(),
-    ...data,
-    creadorMail: data.mailUsuario || data.mail || null,
-    creadorNombre: data.nombreUsuario || data.usuarioCreador || null
-  };
+let nueva = {
+  id: Date.now(),
+  ...data,
+  creadorMail: data.creadorMail || data.mailUsuario || data.mail || null,
+  creadorNombre: data.creadorNombre || data.nombreUsuario || data.usuarioCreador || null
+};
 
   publicaciones.push(nueva);
   guardarPublicaciones(publicaciones);
@@ -128,6 +128,15 @@ subscribePOSTEvent("crearPublicacion", (data) => {
 
 subscribeGETEvent("obtenerPublicaciones", () => {
   return leerPublicaciones();
+});
+
+subscribePOSTEvent("eliminarPublicacion", (data) => {
+  let publicaciones = leerPublicaciones();
+  let index = publicaciones.findIndex((p) => p.id === Number(data.id));
+  if (index === -1) return { error: "Publicación no encontrada." };
+  publicaciones.splice(index, 1);
+  guardarPublicaciones(publicaciones);
+  return { ok: true };
 });
 //Favoritos
 subscribePOSTEvent("actualizarFavoritos", (data) => {

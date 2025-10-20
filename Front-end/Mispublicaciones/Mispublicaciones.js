@@ -30,14 +30,13 @@ botonFiltros2.addEventListener("click", (e) => {
   let abierto = cuadroSelectores.classList.contains("open");
   selectores.forEach(selector => selector.classList.toggle("show", abierto));
 });
-
 document.addEventListener("click", (e) => {
-  if (!cuadroSelectores.contains(e.target) && !botonFiltros2.contains(e.target)) {
-    cuadroSelectores.classList.remove("open");
-    selectores.forEach(selector => selector.classList.remove("show"));
+  if (!menuLateral || !botonFiltros) return;
+  if (!menuLateral.contains(e.target) && !botonFiltros.contains(e.target)) {
+    menuLateral.classList.remove("open");
+    items.forEach(item => item.classList.remove("show"));
   }
 });
-
 let contenedorPublicaciones = document.querySelector(".publicaciones");
 let todasLasPublicaciones = [];
 
@@ -58,6 +57,7 @@ function mostrarPublicaciones(publicaciones) {
     let creador = publiData.creador || publiData.usuario || publiData.mailUsuario || "Desconocido";
 let publi = document.createElement("div");
 publi.classList.add("publicacion");
+publi.dataset.id = publiData.id;
 publi.innerHTML = `
   <div class="Iconotrespuntitos">⋮</div>
   <div class="Editores">
@@ -201,6 +201,41 @@ if (selectProvincia && selectLocalidad) {
     });
   });
 }
+
+// Redireccionar a editar publicación
+document.addEventListener("click", (e) => {
+  if (e.target.classList.contains("editar")) {
+    let publicacionElem = e.target.closest(".publicacion");
+    let indice = Array.from(contenedorPublicaciones.children).indexOf(publicacionElem);
+    let publicacion = todasLasPublicaciones[indice];
+
+    if (publicacionElem && publicacionElem.dataset && publicacionElem.dataset.id) {
+      let editarId = publicacionElem.dataset.id;
+      window.location.href = `../Formulario/Formulario.html?editarId=${editarId}`;
+    }
+  }
+});
+
+// Eliminar publicación
+document.addEventListener("click", (e) => {
+  if (e.target.classList.contains("eliminar")) {
+    let publicacionElem = e.target.closest(".publicacion");
+    let indice = Array.from(contenedorPublicaciones.children).indexOf(publicacionElem);
+    let publicacion = todasLasPublicaciones[indice];
+
+    if (publicacionElem && publicacionElem.dataset && publicacionElem.dataset.id) {
+      let eliminarId = publicacionElem.dataset.id;
+      if (confirm("¿Estás seguro de que deseas eliminar esta publicación?")) {
+        postEvent("eliminarPublicacion", { id: eliminarId }, (respuesta) => {
+          if (respuesta && respuesta.success) {
+            alert("Publicación eliminada correctamente.");
+            publicacionElem.remove();
+          }
+        });
+      }
+    }
+  }
+});
 //Redirecciones de botones
 let botonperfil = document.querySelector(".circuloperfil");
 botonperfil.addEventListener("click", () => {

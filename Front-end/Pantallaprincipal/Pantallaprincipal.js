@@ -61,7 +61,7 @@ if (usuario) {
   }
 
   // Guardar versión normalizada
-  localStorage.setItem("usuarioLogueado", JSON.stringify(usuario));
+  localStorage.setItem("usuarioActual", JSON.stringify(usuario));
 }
 
 console.log("Usuario cargado:", usuario);
@@ -214,7 +214,7 @@ let usuario =
       //Obtener usuario
 
       let usuario =
-        JSON.parse(localStorage.getItem("usuarioLogueado")) ||
+        JSON.parse(localStorage.getItem("usuarioActual")) ||
         JSON.parse(localStorage.getItem("user")) ||
         JSON.parse(localStorage.getItem("usuario")) ||
         JSON.parse(localStorage.getItem("datosUsuario")) ||
