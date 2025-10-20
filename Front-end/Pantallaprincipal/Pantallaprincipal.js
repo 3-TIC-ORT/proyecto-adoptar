@@ -278,24 +278,6 @@ getEvent("obtenerProvincias", (provincias) => {
   });
 });
 
-selectProvincia.addEventListener("change", () => {
-  const idProvincia = selectProvincia.value;
-  selectLocalidad.innerHTML = '<option value="">Seleccione localidad</option>';
-  if (!idProvincia) return;
-
-  postEvent("obtenerLocalidades", { provinciaId: idProvincia }, (localidades) => {
-    selectLocalidad.innerHTML = '<option value="">Seleccione localidad</option>';
-    localidades.forEach(loc => {
-      const opt = document.createElement("option");
-      opt.value = loc.nombre;
-      opt.textContent = loc.nombre;
-      selectLocalidad.appendChild(opt);
-    });
-  });
-
-  aplicarFiltros();
-});
-
 selectLocalidad.addEventListener("change", aplicarFiltros);
 
 function aplicarFiltros() {
@@ -313,8 +295,6 @@ function aplicarFiltros() {
 let coincideLocalidad = !localidadSeleccionada || publi.localidad === localidadSeleccionada;
 
     return (
-      coincideProvincia &&
-      coincideLocalidad &&
       (tamanos.length === 0 || tamanos.includes(publi.tamano)) &&
       (colores.length === 0 || colores.includes(publi.color)) &&
       (tipos.length === 0 || tipos.includes(publi.tipo))
