@@ -5,12 +5,25 @@ volver.addEventListener("click", () => {
   window.location.href = "../Pantallaprincipal/Pantallaprincipal.html";
 });
 
+const boton = document.querySelector(".Boton");
+
+// Cuando hacés clic en el botón
+boton.addEventListener("click", (e) => {
+  e.stopPropagation(); 
+  boton.classList.toggle(".seleccionado"); 
+});
+
+document.addEventListener("click", (e) => {
+  if (!boton.contains(e.target)) {
+    boton.classList.remove(".seleccionado");
+  }
+});
 // OBTENER PARÁMETRO "id" DE LA URL
 function getQueryParam(name) {
   const params = new URLSearchParams(window.location.search);
   return params.get(name);
 }
-
+let contenedor = document.querySelector(".container")
 const postId = getQueryParam("id");
 
 if (postId) {
@@ -20,8 +33,6 @@ if (postId) {
       return;
     }
 
-    const contenedor = document.querySelector(".card");
-    contenedor.innerHTML = "";
 
     const publi = document.createElement("div");
     publi.classList.add("publicacion");
@@ -42,8 +53,9 @@ if (postId) {
     let creador = publiData.creadorNombre || publiData.usuarioCreador || publiData.creadorMail || "Usuario desconocido";
 
     publi.innerHTML = `
+          <img src="${fotoUrl}" class= "fotoUrl" alt="${publiData.nombreMascota || "Foto de mascota"}">
+          <div class = "Info">
       <p class="publicador">Publicado por: <strong>${creador}</strong></p>
-      <img src="${fotoUrl}" alt="${publiData.nombreMascota || "Foto de mascota"}">
       <h3>${publiData.nombreMascota || "Sin nombre"}</h3>
       <p>Estado: ${publiData.estado || "No especificado"}</p>
       <p>Tamaño: ${publiData.tamano || "No especificado"}</p>
@@ -56,7 +68,9 @@ if (postId) {
       <p>Teléfono: ${publiData.telefono || "No especificada"}</p>
       <p>Ubicación: ${publiData.lugar || "Sin ubicación"}</p>
       <button class="Boton">¡Me interesa!</button>
+       </div>
+
     `;
-    contenedor.appendChild(publi);
+  contenedor.appendChild(publi);
   });
 }
