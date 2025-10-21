@@ -277,9 +277,28 @@ getEvent("obtenerProvincias", (provincias) => {
     selectProvincia.appendChild(opt);
   });
 });
+// Cuando cambia la provincia, cargar las localidades
+if (selectProvincia && selectLocalidad) {
+  selectProvincia.addEventListener("change", () => {
+    const idProvincia = selectProvincia.value;
+    selectLocalidad.innerHTML = '<option value="">Seleccione localidad</option>';
+
+    if (!idProvincia) return;
+
+    postEvent("obtenerLocalidades", { provinciaId: idProvincia }, (localidades) => {
+      selectLocalidad.innerHTML = '<option value="">Seleccione localidad</option>';
+      localidades.forEach(loc => {
+        const opt = document.createElement("option");
+        opt.value = loc.id;
+        opt.textContent = loc.nombre;
+        selectLocalidad.appendChild(opt);
+      });
+    });
+  });
+}
 
 selectLocalidad.addEventListener("change", aplicarFiltros);
-
+//Filtros
 function aplicarFiltros() {
   let tamanos = Array.from(document.querySelectorAll('.Selectores1 input[type="checkbox"]:checked')).map(c => c.value);
   let colores = Array.from(document.querySelectorAll('.Selectores3 input[type="checkbox"]:checked')).map(c => c.value);
