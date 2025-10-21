@@ -219,7 +219,7 @@ transform: translateX(0);
     right: 2%;
     min-height: auto;       
     width: 35vh; 
-    background-color:rgb(197, 244, 255);
+    background-color:#A1C0CB;
     z-index: 3;
     border-radius: 10px;
     padding: 20px;
@@ -286,7 +286,7 @@ transform: translateX(0);
             
             .publicacion:hover
             {
-                background-color: #E3F0F5;
+                background-color: #bed8e2;
                 cursor: pointer;
                 transition: background-color 0.3s ease;
             }
