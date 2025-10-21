@@ -234,5 +234,26 @@
     "foto": "/Fotosmascotas/foto_1760972427014.jpeg",
     "creadorMail": "ramirolangsam@gmail.com",
     "creadorNombre": "ramiro langsam"
+  },
+  {
+    "id": 1761006422391,
+    "nombreMascota": "Zoe",
+    "tipo": "Perro",
+    "tamano": "Pequeño",
+    "genero": "Femenino",
+    "color": "Oscuro",
+    "raza": "Rabiosa",
+    "edad": "Parece de 100",
+    "enfermedad": "Sí",
+    "estado": "Para transitar",
+    "descripcion": "ESTÁ RE LOCA NECESITO QUE SE LA LLEVEN YAAAAAA",
+    "telefono": "5491169624578",
+    "lugar": "Belgrano, Capital Federal",
+    "provincia": "Capital Federal",
+    "localidad": "Belgrano",
+    "fecha": "2010-05-11",
+    "foto": "/Fotosmascotas/foto_1761006422390.jpeg",
+    "creadorMail": "bruno.ferro@outlook.com",
+    "creadorNombre": "Bruno Ferro"
   }
 ]
