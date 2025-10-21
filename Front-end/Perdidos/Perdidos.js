@@ -161,6 +161,7 @@ radiosCantidad.forEach(radio => {
       contenedorPublicaciones.style.gridTemplateColumns = "repeat(4, 1fr)";
     } else if (radio.value === "Cinco") {
       contenedorPublicaciones.style.gridTemplateColumns = "repeat(5, 1fr)";
+      contenedorPublicaciones.classList.toggle("cinco");
     }
   });
 });

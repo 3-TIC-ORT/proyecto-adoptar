@@ -249,7 +249,9 @@ transform: translateX(0);
     margin: 10px auto;   
     max-width: 900px; 
 }
-            
+.publicaciones.cinco{
+    gap: 2rem;
+}         
 .publicacion {
     display: flex;
     flex-direction: column;
