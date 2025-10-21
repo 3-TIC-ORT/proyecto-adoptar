@@ -49,9 +49,12 @@ window.addEventListener("DOMContentLoaded", () => {
     filtradas.forEach(publi => {
       let div = document.createElement("div");
       div.classList.add("publicacion");
-
+ let creador =
+      publi.creadorNombre ||
+      publi.creadorMail ||
+      "Anónimo";
       div.innerHTML = `
-      <p class="creador">Publicado por: <strong>${publi.usuarioCreador || "Usuario desconocido"}</strong></p>
+      <p class="creador">Publicado por: <strong>${creador || "Usuario desconocido"}</strong></p>
         <img src="../../Back-end/${publi.foto || "https://via.placeholder.com/150"}" alt="${publi.nombreMascota}">
         <h3>${publi.nombreMascota}</h3>
         <p>Tipo: ${publi.tipo}</p>

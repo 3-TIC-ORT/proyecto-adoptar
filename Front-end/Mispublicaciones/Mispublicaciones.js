@@ -54,7 +54,7 @@ function mostrarPublicaciones(publicaciones) {
 
   publicaciones.forEach((publiData) => {
     // Crear contenedor principal igual que en Pantallaprincipal
-    let creador = publiData.creador || publiData.usuario || publiData.mailUsuario || "Desconocido";
+     let creador = publiData.creadorNombre || publiData.creadorMail || "Anónimo";
 let publi = document.createElement("div");
 publi.classList.add("publicacion");
 publi.dataset.id = publiData.id;
@@ -65,15 +65,78 @@ publi.innerHTML = `
     <button class="eliminar">Eliminar</button>
   </div>
       <p><strong>Publicado por:</strong> ${creador}</p>
-   <img src="../../Back-end/${publi.foto || "https://via.placeholder.com/150"}" alt="${publi.nombreMascota}">
+   <img src="../../Back-end/${publiData.foto || "https://via.placeholder.com/150"}" alt="${publi.nombreMascota}">
   <div class="infomascota">
     <h3>${publiData.nombreMascota || "Sin nombre"}</h3>
-    <p><strong>Tamaño:</strong> ${publiData.tamano || "No especificado"}</p>
-    <p><strong>Tipo:</strong> ${publiData.tipo || "No especificado"}</p>
-    <p><strong>Género:</strong> ${publiData.genero || "No especificado"}</p>
-    <p><strong>Estado:</strong> ${publiData.estado || "No especificado"}</p>
+      <p>Tipo: ${publiData.tipo}</p>
+      <p>Género: ${publiData.genero}</p>
+      <p>Color: ${publiData.color || "No especificado"}</p>
+      <p>Raza: ${publiData.raza || "No especificada"}</p>
+      <p>Edad: ${publiData.edad || "No especificada"}</p>
+      <p>Ubicación: ${publiData.lugar || "Sin ubicación"}</p>
   </div>
 `;
+    // Comentarios
+    let comentarios = document.createElement("img");
+    comentarios.src = "../Iconos/Iconocomentarios.png";
+    comentarios.classList.add("Comentarios");
+    publi.appendChild(comentarios);
+
+    let lista = document.createElement("div");
+    lista.classList.add("lista-comentarios");
+    publi.appendChild(lista);
+
+    let textarea = document.createElement("textarea");
+    textarea.classList.add("Inputcomentarios");
+    textarea.placeholder = "Escribe un comentario...";
+    publi.appendChild(textarea);
+
+    let enviarBtn = document.createElement("button");
+    enviarBtn.textContent = "Enviar";
+    enviarBtn.classList.add("EnviarComentario");
+    publi.appendChild(enviarBtn);
+
+    comentarios.addEventListener("click", (e) => {
+      e.stopPropagation();
+      textarea.classList.toggle("show");
+      enviarBtn.classList.toggle("show");
+      lista.classList.toggle("show");
+      publi.classList.toggle("expandida");
+
+      if (lista.classList.contains("show")) {
+        lista.innerHTML = "<p>Cargando comentarios...</p>";
+        postEvent("obtenerComentarios", { idPublicacion: publiData.id }, (data) => {
+          lista.innerHTML = "";
+          if (Array.isArray(data)) {
+            data.forEach(com => {
+              let p = document.createElement("p");
+              p.textContent = `${com.usuario}: ${com.texto}`;
+              lista.appendChild(p);
+            });
+          } else {
+            lista.innerHTML = "<p>No hay comentarios.</p>";
+          }
+        });
+      }
+    });
+
+    enviarBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      if (textarea.value.trim() !== "") {
+        let nombreUsuario = usuario?.nombre || usuario?.mail || "Anónimo";
+        let nuevoComentario = document.createElement("p");
+        nuevoComentario.textContent = `${nombreUsuario}: ${textarea.value}`;
+        lista.appendChild(nuevoComentario);
+
+        postEvent("guardarComentario", {
+          idPublicacion: publiData.id,
+          texto: textarea.value,
+          usuario: nombreUsuario
+        });
+
+        textarea.value = "";
+      }
+    });
     // Redirección al detalle
     publi.addEventListener("click", (e) => {
       if (!e.target.closest(".Iconotrespuntitos") && !e.target.closest(".Editores")) {
