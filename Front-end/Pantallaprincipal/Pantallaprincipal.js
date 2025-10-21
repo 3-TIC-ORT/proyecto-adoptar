@@ -301,33 +301,59 @@ if (selectProvincia && selectLocalidad) {
 selectLocalidad.addEventListener("change", aplicarFiltros);
 //Filtros
 function aplicarFiltros() {
+  if (!todasLasPublicaciones.length) return;
+
+  // Obtener los valores seleccionados de los distintos filtros
   let tamanos = Array.from(document.querySelectorAll('.Selectores1 input[type="checkbox"]:checked')).map(c => c.value);
   let colores = Array.from(document.querySelectorAll('.Selectores3 input[type="checkbox"]:checked')).map(c => c.value);
   let tipos = Array.from(document.querySelectorAll('.Selectores4 input[type="checkbox"]:checked')).map(c => c.value);
 
-  let provinciaSeleccionada = selectProvincia.options[selectProvincia.selectedIndex]?.text || "";
-  let localidadSeleccionada = selectLocalidad.options[selectLocalidad.selectedIndex]?.text || "";
+  // Obtener provincia y localidad seleccionadas (por texto visible)
+  let provinciaSeleccionada = selectProvincia.value
+    ? selectProvincia.options[selectProvincia.selectedIndex].text
+    : "";
+  let localidadSeleccionada = selectLocalidad.value
+    ? selectLocalidad.options[selectLocalidad.selectedIndex].text
+    : "";
 
-  if (!todasLasPublicaciones.length) return;
-
+  // Filtrar publicaciones
   let filtradas = todasLasPublicaciones.filter(publi => {
     let coincideProvincia = !provinciaSeleccionada || publi.provincia === provinciaSeleccionada;
-let coincideLocalidad = !localidadSeleccionada || publi.localidad === localidadSeleccionada;
+    let coincideLocalidad = !localidadSeleccionada || publi.localidad === localidadSeleccionada;
+    let coincideTamano = tamanos.length === 0 || tamanos.includes(publi.tamano);
+    let coincideColor = colores.length === 0 || colores.includes(publi.color);
+    let coincideTipo = tipos.length === 0 || tipos.includes(publi.tipo);
 
-    return (
-      (tamanos.length === 0 || tamanos.includes(publi.tamano)) &&
-      (colores.length === 0 || colores.includes(publi.color)) &&
-      (tipos.length === 0 || tipos.includes(publi.tipo))
-    );
+    return coincideProvincia && coincideLocalidad && coincideTamano && coincideColor && coincideTipo;
   });
 
   mostrarPublicaciones(filtradas);
 }
 
-// Escuchar cambios en todos los filtros
-document.querySelectorAll('.Selectores1 input, .Selectores3 input, .Selectores4 input')
-  .forEach(input => input.addEventListener("change", aplicarFiltros));
+document.querySelectorAll(
+  '.Selectores1 input, .Selectores3 input, .Selectores4 input'
+).forEach(input => input.addEventListener("change", aplicarFiltros));
 
+if (selectProvincia) selectProvincia.addEventListener("change", () => {
+  const idProvincia = selectProvincia.value;
+  selectLocalidad.innerHTML = '<option value="">Seleccione localidad</option>';
+
+  if (idProvincia) {
+    postEvent("obtenerLocalidades", { provinciaId: idProvincia }, (localidades) => {
+      selectLocalidad.innerHTML = '<option value="">Seleccione localidad</option>';
+      localidades.forEach(loc => {
+        const opt = document.createElement("option");
+        opt.value = loc.id;
+        opt.textContent = loc.nombre;
+        selectLocalidad.appendChild(opt);
+      });
+    });
+  }
+
+  aplicarFiltros();
+});
+
+if (selectLocalidad) selectLocalidad.addEventListener("change", aplicarFiltros);
 
 // Redirecciones
 document.querySelector(".circuloperfil").addEventListener("click", () => {
