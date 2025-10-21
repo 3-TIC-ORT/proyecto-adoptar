@@ -38,13 +38,152 @@ document.addEventListener("click", (e) => {
   }
 });
 
-// Mostrar publicaciones filtradas de la categoría "Para adoptar"
+let todasLasPublicaciones = [];
+let usuario = null;
+
+// ✅ Mover la función aquí para que esté en el ámbito global
+function mostrarPublicaciones(lista) {
+  let contenedor = document.querySelector(".publicaciones");
+  contenedor.innerHTML = "";
+  let favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
+
+  lista.forEach(publi => {
+    let div = document.createElement("div");
+    div.classList.add("publicacion");
+
+    let creador =
+      publi.creadorNombre ||
+      publi.usuarioCreador ||
+      publi.creadorMail ||
+      "Anónimo";
+
+    div.innerHTML = `
+      <p class="publicador">Publicado por: <strong>${creador}</strong></p>
+      <img src="../../Back-end/${publi.foto || "https://via.placeholder.com/150"}" alt="${publi.nombreMascota}">
+      <h3>${publi.nombreMascota}</h3>
+      <p>Tamaño: ${publi.tamano || "No especificado"}</p>
+      <p>Tipo: ${publi.tipo}</p>
+      <p>Género: ${publi.genero}</p>
+      <p>Raza: ${publi.raza || "No especificada"}</p>
+      <p>Edad: ${publi.edad || "No especificada"}</p>
+      <p>Ubicación: ${publi.lugar || "Sin ubicación"}</p>
+    `;
+
+    // Corazón
+    let corazon = document.createElement("img");
+    corazon.src = "../Iconos/Iconocorazon.webp";
+    corazon.classList.add("Corazon");
+    if (favoritos.includes(publi.id)) corazon.classList.add("activo");
+    div.prepend(corazon);
+
+    corazon.addEventListener("click", (e) => {
+      e.stopPropagation();
+      corazon.classList.toggle("activo");
+
+      if (corazon.classList.contains("activo")) {
+        if (!favoritos.includes(publi.id)) favoritos.push(publi.id);
+      } else {
+        favoritos = favoritos.filter(id => id !== publi.id);
+      }
+
+      localStorage.setItem("favoritos", JSON.stringify(favoritos));
+
+      const mailUsuario = usuario?.mail || usuario?.email || usuario?.correo || null;
+      if (mailUsuario) {
+        postEvent("actualizarFavoritos", { mail: mailUsuario, favoritos });
+      }
+    });
+
+    // Comentarios
+    let comentarios = document.createElement("img");
+    comentarios.src = "../Iconos/Iconocomentarios.png";
+    comentarios.classList.add("Comentarios");
+    div.appendChild(comentarios);
+
+    let listaComentarios = document.createElement("div");
+    listaComentarios.classList.add("lista-comentarios");
+    div.appendChild(listaComentarios);
+
+    let textarea = document.createElement("textarea");
+    textarea.classList.add("Inputcomentarios");
+    textarea.placeholder = "Escribe un comentario...";
+    div.appendChild(textarea);
+
+    let enviarBtn = document.createElement("button");
+    enviarBtn.textContent = "Enviar";
+    enviarBtn.classList.add("EnviarComentario");
+    div.appendChild(enviarBtn);
+
+    comentarios.addEventListener("click", (e) => {
+      e.stopPropagation();
+
+      textarea.classList.toggle("show");
+      enviarBtn.classList.toggle("show");
+      listaComentarios.classList.toggle("show");
+      div.classList.toggle("expandida");
+
+      if (listaComentarios.classList.contains("show")) {
+        listaComentarios.innerHTML = "<p>Cargando comentarios...</p>";
+
+        postEvent("obtenerComentarios", { idPublicacion: publi.id }, (data) => {
+          if (Array.isArray(data)) {
+            listaComentarios.innerHTML = "";
+            data.forEach(com => {
+              let p = document.createElement("p");
+              p.textContent = `${com.usuario}: ${com.texto}`;
+              listaComentarios.appendChild(p);
+            });
+          } else {
+            listaComentarios.innerHTML = "<p>No se pudieron cargar los comentarios.</p>";
+          }
+        });
+      }
+    });
+
+    enviarBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+
+      if (!usuario || !usuario.mail) {
+        alert("Debes iniciar sesión para comentar.");
+        return;
+      }
+
+      if (textarea.value.trim() !== "") {
+        let nombreUsuario = usuario.nombre || usuario.mail;
+        let nuevoComentario = document.createElement("p");
+        nuevoComentario.textContent = `${nombreUsuario}: ${textarea.value}`;
+        listaComentarios.appendChild(nuevoComentario);
+
+        postEvent("guardarComentario", {
+          idPublicacion: publi.id,
+          texto: textarea.value,
+          usuario: nombreUsuario
+        });
+
+        textarea.value = "";
+      }
+    });
+
+    // Ir a detalle
+    div.addEventListener("click", (e) => {
+      if (
+        !e.target.closest(".Comentarios") &&
+        !e.target.closest(".Inputcomentarios") &&
+        !e.target.closest(".EnviarComentario")
+      ) {
+        window.location.href = `../Infopublicacion/Infopublicacion.html?id=${publi.id}`;
+      }
+    });
+
+    contenedor.appendChild(div);
+  });
+}
+
+// Cargar publicaciones
 window.addEventListener("DOMContentLoaded", () => {
   let contenedor = document.querySelector(".publicaciones");
-  let todasLasPublicaciones = [];
 
-  // Cargar usuario actual
-  let usuario =
+  usuario =
     JSON.parse(localStorage.getItem("usuarioLogueado")) ||
     JSON.parse(localStorage.getItem("usuarioActual")) ||
     JSON.parse(localStorage.getItem("user")) ||
@@ -54,149 +193,10 @@ window.addEventListener("DOMContentLoaded", () => {
 
   getEvent("obtenerPublicaciones", (publicaciones) => {
     if (!Array.isArray(publicaciones)) return;
-
     todasLasPublicaciones = publicaciones.filter(pub => pub.estado === "Para adoptar");
     mostrarPublicaciones(todasLasPublicaciones);
   });
-
-  function mostrarPublicaciones(lista) {
-    contenedor.innerHTML = "";
-    let favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
-
-    lista.forEach(publi => {
-      let div = document.createElement("div");
-      div.classList.add("publicacion");
-
-      let creador =
-        publi.creadorNombre ||
-        publi.usuarioCreador ||
-        publi.creadorMail ||
-        "Anónimo";
-
-      div.innerHTML = `
-        <p class="publicador">Publicado por: <strong>${creador}</strong></p>
-        <img src="../../Back-end/${publi.foto || "https://via.placeholder.com/150"}" alt="${publi.nombreMascota}">
-        <h3>${publi.nombreMascota}</h3>
-        <p>Tamaño: ${publi.tamano || "No especificado"}</p>
-        <p>Tipo: ${publi.tipo}</p>
-        <p>Género: ${publi.genero}</p>
-        <p>Raza: ${publi.raza || "No especificada"}</p>
-        <p>Edad: ${publi.edad || "No especificada"}</p>
-        <p>Ubicación: ${publi.lugar || "Sin ubicación"}</p>
-      `;
-
-      //Corazón
-      let corazon = document.createElement("img");
-      corazon.src = "../Iconos/Iconocorazon.webp";
-      corazon.classList.add("Corazon");
-      if (favoritos.includes(publi.id)) corazon.classList.add("activo");
-      div.prepend(corazon);
-
-      corazon.addEventListener("click", (e) => {
-        e.stopPropagation();
-        corazon.classList.toggle("activo");
-
-        if (corazon.classList.contains("activo")) {
-          if (!favoritos.includes(publi.id)) favoritos.push(publi.id);
-        } else {
-          favoritos = favoritos.filter(id => id !== publi.id);
-        }
-
-        localStorage.setItem("favoritos", JSON.stringify(favoritos));
-
-        //Sincronizar con backend
-        const mailUsuario = usuario?.mail || usuario?.email || usuario?.correo || null;
-        if (mailUsuario) {
-          postEvent("actualizarFavoritos", { mail: mailUsuario, favoritos });
-        }
-      });
-
-      //Comentarios
-      let comentarios = document.createElement("img");
-      comentarios.src = "../Iconos/Iconocomentarios.png";
-      comentarios.classList.add("Comentarios");
-      div.appendChild(comentarios);
-
-      let lista = document.createElement("div");
-      lista.classList.add("lista-comentarios");
-      div.appendChild(lista);
-
-      let textarea = document.createElement("textarea");
-      textarea.classList.add("Inputcomentarios");
-      textarea.placeholder = "Escribe un comentario...";
-      div.appendChild(textarea);
-
-      let enviarBtn = document.createElement("button");
-      enviarBtn.textContent = "Enviar";
-      enviarBtn.classList.add("EnviarComentario");
-      div.appendChild(enviarBtn);
-
-      comentarios.addEventListener("click", (e) => {
-        e.stopPropagation();
-
-        textarea.classList.toggle("show");
-        enviarBtn.classList.toggle("show");
-        lista.classList.toggle("show");
-        div.classList.toggle("expandida");
-
-        if (lista.classList.contains("show")) {
-          lista.innerHTML = "<p>Cargando comentarios...</p>";
-
-          postEvent("obtenerComentarios", { idPublicacion: publi.id }, (data) => {
-            if (Array.isArray(data)) {
-              lista.innerHTML = "";
-              data.forEach(com => {
-                let p = document.createElement("p");
-                p.textContent = `${com.usuario}: ${com.texto}`;
-                lista.appendChild(p);
-              });
-            } else {
-              lista.innerHTML = "<p>No se pudieron cargar los comentarios.</p>";
-            }
-          });
-        }
-      });
-
-      enviarBtn.addEventListener("click", (e) => {
-        e.stopPropagation();
-
-        if (!usuario || !usuario.mail) {
-          alert("Debes iniciar sesión para comentar.");
-          return;
-        }
-
-        if (textarea.value.trim() !== "") {
-          let nombreUsuario = usuario.nombre || usuario.mail;
-          let nuevoComentario = document.createElement("p");
-          nuevoComentario.textContent = `${nombreUsuario}: ${textarea.value}`;
-          lista.appendChild(nuevoComentario);
-
-          postEvent("guardarComentario", {
-            idPublicacion: publi.id,
-            texto: textarea.value,
-            usuario: nombreUsuario
-          });
-
-          textarea.value = "";
-        }
-      });
-
-      //Ir a detalle
-      div.addEventListener("click", (e) => {
-        if (
-          !e.target.closest(".Comentarios") &&
-          !e.target.closest(".Inputcomentarios") &&
-          !e.target.closest(".EnviarComentario")
-        ) {
-          window.location.href = `../Infopublicacion/Infopublicacion.html?id=${publi.id}`;
-        }
-      });
-
-      contenedor.appendChild(div);
-    });
-  }
 });
-
 // CAMBIO DE COLUMNAS
 let contenedorPublicaciones = document.querySelector(".publicaciones");
 let radiosCantidad = document.querySelectorAll('input[value="Tres"], input[value="Cuatro"], input[value="Cinco"]');
@@ -229,13 +229,50 @@ getEvent("obtenerProvincias", (provincias) => {
 });
 
 // Cuando cambia la provincia, cargar las localidades
-if (selectProvincia && selectLocalidad) {
-  selectProvincia.addEventListener("change", () => {
-    const idProvincia = selectProvincia.value;
-    selectLocalidad.innerHTML = '<option value="">Seleccione localidad</option>';
+function aplicarFiltros() {
+  if (!todasLasPublicaciones.length) return;
 
-    if (!idProvincia) return;
+  // Obtener los valores seleccionados de los distintos filtros
+  let tamanos = Array.from(document.querySelectorAll('.Selectores1 input[type="checkbox"]:checked')).map(c => c.value);
+  let colores = Array.from(document.querySelectorAll('.Selectores3 input[type="checkbox"]:checked')).map(c => c.value);
+  let tipos = Array.from(document.querySelectorAll('.Selectores4 input[type="checkbox"]:checked')).map(c => c.value);
 
+  // Obtener provincia y localidad seleccionadas
+  let provinciaSeleccionada = selectProvincia.value
+    ? selectProvincia.options[selectProvincia.selectedIndex].text.trim().toLowerCase()
+    : "";
+  let localidadSeleccionada = selectLocalidad.value
+    ? selectLocalidad.options[selectLocalidad.selectedIndex].text.trim().toLowerCase()
+    : "";
+
+  // 🔥 Filtrar publicaciones
+  let filtradas = todasLasPublicaciones.filter(publi => {
+    // Normalizamos todo para comparar sin errores de mayúsculas o espacios
+    let provPub = (publi.provincia || publi.lugar || "").trim().toLowerCase();
+    let locPub = (publi.localidad || publi.lugar || "").trim().toLowerCase();
+
+    let coincideProvincia = !provinciaSeleccionada || provPub.includes(provinciaSeleccionada);
+    let coincideLocalidad = !localidadSeleccionada || locPub.includes(localidadSeleccionada);
+    let coincideTamano = tamanos.length === 0 || tamanos.includes(publi.tamano);
+    let coincideColor = colores.length === 0 || colores.includes(publi.color);
+    let coincideTipo = tipos.length === 0 || tipos.includes(publi.tipo);
+
+    return coincideProvincia && coincideLocalidad && coincideTamano && coincideColor && coincideTipo;
+  });
+
+  mostrarPublicaciones(filtradas);
+}
+
+// Escuchar cambios en todos los filtros
+document.querySelectorAll(
+  '.Selectores1 input, .Selectores3 input, .Selectores4 input'
+).forEach(input => input.addEventListener("change", aplicarFiltros));
+
+if (selectProvincia) selectProvincia.addEventListener("change", () => {
+  const idProvincia = selectProvincia.value;
+  selectLocalidad.innerHTML = '<option value="">Seleccione localidad</option>';
+
+  if (idProvincia) {
     postEvent("obtenerLocalidades", { provinciaId: idProvincia }, (localidades) => {
       selectLocalidad.innerHTML = '<option value="">Seleccione localidad</option>';
       localidades.forEach(loc => {
@@ -245,35 +282,12 @@ if (selectProvincia && selectLocalidad) {
         selectLocalidad.appendChild(opt);
       });
     });
-  });
-}
-function aplicarFiltros() {
-  let tamanos = Array.from(document.querySelectorAll('.Selectores1 input[type="checkbox"]:checked')).map(c => c.value);
-  let colores = Array.from(document.querySelectorAll('.Selectores3 input[type="checkbox"]:checked')).map(c => c.value);
-  let tipos = Array.from(document.querySelectorAll('.Selectores4 input[type="checkbox"]:checked')).map(c => c.value);
+  }
 
-  let provinciaSeleccionada = selectProvincia.options[selectProvincia.selectedIndex]?.text || "";
-  let localidadSeleccionada = selectLocalidad.options[selectLocalidad.selectedIndex]?.text || "";
+  aplicarFiltros();
+});
 
-  if (!todasLasPublicaciones.length) return;
-
-  let filtradas = todasLasPublicaciones.filter(publi => {
-    let coincideProvincia = !provinciaSeleccionada || publi.provincia === provinciaSeleccionada;
-let coincideLocalidad = !localidadSeleccionada || publi.localidad === localidadSeleccionada;
-
-    return (
-      (tamanos.length === 0 || tamanos.includes(publi.tamano)) &&
-      (colores.length === 0 || colores.includes(publi.color)) &&
-      (tipos.length === 0 || tipos.includes(publi.tipo))
-    );
-  });
-
-  mostrarPublicaciones(filtradas);
-}
-
-// Escuchar cambios en todos los filtros
-document.querySelectorAll('.Selectores1 input, .Selectores3 input, .Selectores4 input')
-  .forEach(input => input.addEventListener("change", aplicarFiltros));
+if (selectLocalidad) selectLocalidad.addEventListener("change", aplicarFiltros);
 // Redirecciones
 document.querySelector(".circuloperfil").addEventListener("click", () => {
   window.location.href = "../Perfildeusuario/Perfildeusuario.html";

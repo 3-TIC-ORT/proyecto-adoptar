@@ -330,6 +330,7 @@ function aplicarFiltros() {
   mostrarPublicaciones(filtradas);
 }
 
+// Escuchar cambios en todos los filtros de forma independiente
 document.querySelectorAll(
   '.Selectores1 input, .Selectores3 input, .Selectores4 input'
 ).forEach(input => input.addEventListener("change", aplicarFiltros));

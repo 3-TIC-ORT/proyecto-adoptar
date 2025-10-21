@@ -1,6 +1,6 @@
-connect2Server();
+connect2Server(); 
 
-// === MENÚ LATERAL ===
+//MENÚ LATERAL
 let botonFiltros = document.querySelector(".rayasfiltro");
 let menuLateral = document.querySelector(".Cuadradomenu");
 let items = document.querySelectorAll(".menu-item");
@@ -19,7 +19,7 @@ document.addEventListener("click", (e) => {
   }
 });
 
-// === MENÚ SELECTORES ===
+//MENÚ SELECTORES
 let botonFiltros2 = document.querySelector("#Iconofiltrar");
 let selectores = document.querySelectorAll(".Selectores1, .Selectores2, .Selectores3, .Selectores4, .Selectores5");
 let cuadroSelectores = document.querySelector(".Cuadradoselectores");
@@ -38,7 +38,7 @@ document.addEventListener("click", (e) => {
   }
 });
 
-// === USUARIO LOGUEADO ===
+//USUARIO LOGUEADO
 let usuario =
   JSON.parse(localStorage.getItem("usuarioLogueado")) ||
   JSON.parse(localStorage.getItem("usuarioActual")) ||
@@ -49,8 +49,9 @@ let usuario =
 const mailUsuario = usuario?.Mail || usuario?.mail || usuario?.email || usuario?.correo || null;
 
 const contenedor = document.querySelector(".publicaciones");
+let todasLasPublicaciones = [];
 
-// === CARGAR FAVORITOS ===
+//CARGAR FAVORITOS
 if (mailUsuario) {
   postEvent("obtenerFavoritos", { mail: mailUsuario }, (respuesta) => {
     if (!Array.isArray(respuesta)) {
@@ -60,17 +61,18 @@ if (mailUsuario) {
     }
 
     if (respuesta.length === 0) {
-      contenedor.innerHTML = "<p>No tenés publicaciones favoritas aún ❤️</p>";
+      contenedor.innerHTML = "<p>No tenés publicaciones favoritas aún</p>";
       return;
     }
 
+    todasLasPublicaciones = respuesta; // 🔹 NECESARIO PARA FILTRAR
     mostrarPublicaciones(respuesta);
   });
 } else {
   contenedor.innerHTML = "<p>Iniciá sesión para ver tus favoritos.</p>";
 }
 
-// === MOSTRAR PUBLICACIONES ===
+//MOSTRAR PUBLICACIONES
 function mostrarPublicaciones(publicaciones) {
   contenedor.innerHTML = "";
 
@@ -84,6 +86,7 @@ function mostrarPublicaciones(publicaciones) {
       <p class="publicador">Publicado por: <strong>${creador}</strong></p>
       <img src="../../Back-end/${publiData.foto || "https://via.placeholder.com/150"}" alt="${publiData.nombreMascota}">
       <h3>${publiData.nombreMascota}</h3>
+      <p>Tamaño: ${publiData.tamano || "No especificado"}</p>
       <p>Tipo: ${publiData.tipo}</p>
       <p>Género: ${publiData.genero}</p>
       <p>Color: ${publiData.color || "No especificado"}</p>
@@ -194,6 +197,7 @@ function mostrarPublicaciones(publicaciones) {
     contenedor.appendChild(publi);
   });
 }
+
 // CAMBIO DE COLUMNAS
 let contenedorPublicaciones = document.querySelector(".publicaciones");
 let radiosCantidad = document.querySelectorAll('input[value="Tres"], input[value="Cuatro"], input[value="Cinco"]');
@@ -208,49 +212,76 @@ radiosCantidad.forEach(radio => {
     }
   });
 });
-//Localidades
+
+//LOCALIDADES
 const selectProvincia = document.getElementById("provincia");
 const selectLocalidad = document.getElementById("localidad");
 
 // Cargar provincias al iniciar
 getEvent("obtenerProvincias", (provincias) => {
-  if (!selectProvincia) return;
   selectProvincia.innerHTML = '<option value="">Seleccione provincia</option>';
   provincias.forEach(prov => {
     const opt = document.createElement("option");
-    opt.value = prov.id; // usamos el id para pedir las localidades
+    opt.value = prov.id;
     opt.textContent = prov.nombre;
     selectProvincia.appendChild(opt);
   });
 });
 
+// Cuando cambia la provincia, cargar las localidades
+if (selectProvincia && selectLocalidad) {
+  selectProvincia.addEventListener("change", () => {
+    const idProvincia = selectProvincia.value;
+    selectLocalidad.innerHTML = '<option value="">Seleccione localidad</option>';
+
+    if (!idProvincia) return;
+
+    postEvent("obtenerLocalidades", { provinciaId: idProvincia }, (localidades) => {
+      selectLocalidad.innerHTML = '<option value="">Seleccione localidad</option>';
+      localidades.forEach(loc => {
+        const opt = document.createElement("option");
+        opt.value = loc.id;
+        opt.textContent = loc.nombre;
+        selectLocalidad.appendChild(opt);
+      });
+    });
+    aplicarFiltros(); // 🔹 IMPORTANTE
+  });
+}
+
+if (selectLocalidad) selectLocalidad.addEventListener("change", aplicarFiltros);
+
+// 🔹 FILTROS IGUALADOS A PANTALLAPRINCIPAL
 function aplicarFiltros() {
+  if (!todasLasPublicaciones.length) return;
+
   let tamanos = Array.from(document.querySelectorAll('.Selectores1 input[type="checkbox"]:checked')).map(c => c.value);
   let colores = Array.from(document.querySelectorAll('.Selectores3 input[type="checkbox"]:checked')).map(c => c.value);
   let tipos = Array.from(document.querySelectorAll('.Selectores4 input[type="checkbox"]:checked')).map(c => c.value);
 
-  let provinciaSeleccionada = selectProvincia.options[selectProvincia.selectedIndex]?.text || "";
-  let localidadSeleccionada = selectLocalidad.options[selectLocalidad.selectedIndex]?.text || "";
-
-  if (!todasLasPublicaciones.length) return;
+  let provinciaSeleccionada = selectProvincia.value
+    ? selectProvincia.options[selectProvincia.selectedIndex].text
+    : "";
+  let localidadSeleccionada = selectLocalidad.value
+    ? selectLocalidad.options[selectLocalidad.selectedIndex].text
+    : "";
 
   let filtradas = todasLasPublicaciones.filter(publi => {
     let coincideProvincia = !provinciaSeleccionada || publi.provincia === provinciaSeleccionada;
-let coincideLocalidad = !localidadSeleccionada || publi.localidad === localidadSeleccionada;
+    let coincideLocalidad = !localidadSeleccionada || publi.localidad === localidadSeleccionada;
+    let coincideTamano = tamanos.length === 0 || tamanos.includes(publi.tamano);
+    let coincideColor = colores.length === 0 || colores.includes(publi.color);
+    let coincideTipo = tipos.length === 0 || tipos.includes(publi.tipo);
 
-    return (
-      (tamanos.length === 0 || tamanos.includes(publi.tamano)) &&
-      (colores.length === 0 || colores.includes(publi.color)) &&
-      (tipos.length === 0 || tipos.includes(publi.tipo))
-    );
+    return coincideProvincia && coincideLocalidad && coincideTamano && coincideColor && coincideTipo;
   });
 
   mostrarPublicaciones(filtradas);
 }
 
-// Escuchar cambios en todos los filtros
 document.querySelectorAll('.Selectores1 input, .Selectores3 input, .Selectores4 input')
   .forEach(input => input.addEventListener("change", aplicarFiltros));
+
 //REDIRECCIONES
 document.querySelector(".circuloperfil").addEventListener("click", () => {
   window.location.href = "../Perfildeusuario/Perfildeusuario.html";
