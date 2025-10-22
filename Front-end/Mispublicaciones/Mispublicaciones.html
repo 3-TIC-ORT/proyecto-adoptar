@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>AdoptAR</title>
-<link rel="stylesheet" href="Mispublicaciones.css">
+<link rel="stylesheet" href="Mispublicaciones.css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.8.1/socket.io.js"></script>
 <script src="https://cdn.jsdelivr.net/gh/JZylber/SoqueTIC-Client@v1.4.2/soquetic-client.js"></script>
 <script src="Mispublicaciones.js" defer></script>
@@ -26,43 +26,91 @@
   </div>
 
   <div class="iconos">
-    <img src="../Iconos/Iconofiltrar.png" id="Iconofiltrar" title="Filtros">
+    <img src="../Iconos/Iconofiltrar.png" id="Iconofiltrar" title="Filtros" />
     <div class="circuloperfil" title="Tu perfil">
-      <img src="../Iconos/Iconousuario.png" class="Iconousuario">
+      <img src="../Iconos/Iconousuario.png" class="Iconousuario" />
     </div>
   </div>
 </header>
 
 <div class="linea"></div>
 
-<div class="Cuadradomenu">
-  <div class="menu-container">
-        <div class="menu-item" id="Ubicacion">Ubicación
-<label for="provincia">Provincia:</label>
-<select id="provincia"></select>
-<label for="localidad">Localidad:</label>
-<select id="localidad"></select>
-    </div>
-    <div class="menu-item" id="Home">Home</div>
-    <div class="menu-item" id="Paraadoptar">Para adoptar</div>
-    <div class="menu-item" id="Paratransitar">Para transitar</div>
-    <div class="menu-item" id="Perdidos">Perdidos</div>
-    <div class="menu-item" id="Encontrados">Encontrados</div>
-    <div class="menu-item" id="Misfavoritos">Mis favoritos</div>
+<div class="iconos">
+  <div class="Cuadradoselectores">
+  <div class="Selectores1">
+      <h4>Tamaño</h4>
+      <aside class="Selectores">
+      <input type="checkbox" id="Grande" name="fav_language" value="Grande">
+      <label for="Grande">Grande</label><br>
+      <input type="checkbox" id="Mediano" name="fav_language" value="Mediano">
+       <label for="Mediano">Mediano</label><br>
+      <input type="checkbox" id="Pequeño" name="fav_language" value="Pequeño">
+       <label for="Pequeño">Pequeño</label>
+      </aside>
+  </div>
+ 
+  <div class="Selectores3">
+      <h4>Color</h4>
+      <aside class="Selectores">
+      <input type="checkbox" id="Oscuro" name="fav_language" value="Oscuro">
+      <label for="Oscuro">Oscuro</label><br>
+      <input type="checkbox" id="Claro" name="fav_language" value="Claro">
+       <label for="Claro">Claro</label><br>
+       <input type="checkbox" id="Mixto" name="fav_language" value="Mixto">
+       <label for="Mixto">Mixto</label><br>
+      </aside>
+  </div>
+  <div class="Selectores4">
+      <h4>Tipo</h4>
+      <aside class="Selectores">
+      <input type="checkbox" id="Perro" name="fav_language" value="Perro">
+      <label for="Perro">Perro</label><br>
+      <input type="checkbox" id="Gato" name="fav_language" value="Gato">
+       <label for="Gato">Gato</label><br>
+      </aside>
+  </div>
+          <div class="Selectores5">
+      <h4>Visualización</h4>
+      <aside class="Selectores">
+      <input type="radio" id="Tres" name="fav_language" value="Tres">
+      <label for="Tres">Tres publicaciones</label><br>
+      <input type="radio" id="Cuatro" name="fav_language" value="Cuatro">
+       <label for="Cuatro">Cuatro publicaciones</label><br>
+       <input type="radio" id="Cinco" name="fav_language" value="Cinco">
+       <label for="Cinco">Cinco publicaciones</label><br>
+      </aside>
   </div>
 </div>
 
+  <div class="Cuadradomenu">
+    <div class="menu-container">
+      <div class="menu-item" id="Ubicacion">
+        Ubicación
+        <label for="provincia">Provincia:</label>
+        <select id="provincia"></select>
+        <label for="localidad">Localidad:</label>
+        <select id="localidad"></select>
+      </div>
+
+      <div class="menu-item" id="Home">Home</div>
+      <div class="menu-item" id="Paraadoptar">Para adoptar</div>
+      <div class="menu-item" id="Paratransitar">Para transitar</div>
+      <div class="menu-item" id="Perdidos">Perdidos</div>
+      <div class="menu-item" id="Encontrados">Encontrados</div>
+      <div class="menu-item" id="Misfavoritos">Mis favoritos</div>
+    </div>
+  </div>
+</div>
 
 <div class="circulo" id="botonMas" title="Crear publicación">
   <span class="mas">+</span>
 </div>
 
 <div class="publicaciones">
-  <div class="publicación">
-          <span class="editar-publicacion">Editar</span>
-          <span class="eliminar-publicacion">Eliminar</span>
-        </div>
-      </div>
+  <div class="publicacion">
+    <span class="editar-publicacion">Editar</span>
+    <span class="eliminar-publicacion">Eliminar</span>
+  </div>
 </div>
 
 </body>
