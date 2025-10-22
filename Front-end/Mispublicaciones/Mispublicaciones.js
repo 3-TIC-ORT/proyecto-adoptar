@@ -265,13 +265,10 @@ if (selectProvincia && selectLocalidad) {
   });
 }
 
-// Redireccionar a editar publicación
+// Redireccionar a editar publicación (mantiene datos en formulario)
 document.addEventListener("click", (e) => {
   if (e.target.classList.contains("editar")) {
     let publicacionElem = e.target.closest(".publicacion");
-    let indice = Array.from(contenedorPublicaciones.children).indexOf(publicacionElem);
-    let publicacion = todasLasPublicaciones[indice];
-
     if (publicacionElem && publicacionElem.dataset && publicacionElem.dataset.id) {
       let editarId = publicacionElem.dataset.id;
       window.location.href = `../Formulario/Formulario.html?editarId=${editarId}`;
