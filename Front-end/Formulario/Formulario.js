@@ -170,6 +170,7 @@ if (editarId) {
   postEvent("crearPublicacion", nuevaPublicacion, (resp) => {
     if (resp && resp.id) {
       alert("¡Publicación creada con éxito!");
+      window.location.href ="../Pantallaprincipal/Pantallaprincipal.html";
     } else {
       alert("Error al crear publicación en el servidor.");
     }

@@ -275,27 +275,36 @@ document.addEventListener("click", (e) => {
     }
   }
 });
-
-// Eliminar publicación
+//elimar publlicacion//
 document.addEventListener("click", (e) => {
   if (e.target.classList.contains("eliminar")) {
     let publicacionElem = e.target.closest(".publicacion");
-    let indice = Array.from(contenedorPublicaciones.children).indexOf(publicacionElem);
-    let publicacion = todasLasPublicaciones[indice];
 
     if (publicacionElem && publicacionElem.dataset && publicacionElem.dataset.id) {
       let eliminarId = publicacionElem.dataset.id;
+
       if (confirm("¿Estás seguro de que deseas eliminar esta publicación?")) {
         postEvent("eliminarPublicacion", { id: eliminarId }, (respuesta) => {
-          if (respuesta && respuesta.success) {
-            alert("Publicación eliminada correctamente.");
+          console.log("Respuesta del servidor al eliminar:", respuesta);
+
+        
+          if (respuesta && (respuesta.ok === true || respuesta.success === true)) {
             publicacionElem.remove();
+            todasLasPublicaciones = todasLasPublicaciones.filter(publi => publi.dataset.id !== eliminarId);
+
+            if (todasLasPublicaciones.length === 0) {
+              contenedorPublicaciones.innerHTML = "<p>No tienes publicaciones aún.</p>";
+            }
+          } else {
+            console.error("Error al eliminar publicación:", respuesta);
+            alert("Error al eliminar la publicación.");
           }
         });
       }
     }
   }
 });
+
 function aplicarFiltros() {
   let tamanos = Array.from(document.querySelectorAll('.Selectores1 input[type="checkbox"]:checked')).map(c => c.value);
   let colores = Array.from(document.querySelectorAll('.Selectores3 input[type="checkbox"]:checked')).map(c => c.value);
