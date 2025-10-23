@@ -1,99 +1,91 @@
-body {
-    background-color: #eaf4ff;
-    font-family:'Poppins', sans-serif;
-}
-* {
+html, body {
+    height: 100%;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-}
-.intro {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  body {
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
+    background: rgba(0,0,0,0.7) url("../imagenes/fondo-mascotas.jpg") no-repeat center center/cover;
+  }
+  
+  .register-box {
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    padding: 40px 50px;
+    width: 350px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.3);
     text-align: center;
-    height: 35vh;
-    gap: 20px;
-    z-index: 10;
-}
-
-.Elementoscrear {
+  }
+  
+  .user-icon {
+    width: 80px;
+    height: 80px;
+    background-color: #d9e6f2;
+    border-radius: 50%;
+    margin: 0 auto 20px auto;
+    background-image: url("https://cdn-icons-png.flaticon.com/512/847/847969.png");
+    background-size: 50%;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  
+  h2 {
+    color: #1f4f7a;
+    margin-bottom: 25px;
+  }
+  
+  .input-group {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    margin-top: 30vh; 
-    gap: 20px;
-}
-
-
-.campo {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 5px;
-}
-#Crear{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 50px;
-    font-size: x-large;
-}
-#Correo{
-    font-size:medium;
-}
-#sesión,#password,#Nombre,#Apellido,#Fechanacimiento,#EspacioTelefono{
-    width: 300px;
-        height: 40px;
-        border-radius: 3px;
-        border: 1px solid #3165A5;
-        background-color: white;
-    }
-    #Contraseña{
-font-size: medium;
-}
-    #password{
-        width: 300px;
-            height: 40px;
-            border-radius: 3px;
-            border: 1px solid #3165A5;
-            background-color: white;
-        }
-        #Nombreusuario{
-            font-size: medium;
-            }
-            
-        #Apellidousuario{
-            font-size: medium;
-            }
-        
-#Sicuenta{
-    font-size: medium;
+    margin-bottom: 15px;
+    text-align: left;
+  }
+  
+  label {
+    font-size: 14px;
     color: #3165A5;
-    cursor: pointer;
-}
-#Sicuenta:hover{
-    text-decoration: underline;
-}
-#Crear-cuenta{
-    width: 200px;
-    height: 50px;
-    font-size: x-large;
+    margin-bottom: 5px;
+  }
+  
+  input {
+    height: 40px;
+    border: 1px solid #3165A5;
+    border-radius: 5px;
+    padding: 0 10px;
+    font-size: 14px;
+  }
+  
+  #Crear-cuenta {
+    width: 100%;
+    height: 45px;
+    font-size: 16px;
     background-color: #3165A5;
     color: white;
     border: none;
-    border-radius: 3px;
-}
-#Crear-cuenta:hover{
+    border-radius: 5px;
     cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  #Crear-cuenta:hover {
     background-color: #1f4f7a;
-}
-#Ubicacion{
-    font-size: 1em;
-}
+  }
+  
+  p {
+    font-size: 13px;
+    margin-top: 20px;
+  }
+  
+  #Sicuenta {
+    color: #3165A5;
+    cursor: pointer;
+  }
+  
+  #Sicuenta:hover {
+    text-decoration: underline;
+  }
+  
