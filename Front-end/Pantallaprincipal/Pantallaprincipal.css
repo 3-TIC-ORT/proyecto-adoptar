@@ -29,12 +29,16 @@ body {
 } 
 
 .header-center { 
+    gap: 1rem;
     display: flex; 
     justify-content: center; 
     align-items: center;
     flex-grow: 100%; 
 } 
-
+.Logo-AdoptAR-Blanco{
+    width: 3rem;
+    height: 3rem;
+}
 .iconos { 
     display: flex; 
     justify-content: flex-end; 
@@ -257,7 +261,7 @@ transform: translateX(0);
     flex-direction: column;
     align-items: center;
     width: 200px;
-    background-color:#F6FDFE;
+    background-color:#CAE6E5;
     padding: 10px;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);

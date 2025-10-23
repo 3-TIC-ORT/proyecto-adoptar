@@ -1,13 +1,38 @@
 body {
-    background: linear-gradient(135deg, #f1f1f1, #e3e3e3);
+    background-color: #BFD6DE;
     font-family: 'Poppins', sans-serif;
+}
+*{
     margin: 0;
-    padding: 20px;
+    padding: 0;
+    box-sizing: border-box;
+}
+.header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 5.16em;
+    gap: 1rem;
+    background-color:#183446;
+}
+.header-center{
+    margin-right: 1rem;
+    flex-direction: column;
+}
+.Logo-AdoptAR-Blanco{
+    height: 3rem;
+    width: 3rem;
+}
+.AdoptAR{
+    color:white;
+}
+.Bienvenido{
+    color:white;
 }
 .Iconovolver {
     position: absolute;
-    top: 40px;
-    left: 50px;
+    top: 20px;
+    left: 20px;
     width: 3em;
     height: 3em;
     display: flex;
@@ -41,7 +66,6 @@ p {
     height: 2px;
     background: #444;
     width: 100%;
-    margin: 20px auto;
     border-radius: 5px;
 }
 
@@ -49,7 +73,7 @@ p {
 .contenedor {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: center;
     gap: 40px;
     max-width: 1000px;
     margin: auto;
@@ -58,13 +82,16 @@ p {
 
 /* Info de usuario */
 .Textos {
-    background: white;
+    background: #F6FDFE;
     padding: 20px;
+    margin-top: 4rem;
     border-radius: 15px;
     box-shadow: 0px 4px 15px rgba(0,0,0,0.1);
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    justify-content: center;
+    align-items: center;
+    gap: 2em;
     flex: 1;
 }
 
@@ -76,7 +103,7 @@ p {
 
 .Textos p {
     font-size: 0.95rem;
-    color: #444;
+    color:#183446;
 }
 
 /* Formularios */
@@ -125,8 +152,7 @@ form {
 .subirfoto {
     margin-top: 10px;
     padding: 8px 12px;
-    background: #007bff;
-    color: white;
+    background: #F6FDFE;
     border: none;
     border-radius: 8px;
     cursor: pointer;
@@ -135,18 +161,16 @@ form {
 .botoneditar {
     margin-top: 15px;
     padding: 10px 18px;
-    background: #28a745;
+    background-color: #183446;
     color: white;
     border: none;
-    border-radius: 8px;
+    border-radius: 36px;
     cursor: pointer;
     font-weight: 500;
-    transition: background 0.3s, transform 0.2s;
-    align-self: flex-start; 
 }
 
 .botoneditar:hover {
-    background: #218838;
+    background: #217c88;
     transform: scale(1.05);
 }
 
@@ -156,9 +180,8 @@ form {
     background: #dc3545;
     color: white;
     border: none;
-    border-radius: 8px;
+    border-radius: 36px;
     cursor: pointer;
     font-weight: 500;
-    transition: background 0.3s, transform 0.2s;
     align-self: center; 
 }
