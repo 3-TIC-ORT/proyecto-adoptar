@@ -235,8 +235,12 @@ function aplicarFiltros() {
   let colores = Array.from(document.querySelectorAll('.Selectores3 input[type="checkbox"]:checked')).map(c => c.value);
   let tipos = Array.from(document.querySelectorAll('.Selectores4 input[type="checkbox"]:checked')).map(c => c.value);
 
-  let provinciaSeleccionada = selectProvincia?.options[selectProvincia.selectedIndex]?.text?.trim() || "";
-  let localidadSeleccionada = selectLocalidad?.options[selectLocalidad.selectedIndex]?.text?.trim() || "";
+  let provinciaSeleccionada = selectProvincia?.value
+    ? selectProvincia.options[selectProvincia.selectedIndex].text.trim()
+    : "";
+  let localidadSeleccionada = selectLocalidad?.value
+    ? selectLocalidad.options[selectLocalidad.selectedIndex].text.trim()
+    : "";
 
   let filtradas = todasLasPublicaciones.filter(publi => {
     let pubTam = (publi.tamano || "").trim();
@@ -248,9 +252,14 @@ function aplicarFiltros() {
     let coincideTam = tamanos.length === 0 || tamanos.includes(pubTam);
     let coincideColor = colores.length === 0 || colores.includes(pubColor);
     let coincideTipo = tipos.length === 0 || tipos.includes(pubTipo);
-    let coincideProv = !provinciaSeleccionada || pubProvincia.toLowerCase() === provinciaSeleccionada.toLowerCase();
-    let coincideLoc = !localidadSeleccionada || pubLocalidad.toLowerCase() === localidadSeleccionada.toLowerCase();
 
+    let coincideProv =
+      !provinciaSeleccionada ||
+      pubProvincia.toLowerCase() === provinciaSeleccionada.toLowerCase();
+
+    let coincideLoc =
+      !localidadSeleccionada ||
+      pubLocalidad.toLowerCase() === localidadSeleccionada.toLowerCase();
     return coincideTam && coincideColor && coincideTipo && coincideProv && coincideLoc;
   });
 
