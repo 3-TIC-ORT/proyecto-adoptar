@@ -16,5 +16,8 @@
     "url": "https://github.com/3-TIC-ORT/proyecto-adoptar/issues"
   },
   "homepage": "https://github.com/3-TIC-ORT/proyecto-adoptar#readme",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "soquetic": "^1.4.2"
+  }
 }

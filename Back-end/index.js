@@ -29,7 +29,7 @@ function guardarUsuarios(usuarios) {
   fs.writeFileSync(json, JSON.stringify(usuarios, null, 2));
 }
 
-function registrarUsuario(nombre, mail, password, fotoPerfil, edad) {
+function registrarUsuario(nombre, mail, password, fotoPerfil, edad, telefono) {
   let usuarios = leerUsuarios();
   if (usuarios.some((u) => u.mail === mail))
     return { error: "Ese mail ya está registrado" };
@@ -41,7 +41,7 @@ function registrarUsuario(nombre, mail, password, fotoPerfil, edad) {
     password,
     fotoPerfil: fotoPerfil || null,
     edad,
-    telefono: "",
+    telefono,
     ubicacion: "",
     descripcion: "",
     respuestas: [],
@@ -54,8 +54,8 @@ function registrarUsuario(nombre, mail, password, fotoPerfil, edad) {
 }
 
 subscribePOSTEvent("registrarUsuario", (data) => {
-  let { nombre, mail, password, fotoPerfil, edad } = data;
-  let nuevo = registrarUsuario(nombre, mail, password, fotoPerfil, edad);
+  let { nombre, mail, password, fotoPerfil, edad, telefono } = data;
+  let nuevo = registrarUsuario(nombre, mail, password, fotoPerfil, edad, telefono);
   return(nuevo);
 });
 
@@ -74,6 +74,11 @@ subscribePOSTEvent("actualizarUsuario", (data) => {
   guardarUsuarios(usuarios);
   return({ ok: true, usuario: usuarios[index] });
 });
+
+
+
+//PUBLICACIONES 
+
 
 function leerPublicaciones() {
   try {
@@ -169,7 +174,13 @@ subscribePOSTEvent("actualizarPublicacion", (data) => {
   return { ok: true };
 });
 
-//Favoritos
+
+
+
+//FAVORITOS
+
+
+
 subscribePOSTEvent("actualizarFavoritos", (data) => {
   let { mail, favoritos } = data;
   let usuarios = leerUsuarios();
@@ -194,7 +205,14 @@ subscribePOSTEvent("obtenerFavoritos", (data) => {
   let favoritos = publicaciones.filter((p) => usuario.favoritos.includes(p.id));
   return favoritos;
 });
-//Comentarios
+
+
+
+
+//COMENTARIOS
+
+
+
 //Guardar comentarios en comentarios.json
 function guardarComentario(idPublicacion, comentario, usuario) {
   let comentarios = [];
