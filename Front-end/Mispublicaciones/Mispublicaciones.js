@@ -37,8 +37,12 @@ document.addEventListener("click", (e) => {
     items.forEach(item => item.classList.remove("show"));
   }
 });
+
 let contenedorPublicaciones = document.querySelector(".publicaciones");
 let todasLasPublicaciones = [];
+
+const selectProvincia = document.getElementById("provincia");
+const selectLocalidad = document.getElementById("localidad");
 
 function mostrarPublicaciones(publicaciones) {
   if (!contenedorPublicaciones) {
@@ -53,30 +57,35 @@ function mostrarPublicaciones(publicaciones) {
   }
 
   publicaciones.forEach((publiData) => {
-    // Crear contenedor principal igual que en Pantallaprincipal
-     let creador = publiData.creadorNombre || publiData.creadorMail || "Anónimo";
-let publi = document.createElement("div");
-publi.classList.add("publicacion");
-publi.dataset.id = publiData.id;
-publi.innerHTML = `
-  <div class="Iconotrespuntitos">⋮</div>
-  <div class="Editores">
-    <button class="editar">Editar</button>
-    <button class="eliminar">Eliminar</button>
-  </div>
+    let creador = publiData.creadorNombre || publiData.creadorMail || "Anónimo";
+    let publi = document.createElement("div");
+    publi.classList.add("publicacion");
+    publi.dataset.id = publiData.id;
+    publi.dataset.color = publiData.color || "";
+    publi.dataset.tipo = publiData.tipo || "";
+    publi.dataset.tamano = publiData.tamano || "";
+    publi.dataset.provincia = publiData.provincia || publiData.lugar || "";
+    publi.dataset.localidad = publiData.localidad || publiData.lugar || "";
+
+    publi.innerHTML = `
+      <div class="Iconotrespuntitos">⋮</div>
+      <div class="Editores">
+        <button class="editar">Editar</button>
+        <button class="eliminar">Eliminar</button>
+      </div>
       <p><strong>Publicado por:</strong> ${creador}</p>
-   <img src="../../Back-end/${publiData.foto || "https://via.placeholder.com/150"}" alt="${publi.nombreMascota}">
-  <div class="infomascota">
-    <h3>${publiData.nombreMascota || "Sin nombre"}</h3>
-      <p>Tipo: ${publiData.tipo}</p>
-      <p>Género: ${publiData.genero}</p>
-      <p>Color: ${publiData.color || "No especificado"}</p>
-      <p>Raza: ${publiData.raza || "No especificada"}</p>
-      <p>Edad: ${publiData.edad || "No especificada"}</p>
-      <p>Ubicación: ${publiData.lugar || "Sin ubicación"}</p>
-  </div>
-`;
-    // Comentarios
+      <img src="../../Back-end/${publiData.foto || "https://via.placeholder.com/150"}" alt="${publi.nombreMascota}">
+      <div class="infomascota">
+        <h3>${publiData.nombreMascota || "Sin nombre"}</h3>
+        <p>Tipo: ${publiData.tipo}</p>
+        <p>Género: ${publiData.genero}</p>
+        <p>Color: ${publiData.color || "No especificado"}</p>
+        <p>Raza: ${publiData.raza || "No especificada"}</p>
+        <p>Edad: ${publiData.edad || "No especificada"}</p>
+        <p>Ubicación: ${publiData.lugar || "Sin ubicación"}</p>
+      </div>
+    `;
+
     let comentarios = document.createElement("img");
     comentarios.src = "../Iconos/Iconocomentarios.png";
     comentarios.classList.add("Comentarios");
@@ -137,14 +146,13 @@ publi.innerHTML = `
         textarea.value = "";
       }
     });
-    // Redirección al detalle
+
     publi.addEventListener("click", (e) => {
       if (!e.target.closest(".Iconotrespuntitos") && !e.target.closest(".Editores")) {
         window.location.href = `../Infopublicacion/Infopublicacion.html?id=${publiData.id}`;
       }
     });
 
-    // Lógica para abrir/cerrar menú de tres puntitos
     const dots = publi.querySelector(".Iconotrespuntitos");
     const editor = publi.querySelector(".Editores");
 
@@ -159,12 +167,9 @@ publi.innerHTML = `
     contenedorPublicaciones.appendChild(publi);
   });
 
-  // Cerrar menús al hacer click fuera
   document.addEventListener("click", () => {
     document.querySelectorAll(".Editores.show").forEach(ed => ed.classList.remove("show"));
   });
-
-  todasLasPublicaciones = Array.from(contenedorPublicaciones.children);
 }
 
 getEvent("obtenerPublicaciones", (data) => {
@@ -181,7 +186,6 @@ getEvent("obtenerPublicaciones", (data) => {
 
   let mailUsuario = usuarioActivo.mail;
 
-  // Filtra las publicaciones del usuario logueado
   let publicacionesPropias = data.filter(p =>
     p.creadorMail === mailUsuario ||
     p.mailUsuario === mailUsuario ||
@@ -190,61 +194,19 @@ getEvent("obtenerPublicaciones", (data) => {
   );
 
   mostrarPublicaciones(publicacionesPropias);
+
+  todasLasPublicaciones = publicacionesPropias;
 });
-
-// Si todavía no hay backend (usa las del HTML actual)
-if (document.querySelectorAll(".publicacion").length > 0 && todasLasPublicaciones.length === 0) {
-  todasLasPublicaciones = Array.from(document.querySelectorAll(".publicacion"));
-}
-
-// CAMBIO DE COLUMNAS
-let radiosCantidad = document.querySelectorAll('input[value="Tres"], input[value="Cuatro"], input[value="Cinco"]');
-radiosCantidad.forEach(radio => {
-  radio.addEventListener("change", () => {
-    if (radio.value === "Tres") {
-      contenedorPublicaciones.style.gridTemplateColumns = "repeat(3, 1fr)";
-    } else if (radio.value === "Cuatro") {
-      contenedorPublicaciones.style.gridTemplateColumns = "repeat(4, 1fr)";
-    } else if (radio.value === "Cinco") {
-      contenedorPublicaciones.style.gridTemplateColumns = "repeat(5, 1fr)";
-    }
-  });
-});
-
-// FILTROS
-function aplicarFiltros() {
-  let tamanos = Array.from(document.querySelectorAll('.Selectores1 input[type="checkbox"]:checked')).map(c => c.value);
-  let colores = Array.from(document.querySelectorAll('.Selectores3 input[type="checkbox"]:checked')).map(c => c.value);
-  let tipos = Array.from(document.querySelectorAll('.Selectores4 input[type="checkbox"]:checked')).map(c => c.value);
-
-  if (!todasLasPublicaciones.length) return;
-
-  let filtradas = todasLasPublicaciones.filter(publi => {
-    return (
-      (tamanos.length === 0 || tamanos.includes(publi.tamano)) &&
-      (colores.length === 0 || colores.includes(publi.color)) &&
-      (tipos.length === 0 || tipos.includes(publi.tipo))
-    );
-  });
-
-  mostrarPublicaciones(filtradas);
-}
-//Localidades
-const selectProvincia = document.getElementById("provincia");
-const selectLocalidad = document.getElementById("localidad");
-
 // Cargar provincias al iniciar
 getEvent("obtenerProvincias", (provincias) => {
-  if (!selectProvincia) return;
   selectProvincia.innerHTML = '<option value="">Seleccione provincia</option>';
   provincias.forEach(prov => {
     const opt = document.createElement("option");
-    opt.value = prov.id; // usamos el id para pedir las localidades
+    opt.value = prov.id;
     opt.textContent = prov.nombre;
     selectProvincia.appendChild(opt);
   });
 });
-
 // Cuando cambia la provincia, cargar las localidades
 if (selectProvincia && selectLocalidad) {
   selectProvincia.addEventListener("change", () => {
@@ -265,74 +227,42 @@ if (selectProvincia && selectLocalidad) {
   });
 }
 
-// Redireccionar a editar publicación (mantiene datos en formulario)
-document.addEventListener("click", (e) => {
-  if (e.target.classList.contains("editar")) {
-    let publicacionElem = e.target.closest(".publicacion");
-    if (publicacionElem && publicacionElem.dataset && publicacionElem.dataset.id) {
-      let editarId = publicacionElem.dataset.id;
-      window.location.href = `../Formulario/Formulario.html?editarId=${editarId}`;
-    }
-  }
-});
-//elimar publlicacion//
-document.addEventListener("click", (e) => {
-  if (e.target.classList.contains("eliminar")) {
-    let publicacionElem = e.target.closest(".publicacion");
-
-    if (publicacionElem && publicacionElem.dataset && publicacionElem.dataset.id) {
-      let eliminarId = publicacionElem.dataset.id;
-
-      if (confirm("¿Estás seguro de que deseas eliminar esta publicación?")) {
-        postEvent("eliminarPublicacion", { id: eliminarId }, (respuesta) => {
-          console.log("Respuesta del servidor al eliminar:", respuesta);
-
-        
-          if (respuesta && (respuesta.ok === true || respuesta.success === true)) {
-            publicacionElem.remove();
-            todasLasPublicaciones = todasLasPublicaciones.filter(publi => publi.dataset.id !== eliminarId);
-
-            if (todasLasPublicaciones.length === 0) {
-              contenedorPublicaciones.innerHTML = "<p>No tienes publicaciones aún.</p>";
-            }
-          } else {
-            console.error("Error al eliminar publicación:", respuesta);
-            alert("Error al eliminar la publicación.");
-          }
-        });
-      }
-    }
-  }
-});
-
+selectLocalidad.addEventListener("change", aplicarFiltros);
 function aplicarFiltros() {
+  if (!todasLasPublicaciones.length) return;
+
   let tamanos = Array.from(document.querySelectorAll('.Selectores1 input[type="checkbox"]:checked')).map(c => c.value);
   let colores = Array.from(document.querySelectorAll('.Selectores3 input[type="checkbox"]:checked')).map(c => c.value);
   let tipos = Array.from(document.querySelectorAll('.Selectores4 input[type="checkbox"]:checked')).map(c => c.value);
 
-  let provinciaSeleccionada = selectProvincia.options[selectProvincia.selectedIndex]?.text || "";
-  let localidadSeleccionada = selectLocalidad.options[selectLocalidad.selectedIndex]?.text || "";
-
-  if (!todasLasPublicaciones.length) return;
+  let provinciaSeleccionada = selectProvincia?.options[selectProvincia.selectedIndex]?.text?.trim() || "";
+  let localidadSeleccionada = selectLocalidad?.options[selectLocalidad.selectedIndex]?.text?.trim() || "";
 
   let filtradas = todasLasPublicaciones.filter(publi => {
-    let coincideProvincia = !provinciaSeleccionada || publi.provincia === provinciaSeleccionada;
-let coincideLocalidad = !localidadSeleccionada || publi.localidad === localidadSeleccionada;
+    let pubTam = (publi.tamano || "").trim();
+    let pubColor = (publi.color || "").trim();
+    let pubTipo = (publi.tipo || "").trim();
+    let pubProvincia = (publi.provincia || publi.lugar || "").trim();
+    let pubLocalidad = (publi.localidad || publi.lugar || "").trim();
 
-    return (
-      (tamanos.length === 0 || tamanos.includes(publi.tamano)) &&
-      (colores.length === 0 || colores.includes(publi.color)) &&
-      (tipos.length === 0 || tipos.includes(publi.tipo))
-    );
+    let coincideTam = tamanos.length === 0 || tamanos.includes(pubTam);
+    let coincideColor = colores.length === 0 || colores.includes(pubColor);
+    let coincideTipo = tipos.length === 0 || tipos.includes(pubTipo);
+    let coincideProv = !provinciaSeleccionada || pubProvincia.toLowerCase() === provinciaSeleccionada.toLowerCase();
+    let coincideLoc = !localidadSeleccionada || pubLocalidad.toLowerCase() === localidadSeleccionada.toLowerCase();
+
+    return coincideTam && coincideColor && coincideTipo && coincideProv && coincideLoc;
   });
 
   mostrarPublicaciones(filtradas);
 }
 
-// Escuchar cambios en todos los filtros
+// Escucha de filtros
 document.querySelectorAll('.Selectores1 input, .Selectores3 input, .Selectores4 input')
   .forEach(input => input.addEventListener("change", aplicarFiltros));
-//Redirecciones de botones
+
+
+// Redirecciones de botones
 let botonperfil = document.querySelector(".circuloperfil");
 botonperfil.addEventListener("click", () => {
   window.location.href = "../Perfildeusuario/Perfildeusuario.html";
