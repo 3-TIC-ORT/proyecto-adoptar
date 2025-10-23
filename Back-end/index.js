@@ -138,6 +138,37 @@ subscribePOSTEvent("eliminarPublicacion", (data) => {
   guardarPublicaciones(publicaciones);
   return { ok: true };
 });
+
+subscribePOSTEvent("actualizarPublicacion", (data) => {
+  let publicaciones = leerPublicaciones();
+  let index = publicaciones.findIndex((p) => p.id === Number(data.id));
+  if (index === -1) return { error: "Publicación no encontrada." };
+
+  // Forzar id a número
+  data.id = Number(data.id);
+  if (data.foto && data.foto.startsWith("data:image/")) {
+    try {
+      const matches = data.foto.match(/^data:image\/([a-zA-Z]+);base64,(.+)$/);
+      if (matches) {
+        const ext = matches[1];
+        const base64Data = matches[2];
+        const filename = `foto_${Date.now()}.${ext}`;
+        const filepath = path.join(carpetaFotos, filename);
+        fs.writeFileSync(filepath, Buffer.from(base64Data, "base64"));
+        data.foto = `/Fotosmascotas/${filename}`;
+      }
+    } catch (err) {
+      console.error("Error guardando imagen actualizada:", err);
+    }
+  } else {
+    data.foto = publicaciones[index].foto;
+  }
+  publicaciones[index] = { ...publicaciones[index], ...data };
+
+  guardarPublicaciones(publicaciones);
+  return { ok: true };
+});
+
 //Favoritos
 subscribePOSTEvent("actualizarFavoritos", (data) => {
   let { mail, favoritos } = data;

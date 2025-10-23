@@ -148,34 +148,33 @@ botonEnviar.addEventListener("click", async (e) => {
 
   // Guardar en localStorage
   let todas = JSON.parse(localStorage.getItem("publicaciones")) || [];
-  if (editarId) {
-    // Reemplazar publicación existente
-    todas = todas.map(pub => pub.id === editarId ? nuevaPublicacion : pub);
-    alert("¡Publicación editada con éxito!");
-  } else {
-    todas.push(nuevaPublicacion);
-    alert("¡Publicación creada con éxito!");
-  }
+if (editarId) {
+  // Reemplazar publicación existente
+  todas = todas.map(pub => pub.id === editarId ? nuevaPublicacion : pub);
+  localStorage.setItem("publicaciones", JSON.stringify(todas));
+  
+  // ACTUALIZAR EN BACKEND
+  postEvent("actualizarPublicacion", nuevaPublicacion, (resp) => {
+    if (resp && resp.ok) {
+      alert("¡Publicación editada con éxito!");
+      window.location.href= "../Pantallaprincipal/Pantallaprincipal.html";
+    } else {
+      alert("Error al editar la publicación en el servidor.");
+    }
+  });
+} else {
+  todas.push(nuevaPublicacion);
   localStorage.setItem("publicaciones", JSON.stringify(todas));
 
-  // Redirigir según el estado
-  switch (estado) {
-    case "Para adoptar":
-      window.location.href = "../Paraadoptar/Paraadoptar.html";
-      break;
-    case "Para transitar":
-      window.location.href = "../Paratransitar/Paratransitar.html";
-      break;
-    case "Perdido":
-      window.location.href = "../Perdidos/Perdidos.html";
-      break;
-    case "Encontrado":
-      window.location.href = "../Encontrados/Encontrados.html";
-      break;
-    default:
-      window.location.href = "../Pantallaprincipal/Pantallaprincipal.html";
-      break;
-  }
+  // CREAR EN BACKEND
+  postEvent("crearPublicacion", nuevaPublicacion, (resp) => {
+    if (resp && resp.id) {
+      alert("¡Publicación creada con éxito!");
+    } else {
+      alert("Error al crear publicación en el servidor.");
+    }
+  });
+}
 });
 
 // Convertir imagen a base64
