@@ -197,6 +197,20 @@ getEvent("obtenerPublicaciones", (data) => {
 
   todasLasPublicaciones = publicacionesPropias;
 });
+// CAMBIO DE COLUMNAS
+let radiosCantidad = document.querySelectorAll('input[value="Tres"], input[value="Cuatro"], input[value="Cinco"]');
+radiosCantidad.forEach(radio => {
+  radio.addEventListener("change", () => {
+    if (radio.value === "Tres") {
+      contenedorPublicaciones.style.gridTemplateColumns = "repeat(3, 1fr)";
+    } else if (radio.value === "Cuatro") {
+      contenedorPublicaciones.style.gridTemplateColumns = "repeat(4, 1fr)";
+    } else if (radio.value === "Cinco") {
+      contenedorPublicaciones.style.gridTemplateColumns = "repeat(5, 1fr)";
+      contenedorPublicaciones.classList.toggle("cinco");
+    }
+  });
+});
 // Cargar provincias al iniciar
 getEvent("obtenerProvincias", (provincias) => {
   selectProvincia.innerHTML = '<option value="">Seleccione provincia</option>';
