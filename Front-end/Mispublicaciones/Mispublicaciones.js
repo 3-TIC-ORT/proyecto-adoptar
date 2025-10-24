@@ -211,6 +211,40 @@ radiosCantidad.forEach(radio => {
     }
   });
 });
+// Redireccionar a editar publicación
+document.addEventListener("click", (e) => {
+  if (e.target.classList.contains("editar")) {
+    let publicacionElem = e.target.closest(".publicacion");
+    let indice = Array.from(contenedorPublicaciones.children).indexOf(publicacionElem);
+    let publicacion = todasLasPublicaciones[indice];
+
+    if (publicacionElem && publicacionElem.dataset && publicacionElem.dataset.id) {
+      let editarId = publicacionElem.dataset.id;
+      window.location.href = `../Formulario/Formulario.html?editarId=${editarId}`;
+    }
+  }
+});
+
+// Eliminar publicación
+document.addEventListener("click", (e) => {
+  if (e.target.classList.contains("eliminar")) {
+    let publicacionElem = e.target.closest(".publicacion");
+    let indice = Array.from(contenedorPublicaciones.children).indexOf(publicacionElem);
+    let publicacion = todasLasPublicaciones[indice];
+
+    if (publicacionElem && publicacionElem.dataset && publicacionElem.dataset.id) {
+      let eliminarId = publicacionElem.dataset.id;
+      if (confirm("¿Estás seguro de que deseas eliminar esta publicación?")) {
+        postEvent("eliminarPublicacion", { id: eliminarId }, (respuesta) => {
+          if (respuesta && respuesta.success) {
+            alert("Publicación eliminada correctamente.");
+            publicacionElem.remove();
+          }
+        });
+      }
+    }
+  }
+});
 // Cargar provincias al iniciar
 getEvent("obtenerProvincias", (provincias) => {
   selectProvincia.innerHTML = '<option value="">Seleccione provincia</option>';
