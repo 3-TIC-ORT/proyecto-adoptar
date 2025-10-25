@@ -98,28 +98,28 @@ function mostrarPublicaciones(publicaciones) {
     // Corazón
     let corazon = document.createElement("img");
     corazon.src = "../Iconos/Iconocorazon.webp";
-    corazon.classList.add("Corazon", "activo"); // ya son favoritos
+    corazon.classList.add("Corazon", "activo");
     publi.prepend(corazon);
 
-    corazon.addEventListener("click", (e) => {
-      e.stopPropagation();
-      corazon.classList.toggle("activo");
+   corazon.addEventListener("click", (e) => {
+  e.stopPropagation();
+  corazon.classList.toggle("activo");
 
-      let favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
-      if (corazon.classList.contains("activo")) {
-        if (!favoritos.includes(publiData.id)) favoritos.push(publiData.id);
-      } else {
-        favoritos = favoritos.filter(id => id !== publiData.id);
-      }
+  let favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
 
-      localStorage.setItem("favoritos", JSON.stringify(favoritos));
-
-      if (mailUsuario) {
-        postEvent("actualizarFavoritos", { mail: mailUsuario, favoritos }, (r) => {
-          if (!r.ok) console.warn("No se pudo actualizar en backend:", r.error);
-        });
-      }
+  if (corazon.classList.contains("activo")) {
+    if (!favoritos.includes(publiData.id)) favoritos.push(publiData.id);
+  } else {
+    favoritos = favoritos.filter(id => id !== publiData.id);
+    publi.remove();
+  }
+  localStorage.setItem("favoritos", JSON.stringify(favoritos));
+  if (mailUsuario) {
+    postEvent("actualizarFavoritos", { mail: mailUsuario, favoritos }, (r) => {
+      if (!r.ok) console.warn("No se pudo actualizar en backend:", r.error);
     });
+  }
+});
 
     // Comentarios
     let comentarios = document.createElement("img");

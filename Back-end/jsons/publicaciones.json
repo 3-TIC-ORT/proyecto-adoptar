@@ -246,26 +246,5 @@
     "foto": "/Fotosmascotas/foto_1761225814057.jpeg",
     "creadorMail": "ramirolangsam@gmail.com",
     "creadorNombre": "Ramiro Langsam"
-  },
-  {
-    "id": 1761411562398,
-    "nombreMascota": "Popocho",
-    "tipo": "Perro",
-    "tamano": "Grande",
-    "genero": "Masculino",
-    "color": "Claro",
-    "raza": "Golden Retreiever",
-    "edad": "5 años",
-    "enfermedad": "No",
-    "estado": "Encontrado",
-    "descripcion": "A",
-    "telefono": "4578234532",
-    "lugar": "Colonia Carlos Pellegrini, Corrientes",
-    "provincia": "Corrientes",
-    "localidad": "Colonia Carlos Pellegrini",
-    "fecha": "2025-10-25",
-    "foto": "/Fotosmascotas/foto_1761411641371.jpeg",
-    "creadorMail": "bruno.ferro@outlook.com",
-    "creadorNombre": "Bruno Ferro"
   }
 ]
