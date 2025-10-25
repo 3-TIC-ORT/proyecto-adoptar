@@ -28,24 +28,6 @@
     "foto": "/Fotosmascotas/foto_1760402528593.jpeg"
   },
   {
-    "id": 1760552895238,
-    "nombreMascota": "Amansio",
-    "tamano": "Grande",
-    "tipo": "Perro",
-    "genero": "Masculino",
-    "color": "Oscuro",
-    "raza": "Galgo",
-    "edad": "4 años",
-    "enfermedad": "Si",
-    "estado": "Para transitar",
-    "descripcion": "Tiene 3 patas",
-    "lugar": "Barrancas de Belgrano",
-    "fecha": "2024-06-15",
-    "foto": "/Fotosmascotas/foto_1760552895237.jpeg",
-    "creadorMail": "bruno.ferro@outlook.com",
-    "creadorNombre": "Bruno Ferro"
-  },
-  {
     "id": 1760553600945,
     "nombreMascota": "Kiko y Tobi",
     "tipo": "Perro",
@@ -117,11 +99,14 @@
     "enfermedad": "No",
     "estado": "Para adoptar",
     "descripcion": "No",
-    "lugar": "3/02 y J",
+    "lugar": "Área Reserva Cinturón Ecológico, Buenos Aires-GBA",
     "fecha": "2888-04-07",
-    "foto": "/Fotosmascotas/foto_1760733380075.jpeg",
+    "foto": "/Fotosmascotas/foto_1761411600088.webp",
     "creadorMail": "bruno.ferro@outlook.com",
-    "creadorNombre": "Bruno Ferro"
+    "creadorNombre": "Bruno Ferro",
+    "telefono": "4352345341234",
+    "provincia": "Buenos Aires-GBA",
+    "localidad": "Área Reserva Cinturón Ecológico"
   },
   {
     "id": 1760917140593,
@@ -261,5 +246,26 @@
     "foto": "/Fotosmascotas/foto_1761225814057.jpeg",
     "creadorMail": "ramirolangsam@gmail.com",
     "creadorNombre": "Ramiro Langsam"
+  },
+  {
+    "id": 1761411562398,
+    "nombreMascota": "Popocho",
+    "tipo": "Perro",
+    "tamano": "Grande",
+    "genero": "Masculino",
+    "color": "Claro",
+    "raza": "Golden Retreiever",
+    "edad": "5 años",
+    "enfermedad": "No",
+    "estado": "Encontrado",
+    "descripcion": "A",
+    "telefono": "4578234532",
+    "lugar": "Colonia Carlos Pellegrini, Corrientes",
+    "provincia": "Corrientes",
+    "localidad": "Colonia Carlos Pellegrini",
+    "fecha": "2025-10-25",
+    "foto": "/Fotosmascotas/foto_1761411641371.jpeg",
+    "creadorMail": "bruno.ferro@outlook.com",
+    "creadorNombre": "Bruno Ferro"
   }
 ]

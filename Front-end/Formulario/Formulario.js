@@ -1,8 +1,35 @@
 connect2Server();
+
 let botonvolver = document.querySelector(".Iconovolver");
 botonvolver.addEventListener("click", () => {
   window.location.href = "../Pantallaprincipal/Pantallaprincipal.html";
 });
+
+function mostrarPopup(titulo = "Aviso", mensaje = "Mensaje", onOk = null) {
+  const popup = document.getElementById("popup");
+  const popupTitle = document.getElementById("popup-title");
+  const popupMessage = document.getElementById("popup-message");
+  const popupOk = document.getElementById("popup-ok");
+
+  popupTitle.textContent = titulo;
+  popupMessage.textContent = mensaje;
+  popup.style.display = "flex";
+
+  // Limpiar handlers previos
+  popupOk.onclick = null;
+
+  // Cerrar popup al hacer clic fuera
+  popup.onclick = (e) => {
+    if (e.target === popup) popup.style.display = "none";
+  };
+
+  // Acción al hacer clic en OK
+  popupOk.onclick = () => {
+    popup.style.display = "none";
+    if (typeof onOk === "function") onOk();
+  };
+}
+
 let form = document.querySelector(".form-container");
 let botonEnviar = document.querySelector("#botonEnviar");
 
@@ -10,28 +37,27 @@ let botonEnviar = document.querySelector("#botonEnviar");
 const selectProvincia = document.getElementById("provincia");
 const selectLocalidad = document.getElementById("localidad");
 
-let publicacionActual = null; // guardará los datos de la publicación a editar
+let publicacionActual = null;
 let urlParams = new URLSearchParams(window.location.search);
 let editarId = urlParams.get("editarId");
 
-// Cargar provincias al iniciar
+// Cargar provincias
 getEvent("obtenerProvincias", (provincias) => {
   if (!selectProvincia) return;
   selectProvincia.innerHTML = '<option value="">Seleccione provincia</option>';
   provincias.forEach((prov) => {
     const opt = document.createElement("option");
-    opt.value = prov.id; // usamos el id para pedir las localidades
+    opt.value = prov.id;
     opt.textContent = prov.nombre;
     selectProvincia.appendChild(opt);
   });
 });
 
-// Cuando cambia la provincia, cargar las localidades
+// Cargar localidades
 if (selectProvincia && selectLocalidad) {
   selectProvincia.addEventListener("change", () => {
     const idProvincia = selectProvincia.value;
     selectLocalidad.innerHTML = '<option value="">Seleccione localidad</option>';
-
     if (!idProvincia) return;
 
     postEvent("obtenerLocalidades", { provinciaId: idProvincia }, (localidades) => {
@@ -50,7 +76,7 @@ if (selectProvincia && selectLocalidad) {
 if (editarId) {
   postEvent("obtenerPublicacionPorId", { id: editarId }, (publicacion) => {
     if (publicacion) {
-      publicacionActual = publicacion; // guardo para usar la foto si no se cambia
+      publicacionActual = publicacion;
       document.querySelector("#nombreMascota").value = publicacion.nombreMascota || "";
       document.querySelector("#tipo").value = publicacion.tipo || "";
       document.querySelector("#tamano").value = publicacion.tamano || "";
@@ -64,20 +90,8 @@ if (editarId) {
       document.querySelector("#telefono").value = publicacion.telefono || "";
       document.querySelector("#lugar").value = publicacion.lugar || "";
       document.querySelector("#fecha").value = publicacion.fecha || "";
-      
-      // Seleccionar provincia y localidad en los selects
-      if (publicacion.provincia) {
-        Array.from(selectProvincia.options).forEach(opt => {
-          if (opt.textContent === publicacion.provincia) opt.selected = true;
-        });
-      }
-      if (publicacion.localidad) {
-        Array.from(selectLocalidad.options).forEach(opt => {
-          if (opt.textContent === publicacion.localidad) opt.selected = true;
-        });
-      }
     } else {
-      console.warn("No se encontró la publicación a editar.");
+      mostrarPopup("Error", "No se encontró la publicación a editar.");
     }
   });
 }
@@ -91,7 +105,6 @@ botonEnviar.addEventListener("click", async (e) => {
     return;
   }
 
-  // Tomar los valores del formulario
   let nombreMascota = document.querySelector("#nombreMascota").value;
   let tipo = document.querySelector("#tipo").value;
   let tamano = document.querySelector("#tamano").value;
@@ -118,14 +131,12 @@ botonEnviar.addEventListener("click", async (e) => {
     imagenBase64 = publicacionActual.foto;
   }
 
-  // OBTENER USUARIO LOGUEADO
   let usuario = JSON.parse(localStorage.getItem("usuarioActual")) || null;
   let creadorMail = usuario?.mail || usuario?.email || null;
   let creadorNombre = usuario?.nombre || creadorMail || "Anónimo";
 
-  // Crear el objeto publicación
   let nuevaPublicacion = {
-    id: editarId || Date.now(), // mantener mismo id si es edición
+    id: editarId || Date.now(),
     nombreMascota,
     tipo,
     tamano,
@@ -146,36 +157,37 @@ botonEnviar.addEventListener("click", async (e) => {
     creadorNombre,
   };
 
-  // Guardar en localStorage
   let todas = JSON.parse(localStorage.getItem("publicaciones")) || [];
-if (editarId) {
-  // Reemplazar publicación existente
-  todas = todas.map(pub => pub.id === editarId ? nuevaPublicacion : pub);
-  localStorage.setItem("publicaciones", JSON.stringify(todas));
-  
-  // ACTUALIZAR EN BACKEND
-  postEvent("actualizarPublicacion", nuevaPublicacion, (resp) => {
-    if (resp && resp.ok) {
-      alert("¡Publicación editada con éxito!");
-      window.location.href= "../Pantallaprincipal/Pantallaprincipal.html";
-    } else {
-      alert("Error al editar la publicación en el servidor.");
-    }
-  });
-} else {
-  todas.push(nuevaPublicacion);
-  localStorage.setItem("publicaciones", JSON.stringify(todas));
 
-  // CREAR EN BACKEND
-  postEvent("crearPublicacion", nuevaPublicacion, (resp) => {
-    if (resp && resp.id) {
-      alert("¡Publicación creada con éxito!");
-      window.location.href ="../Pantallaprincipal/Pantallaprincipal.html";
-    } else {
-      alert("Error al crear publicación en el servidor.");
-    }
-  });
-}
+  if (editarId) {
+    // Actualizar existente
+    todas = todas.map(pub => pub.id === parseInt(editarId) ? nuevaPublicacion : pub);
+    localStorage.setItem("publicaciones", JSON.stringify(todas));
+
+    postEvent("actualizarPublicacion", nuevaPublicacion, (resp) => {
+      if (resp && resp.ok) {
+        mostrarPopup("¡Publicación editada con éxito!", () => {
+          window.location.href = "../Pantallaprincipal/Pantallaprincipal.html";
+        });
+      } else {
+        mostrarPopup("Error", "Error al editar la publicación en el servidor.");
+      }
+    });
+  } else {
+    // Nueva publicación
+    todas.push(nuevaPublicacion);
+    localStorage.setItem("publicaciones", JSON.stringify(todas));
+
+    postEvent("crearPublicacion", nuevaPublicacion, (resp) => {
+      if (resp && resp.id) {
+        mostrarPopup("¡Publicación creada con éxito!", () => {
+          window.location.href = "../Pantallaprincipal/Pantallaprincipal.html";
+        });
+      } else {
+        mostrarPopup("Error al crear la publicación en el servidor.");
+      }
+    });
+  }
 });
 
 // Convertir imagen a base64

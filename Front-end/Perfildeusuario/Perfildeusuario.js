@@ -1,13 +1,39 @@
 connect2Server();
+
 let volver = document.querySelector(".Iconovolver");
 volver.addEventListener("click", () => {
   window.location.href = "../Pantallaprincipal/Pantallaprincipal.html";
 });
+
+function mostrarPopup(titulo = "Aviso", mensaje = "Mensaje") {
+  const popup = document.getElementById("popup");
+  const popupTitle = document.getElementById("popup-title");
+  const popupMessage = document.getElementById("popup-message");
+
+  popupTitle.textContent = titulo;
+  popupMessage.textContent = mensaje;
+  popup.style.display = "flex";
+
+  document.getElementById("popup-ok").onclick = () => {
+    popup.style.display = "none";
+  };
+
+  popup.onclick = (e) => {
+    if (e.target === popup) popup.style.display = "none";
+  };
+}
+
 let usuarioActual = JSON.parse(localStorage.getItem("usuarioActual"));
 if (!usuarioActual) {
-  alert("No hay ningún usuario logueado. Volviendo al inicio...");
-  window.location.href = "../Login/Login.html";
+  mostrarPopup("Aviso", "No hay ningún usuario logueado. Volviendo al inicio...");
+
+  // Cuando el usuario presione Aceptar, lo redirige al login
+  document.getElementById("popup-ok").addEventListener("click", () => {
+    document.getElementById("popup").style.display = "none";
+    window.location.href = "../Login/Login.html";
+  });
 }
+
 
 // Mostrar los datos
 window.addEventListener("DOMContentLoaded", mostrarDatosUsuario);
@@ -63,11 +89,11 @@ botonEditar.addEventListener("click", () => {
     });
 
     postEvent("actualizarUsuario", usuarioActual, (resp) => {
-      if (resp.error) alert("Error al guardar: " + resp.error);
+      if (resp.error) mostrarPopup("Error al guardar: " + resp.error);
       else {
         usuarioActual = resp.usuario;
         localStorage.setItem("usuarioActual", JSON.stringify(usuarioActual));
-        alert("Perfil actualizado correctamente.");
+        mostrarPopup("Perfil actualizado correctamente.");
       }
     });
 
@@ -90,7 +116,7 @@ document.getElementById("foto").addEventListener("change", (event) => {
     postEvent("actualizarUsuario", usuarioActual, (resp) => {
       if (resp.ok) {
         localStorage.setItem("usuarioActual", JSON.stringify(resp.usuario));
-        alert("Foto actualizada correctamente.");
+        mostrarPopup("Foto actualizada correctamente.");
       }
     });
   };
@@ -104,7 +130,7 @@ document.querySelectorAll("form").forEach((form) => {
     const select = form.querySelector("select");
     const pregunta = form.querySelector("label").innerText;
     const respuesta = select.value;
-    if (!respuesta) return alert("Seleccioná una opción antes de enviar.");
+    if (!respuesta) return mostrarPopup("Seleccioná una opción antes de enviar.");
 
     if (!usuarioActual.respuestas) usuarioActual.respuestas = [];
     usuarioActual.respuestas.push({ pregunta, respuesta });
@@ -112,7 +138,7 @@ document.querySelectorAll("form").forEach((form) => {
     postEvent("actualizarUsuario", usuarioActual, (resp) => {
       if (resp.ok) {
         localStorage.setItem("usuarioActual", JSON.stringify(resp.usuario));
-        alert("Respuesta guardada correctamente.");
+        mostrarPopup("Respuesta guardada correctamente.");
       }
     });
   });

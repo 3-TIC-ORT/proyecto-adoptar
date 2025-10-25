@@ -37,7 +37,25 @@ document.addEventListener("click", (e) => {
     selectores.forEach(selector => selector.classList.remove("show"));
   }
 });
+function mostrarPopup(titulo = "Aviso", mensaje = "Mensaje") {
+  const popup = document.getElementById("popup");
+  const popupTitle = document.getElementById("popup-title");
+  const popupMessage = document.getElementById("popup-message");
 
+  popupTitle.textContent = titulo;
+  popupMessage.textContent = mensaje;
+
+  popup.style.display = "flex";
+
+  // Cerrar popup
+  document.querySelector(".popup-close").onclick = () => popup.style.display = "none";
+  document.getElementById("popup-ok").onclick = () => popup.style.display = "none";
+
+  // Cerrar al hacer clic fuera del contenido
+  popup.onclick = (e) => {
+    if (e.target === popup) popup.style.display = "none";
+  };
+}
 // Cargar usuario logueado
 let usuario =
   JSON.parse(localStorage.getItem("usuarioActual")) ||
@@ -93,7 +111,7 @@ function mostrarPublicaciones(publicaciones) {
 
     publi.innerHTML = `
       <p class="publicador">Publicado por: <strong>${creador}</strong></p>
-      <img src="../../Back-end/${publiData.foto || "https://via.placeholder.com/150"}" alt="${publiData.nombreMascota}">
+      <img src="../../Back-end/${publiData.foto || "https://via.placeholder.com/150"}" alt="${publiData.nombreMascota}" class= "Fotomascota">
       <h3>${publiData.nombreMascota}</h3>
       <p>Tamaño: ${publiData.tamano}</p>
       <p>Tipo: ${publiData.tipo}</p>
@@ -181,7 +199,7 @@ function mostrarPublicaciones(publicaciones) {
         null;
 
       if (!usuario || !usuario.mail) {
-        alert("Por favor, inicia sesión para ver y agregar comentarios.");
+        mostrarPopup("Por favor, inicia sesión para ver y agregar comentarios.");
         return;
       }
 
@@ -214,7 +232,7 @@ function mostrarPublicaciones(publicaciones) {
         null;
 
       if (!usuario || !usuario.mail) {
-        alert("Debes iniciar sesión para comentar.");
+        mostrarPopup("Debes iniciar sesión para comentar.");
         return;
       }
 
