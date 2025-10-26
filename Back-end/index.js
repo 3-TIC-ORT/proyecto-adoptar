@@ -178,9 +178,6 @@ subscribePOSTEvent("actualizarPublicacion", (data) => {
 
 
 //FAVORITOS
-
-
-
 subscribePOSTEvent("actualizarFavoritos", (data) => {
   let { mail, favoritos } = data;
   let usuarios = leerUsuarios();
@@ -206,13 +203,69 @@ subscribePOSTEvent("obtenerFavoritos", (data) => {
   return favoritos;
 });
 
+//NOTIFICACIONES
+const notificacionesFile = "jsons/notificaciones.json";
+if (!fs.existsSync(notificacionesFile)) fs.writeFileSync(notificacionesFile, "[]");
 
+// Leer notificaciones
+function leerNotificaciones() {
+  try {
+    let data = fs.readFileSync(notificacionesFile, "utf-8");
+    return data.trim() ? JSON.parse(data) : [];
+  } catch {
+    return [];
+  }
+}
 
+// Guardar notificaciones
+function guardarNotificaciones(notificaciones) {
+  fs.writeFileSync(notificacionesFile, JSON.stringify(notificaciones, null, 2));
+}
+
+// Crear nueva notificación
+function crearNotificacion(destinatarioMail, mensaje, idPublicacion, remitenteMail) {
+  let notificaciones = leerNotificaciones();
+  let nueva = {
+    id: Date.now(),
+    destinatarioMail,
+    remitenteMail,
+    mensaje,
+    idPublicacion,
+    leida: false,
+  };
+  notificaciones.push(nueva);
+  guardarNotificaciones(notificaciones);
+  return nueva;
+}
+
+// Guardar notificación al tocar “Me interesa”
+subscribePOSTEvent("enviarNotificacion", (data) => {
+  let { destinatarioMail, mensaje, idPublicacion, remitenteMail } = data;
+  if (!destinatarioMail || !mensaje) return { error: "Faltan datos" };
+  let nueva = crearNotificacion(destinatarioMail, mensaje, idPublicacion, remitenteMail);
+  return { ok: true, notificacion: nueva };
+});
+
+// Obtener notificaciones de un usuario
+subscribePOSTEvent("obtenerNotificaciones", (data) => {
+  let { mail } = data;
+  if (!mail) return [];
+  let notificaciones = leerNotificaciones();
+  return notificaciones.filter(n => n.destinatarioMail === mail);
+});
+
+// Marcar como leída
+subscribePOSTEvent("marcarNotificacionLeida", (data) => {
+  let { id } = data;
+  let notificaciones = leerNotificaciones();
+  let index = notificaciones.findIndex(n => n.id === Number(id));
+  if (index === -1) return { error: "No encontrada" };
+  notificaciones[index].leida = true;
+  guardarNotificaciones(notificaciones);
+  return { ok: true };
+});
 
 //COMENTARIOS
-
-
-
 //Guardar comentarios en comentarios.json
 function guardarComentario(idPublicacion, comentario, usuario) {
   let comentarios = [];

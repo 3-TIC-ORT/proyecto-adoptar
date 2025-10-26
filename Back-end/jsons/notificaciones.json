@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1761507216347,
+    "destinatarioMail": "ramirolangsam@gmail.com",
+    "remitenteMail": "bruno.ferro@outlook.com",
+    "mensaje": "Bruno Ferro está interesado en Rocco. Tel: +5491169624578",
+    "idPublicacion": 1761225814034,
+    "leida": false,
+    "fecha": "2025-10-26T19:33:36.347Z"
+  },
+  {
+    "id": 1761507328767,
+    "destinatarioMail": "bruno.ferro@outlook.com",
+    "remitenteMail": "ramirolangsam@gmail.com",
+    "mensaje": "Ramiro Langsam está interesado en Zoe. Tel: 12234567",
+    "idPublicacion": 1761006422391,
+    "leida": false,
+    "fecha": "2025-10-26T19:35:28.767Z"
+  },
+  {
+    "id": 1761507940594,
+    "destinatarioMail": "bruno.ferro@outlook.com",
+    "remitenteMail": "bruno.ferro@outlook.com",
+    "mensaje": "Bruno Ferro escribió en la publicación de Poxirrán.",
+    "idPublicacion": 1760733380076,
+    "leida": false,
+    "fecha": "2025-10-26T19:45:40.594Z"
+  },
+  {
+    "id": 1761508011138,
+    "destinatarioMail": "bruno.ferro@outlook.com",
+    "remitenteMail": "bruno.ferro@outlook.com",
+    "mensaje": "Bruno Ferro escribió en la publicación de Poxirrán.",
+    "idPublicacion": 1760733380076,
+    "leida": false,
+    "fecha": "2025-10-26T19:46:51.138Z"
+  }
+]
