@@ -37,7 +37,24 @@ document.addEventListener("click", (e) => {
     items.forEach(item => item.classList.remove("show"));
   }
 });
+function mostrarPopup(titulo = "Aviso", mensaje = "") {
+  const popup = document.getElementById("popup");
+  const popupTitle = document.getElementById("popup-title");
+  const popupMessage = document.getElementById("popup-message");
 
+  popupTitle.textContent = titulo;
+  popupMessage.textContent = mensaje;
+
+  popup.style.display = "flex";
+
+  // Cerrar popup
+  document.getElementById("popup-ok").onclick = () => popup.style.display = "none";
+
+  // Cerrar al hacer clic fuera del contenido
+  popup.onclick = (e) => {
+    if (e.target === popup) popup.style.display = "none";
+  };
+}
 let contenedorPublicaciones = document.querySelector(".publicaciones");
 let todasLasPublicaciones = [];
 
@@ -79,9 +96,7 @@ function mostrarPublicaciones(publicaciones) {
         <h3>${publiData.nombreMascota || "Sin nombre"}</h3>
         <p>Tipo: ${publiData.tipo}</p>
         <p>Género: ${publiData.genero}</p>
-        <p>Color: ${publiData.color || "No especificado"}</p>
         <p>Raza: ${publiData.raza || "No especificada"}</p>
-        <p>Edad: ${publiData.edad || "No especificada"}</p>
         <p>Ubicación: ${publiData.lugar || "Sin ubicación"}</p>
       </div>
     `;
@@ -145,6 +160,22 @@ function mostrarPublicaciones(publicaciones) {
 
         textarea.value = "";
       }
+ postEvent(
+  "enviarNotificacion",
+  {
+    destinatarioMail: publiData.creadorMail,
+    remitenteMail: usuario.mail,
+    mensaje: `${usuario.nombre || usuario.mail} escribió en la publicación de ${publiData.nombreMascota || "tu publicación"}.`,
+    idPublicacion: publiData.id
+  },
+  (res) => {
+    if (res?.ok) {
+      mostrarPopup("Tu comentario se envió");
+    } else {
+      mostrarPopup("Error al enviar la notificación");
+    }
+  }
+);
     });
 
     publi.addEventListener("click", (e) => {
@@ -228,20 +259,33 @@ document.addEventListener("click", (e) => {
 // Eliminar publicación
 document.addEventListener("click", (e) => {
   if (e.target.classList.contains("eliminar")) {
-    let publicacionElem = e.target.closest(".publicacion");
-    let indice = Array.from(contenedorPublicaciones.children).indexOf(publicacionElem);
-    let publicacion = todasLasPublicaciones[indice];
+    e.stopPropagation();
 
-    if (publicacionElem && publicacionElem.dataset && publicacionElem.dataset.id) {
-      let eliminarId = publicacionElem.dataset.id;
-      if (confirm("¿Estás seguro de que deseas eliminar esta publicación?")) {
-        postEvent("eliminarPublicacion", { id: eliminarId }, (respuesta) => {
-          if (respuesta && respuesta.success) {
-            alert("Publicación eliminada correctamente.");
-            publicacionElem.remove();
-          }
-        });
-      }
+    const publicacionElem = e.target.closest(".publicacion");
+    if (!publicacionElem) return;
+
+    const eliminarId = publicacionElem.dataset.id;
+
+    if (confirm("¿Estás seguro de que deseas eliminar esta publicación?")) {
+      postEvent("eliminarPublicacion", { id: eliminarId }, (respuesta) => {
+        if (respuesta?.ok || respuesta?.success) {
+          // Quitar la publicación del array local
+          todasLasPublicaciones = todasLasPublicaciones.filter(
+            (p) => p.id !== eliminarId
+          );
+
+          // Eliminar del DOM con animación suave
+          publicacionElem.style.transition = "opacity 0.3s ease, transform 0.3s ease";
+          publicacionElem.style.opacity = "0";
+          publicacionElem.style.transform = "scale(0.95)";
+          setTimeout(() => publicacionElem.remove(), 300);
+
+          mostrarPopup("Publicación eliminada correctamente.");
+        } else {
+          mostrarPopup("Error al eliminar la publicación. Intenta nuevamente.");
+          console.warn("Error al eliminar:", respuesta);
+        }
+      });
     }
   }
 });
@@ -317,6 +361,53 @@ function aplicarFiltros() {
 // Escucha de filtros
 document.querySelectorAll('.Selectores1 input, .Selectores3 input, .Selectores4 input')
   .forEach(input => input.addEventListener("change", aplicarFiltros));
+//Notificaciones
+let campana = document.getElementById("Iconocampanita");
+let cuadroNotificaciones = document.querySelector(".Cuadradonotificaciones");
+let listaNotificaciones = document.querySelector(".lista-notificaciones");
+
+campana.addEventListener("click", (e) => {
+  e.stopPropagation();
+  cuadroNotificaciones.classList.toggle("open");
+
+  if (!cuadroNotificaciones.classList.contains("open")) return;
+
+  let usuario =
+    JSON.parse(localStorage.getItem("usuarioActual")) ||
+    JSON.parse(localStorage.getItem("usuarioLogueado")) ||
+    JSON.parse(localStorage.getItem("user")) ||
+    JSON.parse(localStorage.getItem("usuario")) ||
+    JSON.parse(localStorage.getItem("datosUsuario")) ||
+    null;
+
+  if (!usuario || !usuario.mail) {
+    listaNotificaciones.innerHTML = "<p>Debes iniciar sesión para ver notificaciones.</p>";
+    return;
+  }
+
+  listaNotificaciones.innerHTML = "<p>Cargando notificaciones...</p>";
+
+  postEvent("obtenerNotificaciones", { mail: usuario.mail }, (data) => {
+    if (!Array.isArray(data) || data.length === 0) {
+      listaNotificaciones.innerHTML = "<p>No tenés notificaciones nuevas.</p>";
+      return;
+    }
+
+    listaNotificaciones.innerHTML = "";
+    data.forEach(n => {
+      let p = document.createElement("p");
+      p.textContent = n.mensaje;
+      listaNotificaciones.appendChild(p);
+    });
+  });
+});
+
+// Cerrar si se hace clic fuera
+document.addEventListener("click", (e) => {
+  if (!cuadroNotificaciones.contains(e.target) && !campana.contains(e.target)) {
+    cuadroNotificaciones.classList.remove("open");
+  }
+});
 
 
 // Redirecciones de botones

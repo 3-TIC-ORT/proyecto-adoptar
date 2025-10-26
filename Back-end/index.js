@@ -78,8 +78,6 @@ subscribePOSTEvent("actualizarUsuario", (data) => {
 
 
 //PUBLICACIONES 
-
-
 function leerPublicaciones() {
   try {
     let data = fs.readFileSync(publi, "utf-8");
@@ -173,9 +171,6 @@ subscribePOSTEvent("actualizarPublicacion", (data) => {
   guardarPublicaciones(publicaciones);
   return { ok: true };
 });
-
-
-
 
 //FAVORITOS
 subscribePOSTEvent("actualizarFavoritos", (data) => {

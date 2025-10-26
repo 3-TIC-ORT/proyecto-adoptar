@@ -37,17 +37,15 @@ document.addEventListener("click", (e) => {
     selectores.forEach(selector => selector.classList.remove("show"));
   }
 });
-function mostrarPopup(titulo = "Aviso", mensaje = "Mensaje") {
+
+function mostrarPopup(titulo = "Aviso", mensaje = "") {
   const popup = document.getElementById("popup");
   const popupTitle = document.getElementById("popup-title");
   const popupMessage = document.getElementById("popup-message");
 
   popupTitle.textContent = titulo;
   popupMessage.textContent = mensaje;
-
   popup.style.display = "flex";
-
-  // Cerrar popup
   document.getElementById("popup-ok").onclick = () => popup.style.display = "none";
 
   // Cerrar al hacer clic fuera del contenido
@@ -332,16 +330,17 @@ if (selectProvincia && selectLocalidad) {
 }
 
 selectLocalidad.addEventListener("change", aplicarFiltros);
+
 //Filtros
 function aplicarFiltros() {
   if (!todasLasPublicaciones.length) return;
 
-  // Obtener los valores seleccionados de los distintos filtros
+
   let tamanos = Array.from(document.querySelectorAll('.Selectores1 input[type="checkbox"]:checked')).map(c => c.value);
   let colores = Array.from(document.querySelectorAll('.Selectores3 input[type="checkbox"]:checked')).map(c => c.value);
   let tipos = Array.from(document.querySelectorAll('.Selectores4 input[type="checkbox"]:checked')).map(c => c.value);
 
-  // Obtener provincia y localidad seleccionadas (por texto visible)
+  // Obtener provincia y localidad seleccionadas
   let provinciaSeleccionada = selectProvincia.value
     ? selectProvincia.options[selectProvincia.selectedIndex].text
     : "";
@@ -363,7 +362,6 @@ function aplicarFiltros() {
   mostrarPublicaciones(filtradas);
 }
 
-// Escuchar cambios en todos los filtros de forma independiente
 document.querySelectorAll(
   '.Selectores1 input, .Selectores3 input, .Selectores4 input'
 ).forEach(input => input.addEventListener("change", aplicarFiltros));

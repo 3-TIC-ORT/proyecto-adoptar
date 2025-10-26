@@ -1,5 +1,22 @@
 connect2Server();
 
+function mostrarPopup(titulo = "Aviso", mensaje = "") {
+  const popup = document.getElementById("popup");
+  const popupTitle = document.getElementById("popup-title");
+  const popupMessage = document.getElementById("popup-message");
+
+  popupTitle.textContent = titulo;
+  popupMessage.textContent = mensaje;
+
+  popup.style.display = "flex";
+
+  // Cerrar popup
+  document.getElementById("popup-ok").onclick = () => popup.style.display = "none";
+
+  popup.onclick = (e) => {
+    if (e.target === popup) popup.style.display = "none";
+  };
+}
 // Referencias a los campos del formulario
 let nombreInput = document.getElementById("Nombre");
 let mailInput = document.getElementById("sesión");
@@ -10,9 +27,8 @@ let telefonoInput = document.getElementById("EspacioTelefono");
 // Botón para crear cuenta
 let botoncrearcuenta = document.getElementById("Crear-cuenta");
 botoncrearcuenta.addEventListener("click", () => {
-  // Validar campos mínimos
   if (!nombreInput.value || !mailInput.value || !passwordInput.value) {
-    alert("Por favor completá nombre, correo y contraseña.");
+    mostrarPopup("Por favor completá nombre, correo y contraseña.");
     return;
   }
 
@@ -21,26 +37,23 @@ botoncrearcuenta.addEventListener("click", () => {
     nombre: nombreInput.value,
     mail: mailInput.value,
     password: passwordInput.value,
-    fotoPerfil: null, // podrías agregarlo más adelante
+    fotoPerfil: null,
     edad: calcularEdad(fechaInput.value),
     telefono: telefonoInput.value
   };
 
-  // Enviar datos al backend usando SoqueTIC
+
   postEvent("registrarUsuario", nuevoUsuario, (respuesta) => {
     if (respuesta.error) {
-      alert(respuesta.error);
+      mostrarPopup(respuesta.error);
     } else {
-      alert("Cuenta creada correctamente. Bienvenido " + respuesta.nombre);
-      // Guardar en localStorage si querés recordar el usuario
+      mostrarPopup("Cuenta creada correctamente. Bienvenido " + respuesta.nombre);
       localStorage.setItem("usuarioActual", JSON.stringify(respuesta));
-      // Redirigir a pantalla principal
       window.location.href = "../Pantallaprincipal/Pantallaprincipal.html";
     }
   });
 });
 
-// Redirección a login
 let iralogin = document.getElementById("Sicuenta");
 iralogin.addEventListener("click", () => {
   window.location.href = "../Login/Login.html";
@@ -56,22 +69,4 @@ function calcularEdad(fechaNacimiento) {
     edad--;
   }
   return edad;
-}
-window.onload = function () {
-  google.accounts.id.initialize({
-      client_id: 'TU_CLIENT_ID_DE_GOOGLE.apps.googleusercontent.com',
-      callback: handleCredentialResponse
-  });
-
-  google.accounts.id.renderButton(
-      document.getElementById('googleSignInButton'),
-      { theme: 'outline', size: 'large', width: 300 }  
-  );
-}
-
-function handleCredentialResponse(response) {
- 
-  console.log("Token de Google:", response.credential);
-
-  
 }

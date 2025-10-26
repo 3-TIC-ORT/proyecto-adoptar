@@ -37,7 +37,21 @@ document.addEventListener("click", (e) => {
     selectores.forEach(selector => selector.classList.remove("show"));
   }
 });
+function mostrarPopup(titulo = "Aviso", mensaje = "") {
+  const popup = document.getElementById("popup");
+  const popupTitle = document.getElementById("popup-title");
+  const popupMessage = document.getElementById("popup-message");
 
+  popupTitle.textContent = titulo;
+  popupMessage.textContent = mensaje;
+  popup.style.display = "flex";
+  document.getElementById("popup-ok").onclick = () => popup.style.display = "none";
+
+  // Cerrar al hacer clic fuera del contenido
+  popup.onclick = (e) => {
+    if (e.target === popup) popup.style.display = "none";
+  };
+}
 //USUARIO LOGUEADO
 let usuario =
   JSON.parse(localStorage.getItem("usuarioLogueado")) ||
@@ -65,7 +79,7 @@ if (mailUsuario) {
       return;
     }
 
-    todasLasPublicaciones = respuesta; // 🔹 NECESARIO PARA FILTRAR
+    todasLasPublicaciones = respuesta;
     mostrarPublicaciones(respuesta);
   });
 } else {
@@ -147,6 +161,18 @@ function mostrarPublicaciones(publicaciones) {
       enviarBtn.classList.toggle("show");
       lista.classList.toggle("show");
       publi.classList.toggle("expandida");
+      let usuario =
+        JSON.parse(localStorage.getItem("usuarioActual")) ||
+        JSON.parse(localStorage.getItem("usuarioLogueado")) ||
+        JSON.parse(localStorage.getItem("user")) ||
+        JSON.parse(localStorage.getItem("usuario")) ||
+        JSON.parse(localStorage.getItem("datosUsuario")) ||
+        null;
+
+      if (!usuario || !usuario.mail) {
+        mostrarPopup("Por favor, inicia sesión para ver y agregar comentarios.");
+        return;
+      }
 
       if (lista.classList.contains("show")) {
         lista.innerHTML = "<p>Cargando comentarios...</p>";
@@ -181,6 +207,22 @@ function mostrarPublicaciones(publicaciones) {
 
         textarea.value = "";
       }
+postEvent(
+  "enviarNotificacion",
+  {
+    destinatarioMail: publiData.creadorMail,
+    remitenteMail: usuario.mail,
+    mensaje: `${usuario.nombre || usuario.mail} escribió en la publicación de ${publiData.nombreMascota || "tu publicación"}.`,
+    idPublicacion: publiData.id
+  },
+  (res) => {
+    if (res?.ok) {
+      mostrarPopup("Tu comentario se envió");
+    } else {
+      mostrarPopup("Error al enviar la notificación");
+    }
+  }
+);
     });
 
     // Ir al detalle
@@ -245,13 +287,13 @@ if (selectProvincia && selectLocalidad) {
         selectLocalidad.appendChild(opt);
       });
     });
-    aplicarFiltros(); // 🔹 IMPORTANTE
+    aplicarFiltros(); 
   });
 }
 
 if (selectLocalidad) selectLocalidad.addEventListener("change", aplicarFiltros);
 
-// 🔹 FILTROS IGUALADOS A PANTALLAPRINCIPAL
+
 function aplicarFiltros() {
   if (!todasLasPublicaciones.length) return;
 
@@ -281,6 +323,53 @@ function aplicarFiltros() {
 
 document.querySelectorAll('.Selectores1 input, .Selectores3 input, .Selectores4 input')
   .forEach(input => input.addEventListener("change", aplicarFiltros));
+  //Notificaciones
+let campana = document.getElementById("Iconocampanita");
+let cuadroNotificaciones = document.querySelector(".Cuadradonotificaciones");
+let listaNotificaciones = document.querySelector(".lista-notificaciones");
+
+campana.addEventListener("click", (e) => {
+  e.stopPropagation();
+  cuadroNotificaciones.classList.toggle("open");
+
+  if (!cuadroNotificaciones.classList.contains("open")) return;
+
+  let usuario =
+    JSON.parse(localStorage.getItem("usuarioActual")) ||
+    JSON.parse(localStorage.getItem("usuarioLogueado")) ||
+    JSON.parse(localStorage.getItem("user")) ||
+    JSON.parse(localStorage.getItem("usuario")) ||
+    JSON.parse(localStorage.getItem("datosUsuario")) ||
+    null;
+
+  if (!usuario || !usuario.mail) {
+    listaNotificaciones.innerHTML = "<p>Debes iniciar sesión para ver notificaciones.</p>";
+    return;
+  }
+
+  listaNotificaciones.innerHTML = "<p>Cargando notificaciones...</p>";
+
+  postEvent("obtenerNotificaciones", { mail: usuario.mail }, (data) => {
+    if (!Array.isArray(data) || data.length === 0) {
+      listaNotificaciones.innerHTML = "<p>No tenés notificaciones nuevas.</p>";
+      return;
+    }
+
+    listaNotificaciones.innerHTML = "";
+    data.forEach(n => {
+      let p = document.createElement("p");
+      p.textContent = n.mensaje;
+      listaNotificaciones.appendChild(p);
+    });
+  });
+});
+
+// Cerrar si se hace clic fuera
+document.addEventListener("click", (e) => {
+  if (!cuadroNotificaciones.contains(e.target) && !campana.contains(e.target)) {
+    cuadroNotificaciones.classList.remove("open");
+  }
+});
 
 //REDIRECCIONES
 document.querySelector(".circuloperfil").addEventListener("click", () => {

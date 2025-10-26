@@ -37,11 +37,24 @@ document.addEventListener("click", (e) => {
     selectores.forEach(selector => selector.classList.remove("show"));
   }
 });
+function mostrarPopup(titulo = "Aviso", mensaje = "") {
+  const popup = document.getElementById("popup");
+  const popupTitle = document.getElementById("popup-title");
+  const popupMessage = document.getElementById("popup-message");
 
+  popupTitle.textContent = titulo;
+  popupMessage.textContent = mensaje;
+  popup.style.display = "flex";
+  document.getElementById("popup-ok").onclick = () => popup.style.display = "none";
+
+  // Cerrar al hacer clic fuera del contenido
+  popup.onclick = (e) => {
+    if (e.target === popup) popup.style.display = "none";
+  };
+}
 let todasLasPublicaciones = [];
 let usuario = null;
 
-// ✅ Mover la función aquí para que esté en el ámbito global
 function mostrarPublicaciones(lista) {
   let contenedor = document.querySelector(".publicaciones");
   contenedor.innerHTML = "";
@@ -144,7 +157,7 @@ function mostrarPublicaciones(lista) {
       e.stopPropagation();
 
       if (!usuario || !usuario.mail) {
-        alert("Debes iniciar sesión para comentar.");
+        mostrarPopup("Debes iniciar sesión para comentar.");
         return;
       }
 
@@ -162,6 +175,22 @@ function mostrarPublicaciones(lista) {
 
         textarea.value = "";
       }
+postEvent(
+  "enviarNotificacion",
+  {
+    destinatarioMail: publiData.creadorMail,
+    remitenteMail: usuario.mail,
+    mensaje: `${usuario.nombre || usuario.mail} escribió en la publicación de ${publiData.nombreMascota || "tu publicación"}.`,
+    idPublicacion: publiData.id
+  },
+  (res) => {
+    if (res?.ok) {
+      mostrarPopup("Tu comentario se envió");
+    } else {
+      mostrarPopup("Error al enviar la notificación");
+    }
+  }
+);
     });
 
     // Ir a detalle
@@ -220,17 +249,15 @@ getEvent("obtenerProvincias", (provincias) => {
   selectProvincia.innerHTML = '<option value="">Seleccione provincia</option>';
   provincias.forEach(prov => {
     const opt = document.createElement("option");
-    opt.value = prov.id; // usamos el id para pedir las localidades
+    opt.value = prov.id;
     opt.textContent = prov.nombre;
     selectProvincia.appendChild(opt);
   });
 });
 
-// Cuando cambia la provincia, cargar las localidades
 function aplicarFiltros() {
   if (!todasLasPublicaciones.length) return;
 
-  // Obtener los valores seleccionados de los distintos filtros
   let tamanos = Array.from(document.querySelectorAll('.Selectores1 input[type="checkbox"]:checked')).map(c => c.value);
   let colores = Array.from(document.querySelectorAll('.Selectores3 input[type="checkbox"]:checked')).map(c => c.value);
   let tipos = Array.from(document.querySelectorAll('.Selectores4 input[type="checkbox"]:checked')).map(c => c.value);
@@ -243,9 +270,8 @@ function aplicarFiltros() {
     ? selectLocalidad.options[selectLocalidad.selectedIndex].text.trim().toLowerCase()
     : "";
 
-  // 🔥 Filtrar publicaciones
+
   let filtradas = todasLasPublicaciones.filter(publi => {
-    // Normalizamos todo para comparar sin errores de mayúsculas o espacios
     let provPub = (publi.provincia || publi.lugar || "").trim().toLowerCase();
     let locPub = (publi.localidad || publi.lugar || "").trim().toLowerCase();
 
@@ -286,6 +312,54 @@ if (selectProvincia) selectProvincia.addEventListener("change", () => {
 });
 
 if (selectLocalidad) selectLocalidad.addEventListener("change", aplicarFiltros);
+//Notificaciones
+let campana = document.getElementById("Iconocampanita");
+let cuadroNotificaciones = document.querySelector(".Cuadradonotificaciones");
+let listaNotificaciones = document.querySelector(".lista-notificaciones");
+
+campana.addEventListener("click", (e) => {
+  e.stopPropagation();
+  cuadroNotificaciones.classList.toggle("open");
+
+  if (!cuadroNotificaciones.classList.contains("open")) return;
+
+  let usuario =
+    JSON.parse(localStorage.getItem("usuarioActual")) ||
+    JSON.parse(localStorage.getItem("usuarioLogueado")) ||
+    JSON.parse(localStorage.getItem("user")) ||
+    JSON.parse(localStorage.getItem("usuario")) ||
+    JSON.parse(localStorage.getItem("datosUsuario")) ||
+    null;
+
+  if (!usuario || !usuario.mail) {
+    listaNotificaciones.innerHTML = "<p>Debes iniciar sesión para ver notificaciones.</p>";
+    return;
+  }
+
+  listaNotificaciones.innerHTML = "<p>Cargando notificaciones...</p>";
+
+  postEvent("obtenerNotificaciones", { mail: usuario.mail }, (data) => {
+    if (!Array.isArray(data) || data.length === 0) {
+      listaNotificaciones.innerHTML = "<p>No tenés notificaciones nuevas.</p>";
+      return;
+    }
+
+    listaNotificaciones.innerHTML = "";
+    data.forEach(n => {
+      let p = document.createElement("p");
+      p.textContent = n.mensaje;
+      listaNotificaciones.appendChild(p);
+    });
+  });
+});
+
+// Cerrar si se hace clic fuera
+document.addEventListener("click", (e) => {
+  if (!cuadroNotificaciones.contains(e.target) && !campana.contains(e.target)) {
+    cuadroNotificaciones.classList.remove("open");
+  }
+});
+
 // Redirecciones
 document.querySelector(".circuloperfil").addEventListener("click", () => {
   window.location.href = "../Perfildeusuario/Perfildeusuario.html";

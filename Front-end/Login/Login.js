@@ -1,6 +1,6 @@
 connect2Server();
 
-function mostrarPopup(titulo = "Aviso", mensaje = "Mensaje") {
+function mostrarPopup(titulo = "Aviso", mensaje = "") {
   const popup = document.getElementById("popup");
   const popupTitle = document.getElementById("popup-title");
   const popupMessage = document.getElementById("popup-message");

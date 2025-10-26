@@ -67,12 +67,6 @@ body {
     background-color: whitesmoke;
     border-radius: 25%;
 } 
-#Iconocampanita{
-        width: 2.2rem; 
-    height: 2.2rem; 
-    cursor: pointer; 
-    border-radius: 25%;
-}
 
 .circuloperfil { 
     display: flex;
@@ -247,6 +241,12 @@ transform: translateX(0);
     opacity: 1;
     max-height: 600px; 
 }
+#Iconocampanita{
+        width: 2.2rem; 
+    height: 2.2rem; 
+    cursor: pointer; 
+    border-radius: 25%;
+}
 .Cuadradonotificaciones {
   position: fixed;
   top: 15%;
@@ -266,7 +266,6 @@ transform: translateX(0);
 
 .Cuadradonotificaciones.open {
   display: flex;
-  animation: fadeIn 0.3s ease forwards;
 }
 
 .lista-notificaciones {
@@ -362,8 +361,8 @@ transform: translateX(0);
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     overflow: hidden;
     text-align: center;
-    min-height: 400px;
-    max-height: 430px;
+    min-height: 380px;
+    max-height: 400px;
 }
 .publicacion.expandida{
   max-height: 570px;
