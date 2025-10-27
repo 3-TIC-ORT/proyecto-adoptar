@@ -9,12 +9,19 @@ const json = "jsons/usuarios.json";
 const publi = "jsons/publicaciones.json";
 const carpetaFotos = "Fotosmascotas";
 const comentariosFile = "jsons/comentarios.json";
+const notificacionesFile = "jsons/notificaciones.json";
 
 if (!fs.existsSync(json)) fs.writeFileSync(json, "[]");
 if (!fs.existsSync(publi)) fs.writeFileSync(publi, "[]");
 if (!fs.existsSync(carpetaFotos)) fs.mkdirSync(carpetaFotos);
 
 app.use("/Fotosmascotas", express.static(path.resolve(carpetaFotos)));
+
+
+
+//LOG IN Y REGISTRARSE
+
+
 
 function leerUsuarios() {
   try {
@@ -78,6 +85,10 @@ subscribePOSTEvent("actualizarUsuario", (data) => {
 
 
 //PUBLICACIONES 
+
+
+
+
 function leerPublicaciones() {
   try {
     let data = fs.readFileSync(publi, "utf-8");
@@ -172,7 +183,14 @@ subscribePOSTEvent("actualizarPublicacion", (data) => {
   return { ok: true };
 });
 
+
+
+
 //FAVORITOS
+
+
+
+
 subscribePOSTEvent("actualizarFavoritos", (data) => {
   let { mail, favoritos } = data;
   let usuarios = leerUsuarios();
@@ -198,8 +216,14 @@ subscribePOSTEvent("obtenerFavoritos", (data) => {
   return favoritos;
 });
 
+
+
+
 //NOTIFICACIONES
-const notificacionesFile = "jsons/notificaciones.json";
+
+
+
+
 if (!fs.existsSync(notificacionesFile)) fs.writeFileSync(notificacionesFile, "[]");
 
 // Leer notificaciones
@@ -259,6 +283,9 @@ subscribePOSTEvent("marcarNotificacionLeida", (data) => {
   guardarNotificaciones(notificaciones);
   return { ok: true };
 });
+
+
+
 
 //COMENTARIOS
 //Guardar comentarios en comentarios.json
