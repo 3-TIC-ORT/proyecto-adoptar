@@ -216,7 +216,58 @@ subscribePOSTEvent("obtenerFavoritos", (data) => {
   return favoritos;
 });
 
+//COMENTARIOS
+//Guardar comentarios en comentarios.json
+function guardarComentario(idPublicacion, comentario, usuario) {
+  let comentarios = [];
+  try {
+    let data = fs.readFileSync(comentariosFile, "utf-8");
+    comentarios = data.trim() ? JSON.parse(data) : [];
+  } catch {
+    comentarios = [];
+  }
+  comentarios.push({ idPublicacion, texto: comentario, usuario });
+  fs.writeFileSync(comentariosFile, JSON.stringify(comentarios, null, 2));
+  return { ok: true };
+}
 
+subscribePOSTEvent("guardarComentario", (data) => {
+  let { idPublicacion, texto, usuario } = data;
+  return guardarComentario(idPublicacion, texto, usuario);
+});
+//Obtener comentarios de una publicación
+subscribePOSTEvent("obtenerComentarios", (data) => {
+  try {
+    let comentarios = [];
+    let fileData = fs.readFileSync(comentariosFile, "utf-8");
+    comentarios = fileData.trim() ? JSON.parse(fileData) : [];
+    return comentarios.filter(c => c.idPublicacion === Number(data.idPublicacion));
+  } catch {
+    return [];
+  }
+});
+// Cargar JSON una vez al iniciar el servidor
+let localidadesData = [];
+try {
+  localidadesData = JSON.parse(fs.readFileSync("jsons/localidades.json", "utf8"));
+} catch (err) {
+  console.error("Error leyendo localidades.json:", err);
+  localidadesData = [];
+}
+
+// OBTENER TODAS LAS PROVINCIAS
+subscribeGETEvent("obtenerProvincias", () => {
+  const provincias = localidadesData.map(p => ({ id: p.id, nombre: p.nombre }));
+  return provincias;
+});
+
+// OBTENER LOCALIDADES POR PROVINCIA
+subscribePOSTEvent("obtenerLocalidades", (data) => {
+  const provinciaId = Number(data.provinciaId);
+  const provincia = localidadesData.find(p => p.id === provinciaId);
+  if (!provincia) return [];
+  return provincia.localidades;
+});
 
 
 //NOTIFICACIONES
@@ -285,58 +336,4 @@ subscribePOSTEvent("marcarNotificacionLeida", (data) => {
 });
 
 
-
-
-//COMENTARIOS
-//Guardar comentarios en comentarios.json
-function guardarComentario(idPublicacion, comentario, usuario) {
-  let comentarios = [];
-  try {
-    let data = fs.readFileSync(comentariosFile, "utf-8");
-    comentarios = data.trim() ? JSON.parse(data) : [];
-  } catch {
-    comentarios = [];
-  }
-  comentarios.push({ idPublicacion, texto: comentario, usuario });
-  fs.writeFileSync(comentariosFile, JSON.stringify(comentarios, null, 2));
-  return { ok: true };
-}
-
-subscribePOSTEvent("guardarComentario", (data) => {
-  let { idPublicacion, texto, usuario } = data;
-  return guardarComentario(idPublicacion, texto, usuario);
-});
-//Obtener comentarios de una publicación
-subscribePOSTEvent("obtenerComentarios", (data) => {
-  try {
-    let comentarios = [];
-    let fileData = fs.readFileSync(comentariosFile, "utf-8");
-    comentarios = fileData.trim() ? JSON.parse(fileData) : [];
-    return comentarios.filter(c => c.idPublicacion === Number(data.idPublicacion));
-  } catch {
-    return [];
-  }
-});
-// Cargar JSON una vez al iniciar el servidor
-let localidadesData = [];
-try {
-  localidadesData = JSON.parse(fs.readFileSync("jsons/localidades.json", "utf8"));
-} catch (err) {
-  console.error("Error leyendo localidades.json:", err);
-  localidadesData = [];
-}
-
-// OBTENER TODAS LAS PROVINCIAS
-subscribeGETEvent("obtenerProvincias", () => {
-  const provincias = localidadesData.map(p => ({ id: p.id, nombre: p.nombre }));
-  return provincias;
-});
-
-// OBTENER LOCALIDADES POR PROVINCIA
-subscribePOSTEvent("obtenerLocalidades", (data) => {
-  const provinciaId = Number(data.provinciaId);
-  const provincia = localidadesData.find(p => p.id === provinciaId);
-  if (!provincia) return [];
-  return provincia.localidades;
-});
 startServer();
