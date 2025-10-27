@@ -14,15 +14,14 @@ function mostrarPopup(titulo = "Aviso", mensaje = "") {
 
   popup.style.display = "flex";
 
-  // Cerrar popup
   document.getElementById("popup-ok").onclick = () => popup.style.display = "none";
 
-  // Cerrar al hacer clic fuera del contenido
+
   popup.onclick = (e) => {
     if (e.target === popup) popup.style.display = "none";
   };
 }
-// OBTENER PARÁMETRO "id" DE LA URL
+
 function getQueryParam(name) {
   const params = new URLSearchParams(window.location.search);
   return params.get(name);
@@ -55,7 +54,10 @@ if (postId) {
     let creador = publiData.creadorNombre || publiData.usuarioCreador || publiData.creadorMail || "Usuario desconocido";
 
     publi.innerHTML = `
+    <div class=fotoyboton>
       <img src="${fotoUrl}" class="fotoUrl" alt="${publiData.nombreMascota || "Foto de mascota"}">
+        <button class="Boton">¡Me interesa!</button>
+        </div>
       <div class="Info">
         <p class="publicador">Publicado por: <strong>${creador}</strong></p>
         <h3>${publiData.nombreMascota || "Sin nombre"}</h3>
@@ -69,7 +71,6 @@ if (postId) {
         <p>Descripción: ${publiData.descripcion || "No especificada"}</p>
         <p>Teléfono: ${publiData.telefono || "No especificado"}</p>
         <p>Ubicación: ${publiData.lugar || "Sin ubicación"}</p>
-        <button class="Boton">¡Me interesa!</button>
       </div>
     `;
 

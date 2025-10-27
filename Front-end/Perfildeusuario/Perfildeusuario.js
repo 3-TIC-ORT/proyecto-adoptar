@@ -27,15 +27,12 @@ let usuarioActual = JSON.parse(localStorage.getItem("usuarioActual"));
 if (!usuarioActual) {
   mostrarPopup("Aviso", "No hay ningún usuario logueado. Volviendo al inicio...");
 
-  // Cuando el usuario presione Aceptar, lo redirige al login
   document.getElementById("popup-ok").addEventListener("click", () => {
     document.getElementById("popup").style.display = "none";
     window.location.href = "../Login/Login.html";
   });
 }
 
-
-// Mostrar los datos
 window.addEventListener("DOMContentLoaded", mostrarDatosUsuario);
 
 function mostrarDatosUsuario() {
@@ -54,7 +51,6 @@ function mostrarDatosUsuario() {
   }
 }
 
-// --- Editar datos ---
 const botonEditar = document.getElementById("editarPerfil");
 let editando = false;
 
@@ -123,7 +119,6 @@ document.getElementById("foto").addEventListener("change", (event) => {
   reader.readAsDataURL(file);
 });
 
-// --- Formularios adicionales ---
 document.querySelectorAll("form").forEach((form) => {
   form.addEventListener("submit", (e) => {
     e.preventDefault();

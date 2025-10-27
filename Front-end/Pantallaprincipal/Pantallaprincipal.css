@@ -35,9 +35,24 @@ body {
     align-items: center;
     flex-grow: 100%; 
 } 
-.Logo-AdoptAR-Blanco{
+.Logo-AdoptAR-Verde{
     width: 3rem;
     height: 3rem;
+}
+.Logo-AdoptAR-Negro{
+    height: 1.5rem;
+    width: 1.5rem;
+}
+h5{
+    font-size: 20px;
+}
+.headermenu{
+    display: flex;
+    justify-content: center;
+    align-items: space-between;
+    height: 2rem;
+    gap: 7rem;
+    margin-top: 1rem;
 }
 .iconos { 
     display: flex; 
@@ -49,9 +64,8 @@ body {
     flex-grow: 0.3;
 }
 #titulo { 
-    font-size: 2.5em; 
-    font-weight: bold; 
-    color: whitesmoke;
+    font-size: 50px; 
+    color: #BFD6DE;
 } 
 
 #home { 
@@ -129,7 +143,7 @@ justify-content: center;
 align-items: flex-start; 
 height: 70vh; 
 padding-left: 1.5em; 
-gap: 2em;
+gap: 3em;
 
 }
 
@@ -223,7 +237,6 @@ transform: translateX(0);
     top: 15%;
     right: 2%;
     min-height: auto;       
-    width: 35vh; 
     background-color:#A1C0CB;
     z-index: 3;
     border-radius: 10px;
@@ -234,7 +247,6 @@ transform: translateX(0);
     justify-content: center;
     gap: 20px;
     opacity: 0;
-    max-height: 0;
     overflow: hidden;
     transition: all 0.4s ease;
 }
@@ -337,7 +349,15 @@ transform: translateX(0);
 #popup-ok:hover {
   background-color: #3165A5;
 }
-/* Publicaciones */
+button{
+    cursor: pointer;
+    width: 5rem;
+    height: 2rem;
+    border-radius: 20px;
+    background-color: #183446;
+    border: #183446;
+    color: white;
+}
 .publicaciones {
     display: grid;
     justify-content: center;
@@ -363,8 +383,8 @@ transform: translateX(0);
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     overflow: hidden;
     text-align: center;
-    min-height: 380px;
-    max-height: 400px;
+    min-height: 400px;
+    max-height: 430px;
 }
 .publicacion.expandida{
   max-height: 570px;

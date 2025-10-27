@@ -1,6 +1,7 @@
 body {
     background-color: #BFD6DE;
     font-family: 'Poppins', sans-serif;
+
 }
 *{
     margin: 0;
@@ -19,15 +20,15 @@ body {
     margin-right: 1rem;
     flex-direction: column;
 }
-.Logo-AdoptAR-Blanco{
+.Logo-AdoptAR-Verde{
     height: 3rem;
     width: 3rem;
 }
 .AdoptAR{
-    color:white;
+    color:#BFD6DE;
 }
 .Bienvenido{
-    color:white;
+    color:#BFD6DE;
 }
 .Iconovolver {
     position: absolute;
@@ -62,7 +63,6 @@ body {
   z-index: 1000;
 }
 
-/* Caja del popup */
 .popup-content {
   background-color: #c1ffeb;
   padding: 20px 30px;
@@ -72,7 +72,6 @@ body {
   box-shadow: 0 5px 15px rgba(0,0,0,0.3);
   position: relative;
 }
-/* Botones y cierre */
 #popup-ok {
   background-color: #183446;
   color: white;
@@ -87,12 +86,12 @@ body {
 #popup-ok:hover {
   background-color: #3165A5;
 }
-/* Títulos */
+
 h1 {
     text-align: center;
     font-size: 2rem;
     margin-bottom: 5px;
-    color: #333;
+    color: #183446;
 }
 
 p {
@@ -107,7 +106,7 @@ p {
     border-radius: 5px;
 }
 
-/* Contenedor principal */
+
 .contenedor {
     display: flex;
     justify-content: space-between;
@@ -118,9 +117,8 @@ p {
     padding: 20px;
 }
 
-/* Info de usuario */
 .Textos {
-    background: #F6FDFE;
+    background-color: #ddfbff;
     padding: 20px;
     margin-top: 4rem;
     border-radius: 15px;
@@ -134,7 +132,7 @@ p {
 }
 
 .Textos h2 {
-    color: #222;
+    color: #183446;
     font-size: 1.5rem;
     margin-bottom: 10px;
 }
@@ -144,20 +142,20 @@ p {
     color:#183446;
 }
 
-/* Formularios */
+
 form {
     margin-top: 15px;
     display: flex;
     flex-direction: column;
     gap: 8px;
 }
-/* Foto de perfil */
+
 .perfil-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 12px;
-    background: white;
+    background: #ddfbff;
     padding: 25px;
     border-radius: 15px;
     box-shadow: 0px 4px 15px rgba(0,0,0,0.1);
@@ -166,7 +164,7 @@ form {
 .circuloperfil {
     width: 240px;
     height: 240px;
-    background: #ddd;
+    background: #838383;
     border-radius: 50%;
     overflow: hidden;
     display: flex;
@@ -195,6 +193,11 @@ form {
     border-radius: 8px;
     cursor: pointer;
     transition: ransform 0.2s;
+}
+.botones{
+    display: flex;
+    flex-direction: column;
+    gap:0.5rem
 }
 .botoneditar {
     margin-top: 15px;
