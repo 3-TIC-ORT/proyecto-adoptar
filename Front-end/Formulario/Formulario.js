@@ -165,10 +165,12 @@ botonEnviar.addEventListener("click", async (e) => {
     localStorage.setItem("publicaciones", JSON.stringify(todas));
 
     postEvent("actualizarPublicacion", nuevaPublicacion, (resp) => {
+      console.log("Respuesta del servidor:", resp);
       if (resp && resp.ok) {
-        mostrarPopup("¡Publicación editada con éxito!", () => {
+        mostrarPopup("¡Publicación editada con éxito!");
+        setTimeout(() => {
           window.location.href = "../Pantallaprincipal/Pantallaprincipal.html";
-        });
+        }, 1500);
       } else {
         mostrarPopup("Error", "Error al editar la publicación en el servidor.");
       }
@@ -179,12 +181,14 @@ botonEnviar.addEventListener("click", async (e) => {
     localStorage.setItem("publicaciones", JSON.stringify(todas));
 
     postEvent("crearPublicacion", nuevaPublicacion, (resp) => {
+      console.log("Respuesta del servidor:", resp);
       if (resp && resp.id) {
-        mostrarPopup("¡Publicación creada con éxito!", () => {
+        mostrarPopup("¡Publicación creada con éxito!");
+        setTimeout(() => {
           window.location.href = "../Pantallaprincipal/Pantallaprincipal.html";
-        });
+        }, 1500);
       } else {
-        mostrarPopup("Error al crear la publicación en el servidor.");
+        mostrarPopup("Error", "Error al crear la publicación en el servidor.");
       }
     });
   }

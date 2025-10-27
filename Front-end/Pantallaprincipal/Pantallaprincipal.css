@@ -82,11 +82,13 @@ body {
 .circuloperfil:hover { 
     border: 2px solid bisque; 
 } 
-.Iconousuario { 
-    width: 1.7rem; 
-    height: 1.7rem; 
-    margin-top: 0.35rem; 
-}
+.Iconousuario {
+    width: 1.7rem;
+    height: 1.7rem;
+    margin-top: 0.35rem;
+    border-radius: 50%;
+    object-fit: cover;
+  }
 
 .linea { 
     height: 1px; 

@@ -7,5 +7,37 @@
     "idPublicacion": 1760662277311,
     "leida": false,
     "fecha": "2025-10-26T20:46:46.168Z"
+  },
+  {
+    "id": 1761568438323,
+    "destinatarioMail": "ramirolangsam@gmail.com",
+    "remitenteMail": "ramirolangsam@gmail.com",
+    "mensaje": "Ramiro Langsam está interesado en Rocco. Tel: 12234567",
+    "idPublicacion": 1761225814034,
+    "leida": false
+  },
+  {
+    "id": 1761568460321,
+    "destinatarioMail": "bruno.ferro@outlook.com",
+    "remitenteMail": "ramirolangsam@gmail.com",
+    "mensaje": "Ramiro Langsam está interesado en Kiko y Tobi. Tel: 12234567",
+    "idPublicacion": 1760553600945,
+    "leida": false
+  },
+  {
+    "id": 1761568587574,
+    "destinatarioMail": "bruno.ferro@outlook.com",
+    "remitenteMail": "ramirolangsam@gmail.com",
+    "mensaje": "Ramiro Langsam escribió en la publicación de Kiko y Tobi.",
+    "idPublicacion": 1760553600945,
+    "leida": false
+  },
+  {
+    "id": 1761568817083,
+    "destinatarioMail": "ramirolangsam@gmail.com",
+    "remitenteMail": "ramirolangsam@gmail.com",
+    "mensaje": "Ramiro Langsam está interesado en jose. Tel: 12234567",
+    "idPublicacion": 1761138369550,
+    "leida": false
   }
 ]

@@ -468,3 +468,38 @@ document.getElementById("Mispublicaciones").addEventListener("click", () => {
 document.getElementById("Misfavoritos").addEventListener("click", () => {
   window.location.href = "../Misfavoritos/Misfavoritos.html";
 });
+(function mostrarFotoPerfil() {
+  let usuario =
+    JSON.parse(localStorage.getItem("usuarioActual")) ||
+    JSON.parse(localStorage.getItem("usuarioLogueado")) ||
+    JSON.parse(localStorage.getItem("user")) ||
+    JSON.parse(localStorage.getItem("usuario")) ||
+    JSON.parse(localStorage.getItem("datosUsuario")) ||
+    null;
+
+  const imgPerfil = document.getElementById("fotoPerfilUsuario");
+  if (!imgPerfil) return;
+
+  const imagenDefault = "../Iconos/Iconousuario.png";
+
+  if (usuario && usuario.fotoPerfil) {
+    let ruta = usuario.fotoPerfil;
+    if (!ruta.startsWith("http")) {
+      if (ruta.startsWith("Fotosmascotas/")) {
+        ruta = "../../Back-end/" + ruta;
+      } else if (!ruta.startsWith("../") && !ruta.startsWith("./")) {
+        ruta = "../../Back-end/Fotosmascotas/" + ruta;
+      }
+    }
+    const imgPrueba = new Image();
+    imgPrueba.onload = () => {
+      imgPerfil.src = ruta;
+    };
+    imgPrueba.onerror = () => {
+      imgPerfil.src = imagenDefault;
+    };
+    imgPrueba.src = ruta;
+  } else {
+    imgPerfil.src = imagenDefault;
+  }
+})();
