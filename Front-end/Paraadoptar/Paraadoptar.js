@@ -41,10 +41,9 @@ document.addEventListener("click", (e) => {
 let todasLasPublicaciones = [];
 let usuario = null;
 
-function mostrarPublicaciones(lista) {
+function mostrarPublicaciones(lista, favoritosIds = []) {
   let contenedor = document.querySelector(".publicaciones");
   contenedor.innerHTML = "";
-  let favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
 
   lista.forEach(publi => {
     let div = document.createElement("div");
@@ -71,7 +70,7 @@ function mostrarPublicaciones(lista) {
     let corazon = document.createElement("img");
     corazon.src = "../Iconos/Iconocorazon.webp";
     corazon.classList.add("Corazon");
-    if (favoritos.includes(publi.id)) corazon.classList.add("activo");
+    if (favoritosIds.includes(publi.id)) corazon.classList.add("activo");
     div.prepend(corazon);
 
     corazon.addEventListener("click", (e) => {
@@ -79,16 +78,14 @@ function mostrarPublicaciones(lista) {
       corazon.classList.toggle("activo");
 
       if (corazon.classList.contains("activo")) {
-        if (!favoritos.includes(publi.id)) favoritos.push(publi.id);
+        if (!favoritosIds.includes(publi.id)) favoritosIds.push(publi.id);
       } else {
-        favoritos = favoritos.filter(id => id !== publi.id);
+        favoritosIds = favoritosIds.filter(id => id !== publi.id);
       }
-
-      localStorage.setItem("favoritos", JSON.stringify(favoritos));
 
       const mailUsuario = usuario?.mail || usuario?.email || usuario?.correo || null;
       if (mailUsuario) {
-        postEvent("actualizarFavoritos", { mail: mailUsuario, favoritos });
+        postEvent("actualizarFavoritos", { mail: mailUsuario, favoritos: favoritosIds });
       }
     });
 
@@ -160,22 +157,23 @@ function mostrarPublicaciones(lista) {
 
         textarea.value = "";
       }
-postEvent(
-  "enviarNotificacion",
-  {
-    destinatarioMail: publiData.creadorMail,
-    remitenteMail: usuario.mail,
-    mensaje: `${usuario.nombre || usuario.mail} escribió en la publicación de ${publiData.nombreMascota || "tu publicación"}.`,
-    idPublicacion: publiData.id
-  },
-  (res) => {
-    if (res?.ok) {
-      mostrarPopup("Tu comentario se envió");
-    } else {
-      mostrarPopup("Error al enviar la notificación");
-    }
-  }
-);
+
+      postEvent(
+        "enviarNotificacion",
+        {
+          destinatarioMail: publi.creadorMail,
+          remitenteMail: usuario.mail,
+          mensaje: `${usuario.nombre || usuario.mail} escribió en la publicación de ${publi.nombreMascota || "tu publicación"}.`,
+          idPublicacion: publi.id
+        },
+        (res) => {
+          if (res?.ok) {
+            mostrarPopup("Tu comentario se envió");
+          } else {
+            mostrarPopup("Error al enviar la notificación");
+          }
+        }
+      );
     });
 
     // Ir a detalle
@@ -208,7 +206,17 @@ window.addEventListener("DOMContentLoaded", () => {
   getEvent("obtenerPublicaciones", (publicaciones) => {
     if (!Array.isArray(publicaciones)) return;
     todasLasPublicaciones = publicaciones.filter(pub => pub.estado === "Para adoptar");
-    mostrarPublicaciones(todasLasPublicaciones);
+
+    const mailUsuario = usuario?.mail || usuario?.email || usuario?.correo || null;
+
+    if (mailUsuario) {
+      postEvent("obtenerFavoritos", { mail: mailUsuario }, (favoritos) => {
+        const idsFavoritos = Array.isArray(favoritos) ? favoritos.map(f => f.id) : [];
+        mostrarPublicaciones(todasLasPublicaciones, idsFavoritos);
+      });
+    } else {
+      mostrarPublicaciones(todasLasPublicaciones, []);
+    }
   });
 });
 // CAMBIO DE COLUMNAS

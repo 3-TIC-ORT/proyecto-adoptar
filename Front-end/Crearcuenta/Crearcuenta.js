@@ -49,11 +49,12 @@ botoncrearcuenta.addEventListener("click", () => {
     } else {
       mostrarPopup("Cuenta creada correctamente. Bienvenido " + respuesta.nombre);
       localStorage.setItem("usuarioActual", JSON.stringify(respuesta));
-      window.location.href = "../Pantallaprincipal/Pantallaprincipal.html";
+      document.getElementById("popup-ok").onclick = () => {
+          document.getElementById("popup").style.display = "none";
+          window.location.href = "../Pantallaprincipal/Pantallaprincipal.html";
     }
-  });
+  }
 });
-
 let iralogin = document.getElementById("Sicuenta");
 iralogin.addEventListener("click", () => {
   window.location.href = "../Login/Login.html";
@@ -70,3 +71,4 @@ function calcularEdad(fechaNacimiento) {
   }
   return edad;
 }
+});

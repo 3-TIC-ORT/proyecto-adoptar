@@ -498,6 +498,7 @@ cursor: pointer;
 }
 .Editores{
 display: flex;
+justify-content: first baseline;
 border-radius: 5px;
 opacity: 0;
 gap: 20px;
@@ -512,4 +513,17 @@ z-index: 2;
 }
 .Editar{
     opacity: 1;
+}
+#eliminar, #editar{
+    margin-bottom: -20px;
+    width: 3rem;
+    height: 3rem;
+}
+#eliminar:hover{
+    cursor: pointer;
+    background-color: #b5b9ba;
+}
+#editar:hover{
+    cursor: pointer;
+    background-color: #b5b9ba;
 }

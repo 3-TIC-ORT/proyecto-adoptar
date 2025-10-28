@@ -1,5 +1,4 @@
 connect2Server();
-
 function mostrarPopup(titulo = "Aviso", mensaje = "") {
   const popup = document.getElementById("popup");
   const popupTitle = document.getElementById("popup-title");
@@ -10,10 +9,9 @@ function mostrarPopup(titulo = "Aviso", mensaje = "") {
 
   popup.style.display = "flex";
 
-  // Cerrar popup
   document.getElementById("popup-ok").onclick = () => popup.style.display = "none";
 
-  // Cerrar al hacer clic fuera del contenido
+
   popup.onclick = (e) => {
     if (e.target === popup) popup.style.display = "none";
   };
@@ -24,7 +22,6 @@ document.addEventListener("DOMContentLoaded", () => {
   let mailInput = document.getElementById("sesion");
   let passwordInput = document.getElementById("password");
 
-  // Evento: inicio de sesión
   loginForm.addEventListener("submit", (e) => {
     e.preventDefault();
 
@@ -41,7 +38,6 @@ document.addEventListener("DOMContentLoaded", () => {
         mostrarPopup("Bienvenido " + respuesta.nombre);
         localStorage.setItem("usuarioActual", JSON.stringify(respuesta));
 
-        // Redirección después de cerrar el popup
         document.getElementById("popup-ok").onclick = () => {
           document.getElementById("popup").style.display = "none";
           window.location.href = "../Pantallaprincipal/Pantallaprincipal.html";

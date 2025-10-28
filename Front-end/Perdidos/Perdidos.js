@@ -37,28 +37,13 @@ document.addEventListener("click", (e) => {
     selectores.forEach(selector => selector.classList.remove("show"));
   }
 });
-function mostrarPopup(titulo = "Aviso", mensaje = "") {
-  const popup = document.getElementById("popup");
-  const popupTitle = document.getElementById("popup-title");
-  const popupMessage = document.getElementById("popup-message");
 
-  popupTitle.textContent = titulo;
-  popupMessage.textContent = mensaje;
-  popup.style.display = "flex";
-  document.getElementById("popup-ok").onclick = () => popup.style.display = "none";
-
-  // Cerrar al hacer clic fuera del contenido
-  popup.onclick = (e) => {
-    if (e.target === popup) popup.style.display = "none";
-  };
-}
 let todasLasPublicaciones = [];
 let usuario = null;
 
-function mostrarPublicaciones(lista) {
+function mostrarPublicaciones(lista, favoritosIds = []) {
   let contenedor = document.querySelector(".publicaciones");
   contenedor.innerHTML = "";
-  let favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
 
   lista.forEach(publi => {
     let div = document.createElement("div");
@@ -78,7 +63,6 @@ function mostrarPublicaciones(lista) {
       <p>Tipo: ${publi.tipo}</p>
       <p>Género: ${publi.genero}</p>
       <p>Raza: ${publi.raza || "No especificada"}</p>
-      <p>Edad: ${publi.edad || "No especificada"}</p>
       <p>Ubicación: ${publi.lugar || "Sin ubicación"}</p>
     `;
 
@@ -86,7 +70,7 @@ function mostrarPublicaciones(lista) {
     let corazon = document.createElement("img");
     corazon.src = "../Iconos/Iconocorazon.webp";
     corazon.classList.add("Corazon");
-    if (favoritos.includes(publi.id)) corazon.classList.add("activo");
+    if (favoritosIds.includes(publi.id)) corazon.classList.add("activo");
     div.prepend(corazon);
 
     corazon.addEventListener("click", (e) => {
@@ -94,16 +78,14 @@ function mostrarPublicaciones(lista) {
       corazon.classList.toggle("activo");
 
       if (corazon.classList.contains("activo")) {
-        if (!favoritos.includes(publi.id)) favoritos.push(publi.id);
+        if (!favoritosIds.includes(publi.id)) favoritosIds.push(publi.id);
       } else {
-        favoritos = favoritos.filter(id => id !== publi.id);
+        favoritosIds = favoritosIds.filter(id => id !== publi.id);
       }
-
-      localStorage.setItem("favoritos", JSON.stringify(favoritos));
 
       const mailUsuario = usuario?.mail || usuario?.email || usuario?.correo || null;
       if (mailUsuario) {
-        postEvent("actualizarFavoritos", { mail: mailUsuario, favoritos });
+        postEvent("actualizarFavoritos", { mail: mailUsuario, favoritos: favoritosIds });
       }
     });
 
@@ -157,7 +139,7 @@ function mostrarPublicaciones(lista) {
       e.stopPropagation();
 
       if (!usuario || !usuario.mail) {
-        mostrarPopup("Debes iniciar sesión para comentar.");
+        alert("Debes iniciar sesión para comentar.");
         return;
       }
 
@@ -175,22 +157,23 @@ function mostrarPublicaciones(lista) {
 
         textarea.value = "";
       }
-postEvent(
-  "enviarNotificacion",
-  {
-    destinatarioMail: publiData.creadorMail,
-    remitenteMail: usuario.mail,
-    mensaje: `${usuario.nombre || usuario.mail} escribió en la publicación de ${publiData.nombreMascota || "tu publicación"}.`,
-    idPublicacion: publiData.id
-  },
-  (res) => {
-    if (res?.ok) {
-      mostrarPopup("Tu comentario se envió");
-    } else {
-      mostrarPopup("Error al enviar la notificación");
-    }
-  }
-);
+
+      postEvent(
+        "enviarNotificacion",
+        {
+          destinatarioMail: publi.creadorMail,
+          remitenteMail: usuario.mail,
+          mensaje: `${usuario.nombre || usuario.mail} escribió en la publicación de ${publi.nombreMascota || "tu publicación"}.`,
+          idPublicacion: publi.id
+        },
+        (res) => {
+          if (res?.ok) {
+            mostrarPopup("Tu comentario se envió");
+          } else {
+            mostrarPopup("Error al enviar la notificación");
+          }
+        }
+      );
     });
 
     // Ir a detalle
@@ -210,6 +193,8 @@ postEvent(
 
 // Cargar publicaciones
 window.addEventListener("DOMContentLoaded", () => {
+  let contenedor = document.querySelector(".publicaciones");
+
   usuario =
     JSON.parse(localStorage.getItem("usuarioLogueado")) ||
     JSON.parse(localStorage.getItem("usuarioActual")) ||
@@ -220,8 +205,18 @@ window.addEventListener("DOMContentLoaded", () => {
 
   getEvent("obtenerPublicaciones", (publicaciones) => {
     if (!Array.isArray(publicaciones)) return;
-    todasLasPublicaciones = publicaciones.filter(pub => pub.estado === "Perdido");
-    mostrarPublicaciones(todasLasPublicaciones);
+    todasLasPublicaciones = publicaciones.filter(pub => pub.estado === "Perdido ");
+
+    const mailUsuario = usuario?.mail || usuario?.email || usuario?.correo || null;
+
+    if (mailUsuario) {
+      postEvent("obtenerFavoritos", { mail: mailUsuario }, (favoritos) => {
+        const idsFavoritos = Array.isArray(favoritos) ? favoritos.map(f => f.id) : [];
+        mostrarPublicaciones(todasLasPublicaciones, idsFavoritos);
+      });
+    } else {
+      mostrarPublicaciones(todasLasPublicaciones, []);
+    }
   });
 });
 // CAMBIO DE COLUMNAS
@@ -249,15 +244,17 @@ getEvent("obtenerProvincias", (provincias) => {
   selectProvincia.innerHTML = '<option value="">Seleccione provincia</option>';
   provincias.forEach(prov => {
     const opt = document.createElement("option");
-    opt.value = prov.id;
+    opt.value = prov.id; // usamos el id para pedir las localidades
     opt.textContent = prov.nombre;
     selectProvincia.appendChild(opt);
   });
 });
 
+// Cuando cambia la provincia, cargar las localidades
 function aplicarFiltros() {
   if (!todasLasPublicaciones.length) return;
 
+  // Obtener los valores seleccionados de los distintos filtros
   let tamanos = Array.from(document.querySelectorAll('.Selectores1 input[type="checkbox"]:checked')).map(c => c.value);
   let colores = Array.from(document.querySelectorAll('.Selectores3 input[type="checkbox"]:checked')).map(c => c.value);
   let tipos = Array.from(document.querySelectorAll('.Selectores4 input[type="checkbox"]:checked')).map(c => c.value);
@@ -270,8 +267,9 @@ function aplicarFiltros() {
     ? selectLocalidad.options[selectLocalidad.selectedIndex].text.trim().toLowerCase()
     : "";
 
-
+  //Filtrar publicaciones
   let filtradas = todasLasPublicaciones.filter(publi => {
+    // Normalizamos todo para comparar sin errores de mayúsculas o espacios
     let provPub = (publi.provincia || publi.lugar || "").trim().toLowerCase();
     let locPub = (publi.localidad || publi.lugar || "").trim().toLowerCase();
 

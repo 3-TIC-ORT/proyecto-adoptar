@@ -67,19 +67,33 @@ h5{
     font-size: 50px; 
     color: #BFD6DE;
 } 
-
-#home { 
+.header2{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+}
+.header2derecha{
+    display: flex;
+    justify-content: center;
+}
+#Iconohome{
+    width: 3.5rem;
+    height: 3.5rem;
+}
+#home {
+    width: 12rem;
     font-weight: 100; 
-    font-size: 1.7em; 
-    color: whitesmoke;
+    font-size: 50px; 
+    color: #183446;
 } 
 
 #Iconofiltrar { 
     width: 2.2rem; 
     height: 2.2rem; 
     cursor: pointer; 
-    background-color: whitesmoke;
     border-radius: 25%;
+    z-index: 5;
 } 
 
 .circuloperfil { 
@@ -219,6 +233,8 @@ display: block;
   cursor: pointer; 
   transform: translateX(100%);
   transition: opacity 0.3s ease, transform 0.3s ease;
+   pointer-events: none;
+  cursor: default;  
 }
 
 .Selectores1.show,
@@ -234,7 +250,7 @@ transform: translateX(0);
 
 .Cuadradoselectores { 
     position: fixed; 
-    top: 15%;
+    top: 20%;
     right: 2%;
     min-height: auto;       
     background-color:#A1C0CB;

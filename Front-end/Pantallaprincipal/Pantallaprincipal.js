@@ -87,7 +87,23 @@ let todasLasPublicaciones = [];
 getEvent("obtenerPublicaciones", (data) => {
   if (Array.isArray(data)) {
     todasLasPublicaciones = data;
-    mostrarPublicaciones(data);
+    let usuarioFavoritos =
+      JSON.parse(localStorage.getItem("usuarioActual")) ||
+      null;
+
+    const mailUsuario = usuarioFavoritos?.mail || usuarioFavoritos?.email || usuarioFavoritos?.correo || null;
+
+    if (mailUsuario) {
+      postEvent("obtenerFavoritos", { mail: mailUsuario }, (favoritosDelBackend) => {
+        if (Array.isArray(favoritosDelBackend)) {
+          let idsFavoritos = favoritosDelBackend.map(f => f.id);
+          localStorage.setItem("favoritos", JSON.stringify(idsFavoritos));
+        }
+        mostrarPublicaciones(data);
+      });
+    } else {
+      mostrarPublicaciones(data);
+    }
   } else {
     console.warn("No se pudieron cargar las publicaciones del backend.");
   }
@@ -280,7 +296,6 @@ postEvent(
 
   postEvent("actualizarFavoritos", { favoritos });
 }
-
 // CAMBIO DE COLUMNAS
 let radiosCantidad = document.querySelectorAll('input[value="Tres"], input[value="Cuatro"], input[value="Cinco"]');
 radiosCantidad.forEach(radio => {

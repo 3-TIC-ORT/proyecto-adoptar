@@ -30,13 +30,6 @@ botonFiltros2.addEventListener("click", (e) => {
   let abierto = cuadroSelectores.classList.contains("open");
   selectores.forEach(selector => selector.classList.toggle("show", abierto));
 });
-document.addEventListener("click", (e) => {
-  if (!menuLateral || !botonFiltros) return;
-  if (!menuLateral.contains(e.target) && !botonFiltros.contains(e.target)) {
-    menuLateral.classList.remove("open");
-    items.forEach(item => item.classList.remove("show"));
-  }
-});
 function mostrarPopup(titulo = "Aviso", mensaje = "") {
   const popup = document.getElementById("popup");
   const popupTitle = document.getElementById("popup-title");
@@ -47,7 +40,6 @@ function mostrarPopup(titulo = "Aviso", mensaje = "") {
 
   popup.style.display = "flex";
 
-  // Cerrar popup
   document.getElementById("popup-ok").onclick = () => popup.style.display = "none";
 
   // Cerrar al hacer clic fuera del contenido
@@ -87,8 +79,8 @@ function mostrarPublicaciones(publicaciones) {
     publi.innerHTML = `
       <div class="Iconotrespuntitos">⋮</div>
       <div class="Editores">
-        <button class="editar">Editar</button>
-        <button class="eliminar">Eliminar</button>
+        <img src="../Iconos/Iconoeditar.png" id="editar" class="editar" title="Editar">
+        <img src="../Iconos/Iconoeliminar.png" id="eliminar" class="eliminar"title="Eliminar">
       </div>
       <p><strong>Publicado por:</strong> ${creador}</p>
       <img src="../../Back-end/${publiData.foto || "https://via.placeholder.com/150"}" alt="${publi.nombreMascota}">

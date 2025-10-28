@@ -16,7 +16,12 @@
         "respuesta": "si"
       }
     ],
-    "favoritos": [],
+    "favoritos": [
+      1760401909511,
+      1760402528594,
+      1760553600945,
+      1760733380076
+    ],
     "ubicacion": "No especificada",
     "telefono": "+5491169624578",
     "descripcion": "No agregada"
@@ -228,6 +233,19 @@
     "fotoPerfil": null,
     "edad": 0,
     "telefono": "2342341341",
+    "ubicacion": "",
+    "descripcion": "",
+    "respuestas": [],
+    "favoritos": []
+  },
+  {
+    "id": 1761685514282,
+    "nombre": "Bruno Ferro 3",
+    "mail": "bruno.ferroprueba@gmail.com",
+    "password": "Soyyo2010",
+    "fotoPerfil": null,
+    "edad": 0,
+    "telefono": "111222334445",
     "ubicacion": "",
     "descripcion": "",
     "respuestas": [],

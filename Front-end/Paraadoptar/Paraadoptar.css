@@ -67,19 +67,29 @@ h5{
     font-size: 50px; 
     color: #BFD6DE;
 } 
-
-#home { 
+.header2{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+}
+.header2derecha{
+    display: flex;
+    justify-content: center;
+}
+#home {
+    width: 20rem;
     font-weight: 100; 
-    font-size: 1.7em; 
-    color: whitesmoke;
+    font-size: 50px; 
+    color: #183446;
 } 
 
 #Iconofiltrar { 
     width: 2.2rem; 
     height: 2.2rem; 
     cursor: pointer; 
-    background-color: whitesmoke;
     border-radius: 25%;
+    z-index: 5;
 } 
 
 .circuloperfil { 
@@ -219,6 +229,8 @@ display: block;
   cursor: pointer; 
   transform: translateX(100%);
   transition: opacity 0.3s ease, transform 0.3s ease;
+   pointer-events: none;
+  cursor: default;  
 }
 
 .Selectores1.show,
@@ -234,7 +246,7 @@ transform: translateX(0);
 
 .Cuadradoselectores { 
     position: fixed; 
-    top: 15%;
+    top: 20%;
     right: 2%;
     min-height: auto;       
     background-color:#A1C0CB;
@@ -383,8 +395,8 @@ button{
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     overflow: hidden;
     text-align: center;
-    min-height: 380px;
-    max-height: 400px;
+    min-height: 400px;
+    max-height: 430px;
 }
 .publicacion.expandida{
   max-height: 570px;
@@ -450,14 +462,12 @@ button{
     margin-top: 10px;
 }
             .Inputcomentarios {
+                font-family: 'Poppins',sans-serif;
                 opacity: 0;
                 width: 10rem;
-                min-height: 2rem;  
-                max-height: 200px;
-                resize: none; 
-                border-radius: 5px;
+                resize: none;
+                border-radius: 20px;
                 border: 1px solid black;
-                overflow-y: auto;
                 transition: opacity 0.3s ease;
                 margin-top: 10px;
                 height: 0;
@@ -472,6 +482,13 @@ button{
             .Inputcomentarios:hover{
              cursor: text;
             background-color: rgb(203, 202, 202);
+            }
+            ::placeholder{
+                display: flex;
+                align-self: center;
+                color: gray;
+                font-family: 'Poppins', sans-serif;
+                font-size: 12px;
             }
             .lista-comentarios {
                 display: flex;
