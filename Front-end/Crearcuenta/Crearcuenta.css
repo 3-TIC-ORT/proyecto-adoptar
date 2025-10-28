@@ -1,113 +1,121 @@
 html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    font-family: 'Poppins', sans-serif;
-  }
-  *{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: rgba(0,0,0,0.7) url("../Iconos/Fondo-Iniciosesion.png") no-repeat center center/cover;
-  }
-  
-  .register-box {
-    background-color: rgba(255, 255, 255, 0.95);
-    border-radius: 15px;
-    padding: 40px 50px;
-    width: 350px;
-    box-shadow: 0 0 15px rgba(0,0,0,0.3);
-    text-align: center;
-  }
-    .containertitulo{
-    margin-left: 2em;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: row;
-  height: 2em;
-  width: 13em;
-  margin-bottom: 2em;
-  gap: 10px;
-  }
-  .Logo-AdoptAR-Azul{
-    width: 2rem;
-    height: 2rem;
-  }
-  .user-icon {
-    width: 80px;
-    height: 80px;
-    background-color: #d9e6f2;
-    border-radius: 50%;
-    margin: 0 auto 20px auto;
-    background-image: url("https://cdn-icons-png.flaticon.com/512/847/847969.png");
-    background-size: 50%;
-    background-position: center;
-    background-repeat: no-repeat;
-  }
-  
-  h1{
-    color: #1f4f7a;
-  }
-  h2 {
-    color: #1f4f7a;
-    margin-bottom: 25px;
-  }
-  
-  .input-group {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 15px;
-    text-align: left;
-  }
-  
-  label {
-    font-size: 14px;
-    color: #3165A5;
-    margin-bottom: 5px;
-  }
-  
-  input {
-    height: 40px;
-    border: 1px solid #3165A5;
-    border-radius: 5px;
-    padding: 0 10px;
-    font-size: 14px;
-    background-color: #DEDEDE;
-  }
-  
-  #Crear-cuenta {
-    width: 100%;
-    height: 45px;
-    font-size: 16px;
-    background-color: #4A606D;
-    color: white;
-    border: none;
-    border-radius: 30px;
-    cursor: pointer;
-    transition: 0.3s;
-  }
-  
-  #Crear-cuenta:hover {
-    background-color: #1f4f7a;
-  }
-  
-  p {
-    font-size: 13px;
-    margin-top: 20px;
-  }
-  
-  #Sicuenta {
-    color: #3165A5;
-    cursor: pointer;
-  }
-  
-  #Sicuenta:hover {
-    text-decoration: underline;
-  }
-  
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  overflow-y: auto; 
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; 
+  background: 
+    linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)),
+    url("../Iconos/Fondo-Iniciosesion.png") no-repeat center center/cover;
+  padding-top: 40px; 
+}
+
+
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 60px); 
+}
+
+/* Caja blanca del formulario */
+.register-box {
+  background-color: rgba(255, 255, 255, 0.97);
+  border-radius: 20px;
+  padding: 40px 50px;
+  width: 360px;
+  min-height: 600px; 
+  height: auto; 
+  box-shadow: 0 4px 25px rgba(0,0,0,0.4);
+  text-align: center;
+}
+
+
+
+.containertitulo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 1.5em;
+}
+
+.Logo-AdoptAR-Azul {
+  width: 7rem;
+  height: 7rem;
+}
+
+h1 {
+  color: #1f4f7a;
+  font-size: 28px;
+}
+h2 {
+  color: #1f4f7a;
+  margin-bottom: 25px;
+}
+
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+label {
+  font-size: 14px;
+  color: #3165A5;
+  margin-bottom: 5px;
+}
+
+input {
+  height: 40px;
+  border: 1px solid #3165A5;
+  border-radius: 8px;
+  padding: 0 10px;
+  font-size: 14px;
+  background-color: #f0f0f0;
+}
+
+/* Botón */
+#Crear-cuenta {
+  width: 100%;
+  height: 45px;
+  font-size: 16px;
+  background-color: #4A606D;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#Crear-cuenta:hover {
+  background-color: #1f4f7a;
+}
+p {
+  font-size: 13px;
+  margin-top: 20px;
+  color: #333;
+}
+
+#Sicuenta {
+  color: #3165A5;
+  cursor: pointer;
+}
+
+#Sicuenta:hover {
+  text-decoration: underline;
+}
