@@ -25,12 +25,13 @@ body {
     margin-right: 1rem;
     flex-direction: column;
 }
-.Logo-AdoptAR-Blanco{
+.Logo-AdoptAR-Verde{
     height: 3rem;
     width: 3rem;
 }
 #titulo{
-    color: white;
+    font-size: 50px; 
+    color: #BFD6DE;
 }
 p, h3, label {
     color: #183446;

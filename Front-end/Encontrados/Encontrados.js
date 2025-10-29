@@ -37,7 +37,21 @@ document.addEventListener("click", (e) => {
     selectores.forEach(selector => selector.classList.remove("show"));
   }
 });
+function mostrarPopup(titulo = "Aviso", mensaje = "") {
+  const popup = document.getElementById("popup");
+  const popupTitle = document.getElementById("popup-title");
+  const popupMessage = document.getElementById("popup-message");
 
+  popupTitle.textContent = titulo;
+  popupMessage.textContent = mensaje;
+  popup.style.display = "flex";
+  document.getElementById("popup-ok").onclick = () => popup.style.display = "none";
+
+  // Cerrar al hacer clic fuera del contenido
+  popup.onclick = (e) => {
+    if (e.target === popup) popup.style.display = "none";
+  };
+}
 let todasLasPublicaciones = [];
 let usuario = null;
 

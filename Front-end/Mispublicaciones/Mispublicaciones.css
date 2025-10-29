@@ -71,7 +71,7 @@ h5{
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1rem 2rem;
+    padding: 1rem 6rem;
 }
 .header2derecha{
     display: flex;
@@ -121,6 +121,14 @@ h5{
     
 } 
 
+.linea2 { 
+    display: flex;
+    justify-self: center;
+    height: 1px; 
+    background-color: black; 
+    width: 90%; 
+    
+} 
 
 .rayasfiltro { 
     display: flex; 
@@ -246,6 +254,7 @@ transform: translateX(0);
 
 .Cuadradoselectores { 
     position: fixed; 
+    width: 10rem;
     top: 20%;
     right: 2%;
     min-height: auto;       
@@ -390,7 +399,7 @@ button{
     flex-direction: column;
     align-items: center;
     width: 200px;
-    background-color:#CAE6E5;
+    background-color:#f6fdfe66;
     padding: 10px;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
@@ -547,8 +556,8 @@ cursor: pointer;
     opacity: 1;
 }
 #eliminar, #editar {
-    width: 3rem;
-    height: 3rem;
+    width: 2rem;
+    height: 2rem;
     cursor: pointer;
 }
 

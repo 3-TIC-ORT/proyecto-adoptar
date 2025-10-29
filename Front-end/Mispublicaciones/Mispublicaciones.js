@@ -49,7 +49,9 @@ function mostrarPopup(titulo = "Aviso", mensaje = "") {
 }
 let contenedorPublicaciones = document.querySelector(".publicaciones");
 let todasLasPublicaciones = [];
-
+  let usuario =
+    JSON.parse(localStorage.getItem("usuarioActual")) ||
+    null;
 const selectProvincia = document.getElementById("provincia");
 const selectLocalidad = document.getElementById("localidad");
 
@@ -111,14 +113,14 @@ function mostrarPublicaciones(publicaciones) {
     enviarBtn.textContent = "Enviar";
     enviarBtn.classList.add("EnviarComentario");
     publi.appendChild(enviarBtn);
-
+textarea.addEventListener("click", (e) => e.stopPropagation());
+enviarBtn.addEventListener("click", (e) => e.stopPropagation());
     comentarios.addEventListener("click", (e) => {
       e.stopPropagation();
       textarea.classList.toggle("show");
       enviarBtn.classList.toggle("show");
       lista.classList.toggle("show");
       publi.classList.toggle("expandida");
-
       if (lista.classList.contains("show")) {
         lista.innerHTML = "<p>Cargando comentarios...</p>";
         postEvent("obtenerComentarios", { idPublicacion: publiData.id }, (data) => {
@@ -356,10 +358,6 @@ campana.addEventListener("click", (e) => {
 
   let usuario =
     JSON.parse(localStorage.getItem("usuarioActual")) ||
-    JSON.parse(localStorage.getItem("usuarioLogueado")) ||
-    JSON.parse(localStorage.getItem("user")) ||
-    JSON.parse(localStorage.getItem("usuario")) ||
-    JSON.parse(localStorage.getItem("datosUsuario")) ||
     null;
 
   if (!usuario || !usuario.mail) {

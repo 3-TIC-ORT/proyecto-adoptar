@@ -18,7 +18,6 @@ document.addEventListener("click", (e) => {
     items.forEach(item => item.classList.remove("show"));
   }
 });
-
 // Menu selectores
 let botonfiltros2 = document.querySelector("#Iconofiltrar");
 let selectores = document.querySelectorAll(".Selectores1, .Selectores2, .Selectores3, .Selectores4, .Selectores5");
@@ -30,16 +29,23 @@ botonfiltros2.addEventListener("click", (e) => {
   let abiertoo = cuadradoselector.classList.contains("open");
   selectores.forEach(selector => selector.classList.toggle("show", abiertoo));
 });
+function mostrarPopup(titulo = "Aviso", mensaje = "") {
+  const popup = document.getElementById("popup");
+  const popupTitle = document.getElementById("popup-title");
+  const popupMessage = document.getElementById("popup-message");
 
-document.addEventListener("click", (e) => {
-  if (!cuadradoselector.contains(e.target) && !botonfiltros2.contains(e.target)) {
-    cuadradoselector.classList.remove("open");
-    selectores.forEach(selector => selector.classList.remove("show"));
-  }
-});
+  popupTitle.textContent = titulo;
+  popupMessage.textContent = mensaje;
+  popup.style.display = "flex";
+  document.getElementById("popup-ok").onclick = () => popup.style.display = "none";
 
+  // Cerrar al hacer clic fuera del contenido
+  popup.onclick = (e) => {
+    if (e.target === popup) popup.style.display = "none";
+  };
+}
 let todasLasPublicaciones = [];
-let usuario = null;
+let usuario = JSON.parse(localStorage.getItem("usuarioActual")) ||null;
 
 function mostrarPublicaciones(lista, favoritosIds = []) {
   let contenedor = document.querySelector(".publicaciones");
@@ -323,10 +329,6 @@ campana.addEventListener("click", (e) => {
 
   let usuario =
     JSON.parse(localStorage.getItem("usuarioActual")) ||
-    JSON.parse(localStorage.getItem("usuarioLogueado")) ||
-    JSON.parse(localStorage.getItem("user")) ||
-    JSON.parse(localStorage.getItem("usuario")) ||
-    JSON.parse(localStorage.getItem("datosUsuario")) ||
     null;
 
   if (!usuario || !usuario.mail) {

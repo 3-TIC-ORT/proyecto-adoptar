@@ -1,67 +1,10 @@
 [
   {
-    "id": 1761511606168,
+    "id": 1761770587680,
     "destinatarioMail": "brunoferro2010@gmail.com",
-    "remitenteMail": "brunoferro2010@gmail.com",
-    "mensaje": "Bruno Ferro 2 está interesado en Catalina. Tel: 5491169624578",
-    "idPublicacion": 1760662277311,
-    "leida": false,
-    "fecha": "2025-10-26T20:46:46.168Z"
-  },
-  {
-    "id": 1761568438323,
-    "destinatarioMail": "ramirolangsam@gmail.com",
-    "remitenteMail": "ramirolangsam@gmail.com",
-    "mensaje": "Ramiro Langsam está interesado en Rocco. Tel: 12234567",
-    "idPublicacion": 1761225814034,
-    "leida": false
-  },
-  {
-    "id": 1761568460321,
-    "destinatarioMail": "bruno.ferro@outlook.com",
-    "remitenteMail": "ramirolangsam@gmail.com",
-    "mensaje": "Ramiro Langsam está interesado en Kiko y Tobi. Tel: 12234567",
-    "idPublicacion": 1760553600945,
-    "leida": false
-  },
-  {
-    "id": 1761568587574,
-    "destinatarioMail": "bruno.ferro@outlook.com",
-    "remitenteMail": "ramirolangsam@gmail.com",
-    "mensaje": "Ramiro Langsam escribió en la publicación de Kiko y Tobi.",
-    "idPublicacion": 1760553600945,
-    "leida": false
-  },
-  {
-    "id": 1761568817083,
-    "destinatarioMail": "ramirolangsam@gmail.com",
-    "remitenteMail": "ramirolangsam@gmail.com",
-    "mensaje": "Ramiro Langsam está interesado en jose. Tel: 12234567",
-    "idPublicacion": 1761138369550,
-    "leida": false
-  },
-  {
-    "id": 1761697084558,
-    "destinatarioMail": "bruno.ferro@outlook.com",
     "remitenteMail": "bruno.ferro@outlook.com",
-    "mensaje": "Bruno Ferro escribió en la publicación de Kiko y Tobi.",
-    "idPublicacion": 1760553600945,
-    "leida": false
-  },
-  {
-    "id": 1761743022761,
-    "destinatarioMail": "bruno.ferro@outlook.com",
-    "remitenteMail": "bruno.ferro@outlook.com",
-    "mensaje": "Bruno Ferro está interesado en Kiko y Tobi. Tel: +5491169624578",
-    "idPublicacion": 1760553600945,
-    "leida": false
-  },
-  {
-    "id": 1761743496036,
-    "destinatarioMail": "bruno.ferro@outlook.com",
-    "remitenteMail": "bruno.ferro@outlook.com",
-    "mensaje": "Bruno Ferro está interesado en Poxirrán. Tel: +5491169624578",
-    "idPublicacion": 1760733380076,
+    "mensaje": "Bruno Ferro escribió en la publicación de Jose.",
+    "idPublicacion": 1760625454138,
     "leida": false
   }
 ]

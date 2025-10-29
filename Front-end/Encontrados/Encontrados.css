@@ -71,14 +71,13 @@ h5{
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1rem 2rem;
+    padding: 1rem 6rem;
 }
 .header2derecha{
     display: flex;
     justify-content: center;
 }
 #home {
-    width: 33rem;
     font-weight: 100; 
     font-size: 50px; 
     color: #183446;
@@ -89,7 +88,7 @@ h5{
     height: 2.2rem; 
     cursor: pointer; 
     border-radius: 25%;
-    z-index: 5;
+    z-index: 2;
 } 
 
 .circuloperfil { 
@@ -120,8 +119,14 @@ h5{
     width: 100%; 
     
 } 
-
-
+.linea2 { 
+    display: flex;
+    justify-self: center;
+    height: 1px; 
+    background-color: black; 
+    width: 90%; 
+    
+} 
 .rayasfiltro { 
     display: flex; 
     margin-left: 30px;
@@ -246,6 +251,7 @@ transform: translateX(0);
 
 .Cuadradoselectores { 
     position: fixed; 
+    width: 10rem;
     top: 20%;
     right: 2%;
     min-height: auto;       
@@ -390,14 +396,14 @@ button{
     flex-direction: column;
     align-items: center;
     width: 200px;
-    background-color:#CAE6E5;
+    background-color:#f6fdfe66;
     padding: 10px;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     overflow: hidden;
     text-align: center;
-    min-height: 430px;
-    max-height: 460px;
+    min-height: 400px;
+    max-height: 430px;
 }
 .publicacion.expandida{
   max-height: 570px;
@@ -467,8 +473,7 @@ button{
                 opacity: 0;
                 width: 10rem;
                 resize: none;
-                border-radius: 10px;
-                border: 1px solid black;
+                border-radius: 20px;
                 transition: opacity 0.3s ease;
                 margin-top: 10px;
                 height: 0;
@@ -509,4 +514,3 @@ button{
                 max-height: 120px;
                 overflow-y: auto;
             }
-
