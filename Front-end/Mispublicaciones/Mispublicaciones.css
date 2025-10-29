@@ -443,7 +443,7 @@ button{
                 width: 1rem;
                 height: 1rem;
                 display: flex;
-                align-self: flex-end;
+                align-self: flex-start;
             }
             .Comentarios:hover{
                 background-color: grey;

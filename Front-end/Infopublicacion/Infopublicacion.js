@@ -60,16 +60,27 @@ if (postId) {
         </div>
       <div class="Info">
         <p class="publicador">Publicado por: <strong>${creador}</strong></p>
+        <div class="linea"></div>
         <h3>${publiData.nombreMascota || "Sin nombre"}</h3>
+        <div class="linea"></div>
         <p>Estado: ${publiData.estado || "No especificado"}</p>
+        <div class="linea"></div>
         <p>Tamaño: ${publiData.tamano || "No especificado"}</p>
+        <div class="linea"></div>
         <p>Tipo: ${publiData.tipo || "No especificado"}</p>
+        <div class="linea"></div>
         <p>Género: ${publiData.genero || "No especificado"}</p>
+        <div class="linea"></div>
         <p>Color: ${publiData.color || "No especificado"}</p>
+        <div class="linea"></div>
         <p>Raza: ${publiData.raza || "No especificada"}</p>
+        <div class="linea"></div>
         <p>Edad: ${publiData.edad || "No especificada"}</p>
+        <div class="linea"></div>
         <p>Descripción: ${publiData.descripcion || "No especificada"}</p>
+        <div class="linea"></div>
         <p>Teléfono: ${publiData.telefono || "No especificado"}</p>
+        <div class="linea"></div>
         <p>Ubicación: ${publiData.lugar || "Sin ubicación"}</p>
       </div>
     `;
