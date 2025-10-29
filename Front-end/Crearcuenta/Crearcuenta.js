@@ -10,13 +10,13 @@ function mostrarPopup(titulo = "Aviso", mensaje = "") {
 
   popup.style.display = "flex";
 
-  // Cerrar popup
   document.getElementById("popup-ok").onclick = () => popup.style.display = "none";
 
   popup.onclick = (e) => {
     if (e.target === popup) popup.style.display = "none";
   };
 }
+
 // Referencias a los campos del formulario
 let nombreInput = document.getElementById("Nombre");
 let mailInput = document.getElementById("sesión");
@@ -32,7 +32,6 @@ botoncrearcuenta.addEventListener("click", () => {
     return;
   }
 
-  // Crear el objeto de usuario
   let nuevoUsuario = {
     nombre: nombreInput.value,
     mail: mailInput.value,
@@ -42,7 +41,6 @@ botoncrearcuenta.addEventListener("click", () => {
     telefono: telefonoInput.value
   };
 
-
   postEvent("registrarUsuario", nuevoUsuario, (respuesta) => {
     if (respuesta.error) {
       mostrarPopup(respuesta.error);
@@ -50,11 +48,13 @@ botoncrearcuenta.addEventListener("click", () => {
       mostrarPopup("Cuenta creada correctamente. Bienvenido " + respuesta.nombre);
       localStorage.setItem("usuarioActual", JSON.stringify(respuesta));
       document.getElementById("popup-ok").onclick = () => {
-          document.getElementById("popup").style.display = "none";
-          window.location.href = "../Pantallaprincipal/Pantallaprincipal.html";
+        document.getElementById("popup").style.display = "none";
+        window.location.href = "../Pantallaprincipal/Pantallaprincipal.html";
+      };
     }
-  }
+  });
 });
+
 let iralogin = document.getElementById("Sicuenta");
 iralogin.addEventListener("click", () => {
   window.location.href = "../Login/Login.html";
@@ -71,4 +71,3 @@ function calcularEdad(fechaNacimiento) {
   }
   return edad;
 }
-});
