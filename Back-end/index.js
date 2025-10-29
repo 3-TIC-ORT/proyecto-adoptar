@@ -89,46 +89,63 @@ subscribePOSTEvent("actualizarUsuario", (data) => {
 
 
 
+// Manejo de errores mejorado al leer publicaciones
 function leerPublicaciones() {
   try {
     let data = fs.readFileSync(publi, "utf-8");
     return data.trim() ? JSON.parse(data) : [];
-  } catch {
+  } catch (err) {
+    console.error("Error al leer las publicaciones:", err);
     return [];
   }
 }
 
+// Manejo de errores al guardar publicaciones
 function guardarPublicaciones(publicaciones) {
-  fs.writeFileSync(publi, JSON.stringify(publicaciones, null, 2));
+    fs.writeFileSync(publi, JSON.stringify(publicaciones, null, 2));
+  }
+
+// Función para manejar imágenes en base64
+function guardarFotoBase64(fotoBase64) {
+  const matches = fotoBase64.match(/^data:image\/([a-zA-Z]+);base64,(.+)$/);
+  if (matches) {
+    const ext = matches[1];
+    const base64Data = matches[2];
+    const nombredelafoto = `foto_${Date.now()}.${ext}`;
+    const filepath = path.join(carpetaFotos, nombredelafoto);
+    fs.writeFileSync(filepath, Buffer.from(base64Data, "base64"));
+    return `/Fotosmascotas/${nombredelafoto}`;
+  }
+  return null;
+}
+
+// Función para convertir id a número de manera segura
+function convertirId(id) {
+  const idNum = Number(id);
+  return isNaN(idNum) ? null : idNum;
 }
 
 function crearPublicacion(data) {
   let publicaciones = leerPublicaciones();
 
-  // Asegurar que venga con info del usuario
+  // Asegurarse de que venga con información del usuario
   if (!data.mailUsuario && !data.usuarioCreador) {
     console.warn("Publicación creada sin usuario. Revisar frontend.");
   }
 
+  // Manejo de foto en base64
   if (data.foto && data.foto.startsWith("data:image/")) {
-    let matches = data.foto.match(/^data:image\/([a-zA-Z]+);base64,(.+)$/);
-    if (matches) {
-      let ext = matches[1];
-      let base64Data = matches[2];
-      let filename = `foto_${Date.now()}.${ext}`;
-      let filepath = path.join(carpetaFotos, filename);
-      fs.writeFileSync(filepath, Buffer.from(base64Data, "base64"));
-      data.foto = `/Fotosmascotas/${filename}`;
-    }
+    data.foto = guardarFotoBase64(data.foto);
   } else {
     data.foto = null;
   }
-let nueva = {
-  id: Date.now(),
-  ...data,
-  creadorMail: data.creadorMail || data.mailUsuario || data.mail || null,
-  creadorNombre: data.creadorNombre || data.nombreUsuario || data.usuarioCreador || null
-};
+
+  let nueva = {
+    id: Date.now(),
+    ...data,
+    creadorMail: data.creadorMail || data.mailUsuario || data.mail || null,
+    creadorNombre: data.creadorNombre || data.nombreUsuario || data.usuarioCreador || null
+  };
 
   publicaciones.push(nueva);
   guardarPublicaciones(publicaciones);
@@ -137,7 +154,7 @@ let nueva = {
 
 subscribePOSTEvent("crearPublicacion", (data) => {
   let nueva = crearPublicacion(data);
-  return nueva; 
+  return nueva;
 });
 
 subscribeGETEvent("obtenerPublicaciones", () => {
@@ -145,44 +162,42 @@ subscribeGETEvent("obtenerPublicaciones", () => {
 });
 
 subscribePOSTEvent("eliminarPublicacion", (data) => {
+  const id = convertirId(data.id);
+  if (id === null) return { error: "ID inválido.", code: 400 };
+
   let publicaciones = leerPublicaciones();
-  let index = publicaciones.findIndex((p) => p.id === Number(data.id));
-  if (index === -1) return { error: "Publicación no encontrada." };
+  let index = publicaciones.findIndex((p) => p.id === id);
+  if (index === -1) return { error: "Publicación no encontrada.", code: 404 };
+  
   publicaciones.splice(index, 1);
   guardarPublicaciones(publicaciones);
   return { ok: true };
 });
 
 subscribePOSTEvent("actualizarPublicacion", (data) => {
-  let publicaciones = leerPublicaciones();
-  let index = publicaciones.findIndex((p) => p.id === Number(data.id));
-  if (index === -1) return { error: "Publicación no encontrada." };
+  const id = convertirId(data.id);
+  if (id === null) return { error: "ID inválido.", code: 400 };
 
-  // Forzar id a número
-  data.id = Number(data.id);
+  let publicaciones = leerPublicaciones();
+  let index = publicaciones.findIndex((p) => p.id === id);
+  if (index === -1) return { error: "Publicación no encontrada.", code: 404 };
+
+  // Manejo de foto en base64
   if (data.foto && data.foto.startsWith("data:image/")) {
     try {
-      const matches = data.foto.match(/^data:image\/([a-zA-Z]+);base64,(.+)$/);
-      if (matches) {
-        const ext = matches[1];
-        const base64Data = matches[2];
-        const filename = `foto_${Date.now()}.${ext}`;
-        const filepath = path.join(carpetaFotos, filename);
-        fs.writeFileSync(filepath, Buffer.from(base64Data, "base64"));
-        data.foto = `/Fotosmascotas/${filename}`;
-      }
+      data.foto = guardarFotoBase64(data.foto);
     } catch (err) {
       console.error("Error guardando imagen actualizada:", err);
+      data.foto = publicaciones[index].foto; // Mantener la foto anterior si falla
     }
   } else {
-    data.foto = publicaciones[index].foto;
+    data.foto = publicaciones[index].foto; // Mantener la foto anterior si no se actualiza
   }
-  publicaciones[index] = { ...publicaciones[index], ...data };
 
+  publicaciones[index] = { ...publicaciones[index], ...data };
   guardarPublicaciones(publicaciones);
   return { ok: true };
 });
-
 
 
 
