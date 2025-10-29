@@ -56,10 +56,6 @@ function mostrarPopup(titulo = "Aviso", mensaje = "") {
 // Cargar usuario logueado
 let usuario =
   JSON.parse(localStorage.getItem("usuarioActual")) ||
-  JSON.parse(localStorage.getItem("usuarioLogueado")) ||
-  JSON.parse(localStorage.getItem("user")) ||
-  JSON.parse(localStorage.getItem("usuario")) ||
-  JSON.parse(localStorage.getItem("datosUsuario")) ||
   null;
 
 if (usuario) {
@@ -153,11 +149,7 @@ function mostrarPublicaciones(publicaciones) {
       localStorage.setItem("favoritos", JSON.stringify(favoritos));
 
       let usuario =
-        JSON.parse(localStorage.getItem("usuarioLogueado")) ||
-        JSON.parse(localStorage.getItem("usuarioActual")) ||
-        JSON.parse(localStorage.getItem("user")) ||
-        JSON.parse(localStorage.getItem("usuario")) ||
-        JSON.parse(localStorage.getItem("datosUsuario")) ||
+        JSON.parse(localStorage.getItem("usuarioActual")) 
         null;
 
       const mailUsuario = usuario?.mail || usuario?.email || usuario?.correo || null;
@@ -239,9 +231,6 @@ function mostrarPublicaciones(publicaciones) {
 
       let usuario =
         JSON.parse(localStorage.getItem("usuarioActual")) ||
-        JSON.parse(localStorage.getItem("user")) ||
-        JSON.parse(localStorage.getItem("usuario")) ||
-        JSON.parse(localStorage.getItem("datosUsuario")) ||
         null;
 
       if (!usuario || !usuario.mail) {

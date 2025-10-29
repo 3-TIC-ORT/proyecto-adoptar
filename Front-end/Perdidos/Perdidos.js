@@ -205,7 +205,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
   getEvent("obtenerPublicaciones", (publicaciones) => {
     if (!Array.isArray(publicaciones)) return;
-    todasLasPublicaciones = publicaciones.filter(pub => pub.estado === "Perdido ");
+    todasLasPublicaciones = publicaciones.filter(pub => pub.estado === "Perdido");
 
     const mailUsuario = usuario?.mail || usuario?.email || usuario?.correo || null;
 

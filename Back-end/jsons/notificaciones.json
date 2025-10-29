@@ -39,5 +39,13 @@
     "mensaje": "Ramiro Langsam está interesado en jose. Tel: 12234567",
     "idPublicacion": 1761138369550,
     "leida": false
+  },
+  {
+    "id": 1761697084558,
+    "destinatarioMail": "bruno.ferro@outlook.com",
+    "remitenteMail": "bruno.ferro@outlook.com",
+    "mensaje": "Bruno Ferro escribió en la publicación de Kiko y Tobi.",
+    "idPublicacion": 1760553600945,
+    "leida": false
   }
 ]
