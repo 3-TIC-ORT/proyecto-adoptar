@@ -77,7 +77,7 @@ function mostrarPublicaciones(publicaciones) {
     publi.dataset.localidad = publiData.localidad || publiData.lugar || "";
 
     publi.innerHTML = `
-      <div class="Iconotrespuntitos">⋮</div>
+     
       <div class="Editores">
         <img src="../Iconos/Iconoeditar.png" id="editar" class="editar" title="Editar">
         <img src="../Iconos/Iconoeliminar.png" id="eliminar" class="eliminar"title="Eliminar">
@@ -175,17 +175,7 @@ function mostrarPublicaciones(publicaciones) {
         window.location.href = `../Infopublicacion/Infopublicacion.html?id=${publiData.id}`;
       }
     });
-
-    const dots = publi.querySelector(".Iconotrespuntitos");
     const editor = publi.querySelector(".Editores");
-
-    dots.addEventListener("click", (e) => {
-      e.stopPropagation();
-      document.querySelectorAll(".Editores.show").forEach(ed => {
-        if (ed !== editor) ed.classList.remove("show");
-      });
-      editor.classList.toggle("show");
-    });
 
     contenedorPublicaciones.appendChild(publi);
   });
