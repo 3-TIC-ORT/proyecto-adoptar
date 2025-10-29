@@ -47,5 +47,21 @@
     "mensaje": "Bruno Ferro escribió en la publicación de Kiko y Tobi.",
     "idPublicacion": 1760553600945,
     "leida": false
+  },
+  {
+    "id": 1761743022761,
+    "destinatarioMail": "bruno.ferro@outlook.com",
+    "remitenteMail": "bruno.ferro@outlook.com",
+    "mensaje": "Bruno Ferro está interesado en Kiko y Tobi. Tel: +5491169624578",
+    "idPublicacion": 1760553600945,
+    "leida": false
+  },
+  {
+    "id": 1761743496036,
+    "destinatarioMail": "bruno.ferro@outlook.com",
+    "remitenteMail": "bruno.ferro@outlook.com",
+    "mensaje": "Bruno Ferro está interesado en Poxirrán. Tel: +5491169624578",
+    "idPublicacion": 1760733380076,
+    "leida": false
   }
 ]

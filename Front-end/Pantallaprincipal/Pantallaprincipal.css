@@ -471,7 +471,6 @@ button{
                 width: 10rem;
                 resize: none;
                 border-radius: 20px;
-                border: 1px solid black;
                 transition: opacity 0.3s ease;
                 margin-top: 10px;
                 height: 0;
