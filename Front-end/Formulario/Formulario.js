@@ -10,7 +10,6 @@ function mostrarPopup(titulo = "Aviso", mensaje = "Mensaje", onOk = null) {
   const popupTitle = document.getElementById("popup-title");
   const popupMessage = document.getElementById("popup-message");
   const popupOk = document.getElementById("popup-ok");
-
   popupTitle.textContent = titulo;
   popupMessage.textContent = mensaje;
   popup.style.display = "flex";
