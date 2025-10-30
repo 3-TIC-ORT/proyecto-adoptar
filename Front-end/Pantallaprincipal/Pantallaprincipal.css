@@ -377,7 +377,7 @@ transform: translateX(0);
 }
 button{
     cursor: pointer;
-    width: 5rem;
+    width: 9rem;
     height: 2rem;
     border-radius: 20px;
     background-color: #183446;
@@ -453,8 +453,9 @@ button{
                 content: url("../Iconos/Iconocorazonlikeado.png");
             }
             .Comentarios{
-                width: 1rem;
-                height: 1rem;
+                padding: 5px;
+                width: 2rem;
+                height: 2rem;
                 display: flex;
                 align-self: flex-start;
             }

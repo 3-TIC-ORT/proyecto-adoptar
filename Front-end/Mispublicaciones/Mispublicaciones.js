@@ -110,7 +110,7 @@ function mostrarPublicaciones(publicaciones) {
     publi.appendChild(textarea);
 
     let enviarBtn = document.createElement("button");
-    enviarBtn.textContent = "Enviar";
+    enviarBtn.textContent = "ENVIAR";
     enviarBtn.classList.add("EnviarComentario");
     publi.appendChild(enviarBtn);
 textarea.addEventListener("click", (e) => e.stopPropagation());

@@ -111,7 +111,7 @@ function mostrarPublicaciones(lista, favoritosIds = []) {
     div.appendChild(textarea);
 
     let enviarBtn = document.createElement("button");
-    enviarBtn.textContent = "Enviar";
+    enviarBtn.textContent = "ENVIAR";
     enviarBtn.classList.add("EnviarComentario");
     div.appendChild(enviarBtn);
 

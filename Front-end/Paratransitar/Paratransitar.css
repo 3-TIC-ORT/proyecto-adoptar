@@ -77,7 +77,12 @@ h5{
     display: flex;
     justify-content: center;
 }
+#Iconohome{
+    width: 3.5rem;
+    height: 3.5rem;
+}
 #home {
+    width: 30rem;
     font-weight: 100; 
     font-size: 50px; 
     color: #183446;
@@ -372,7 +377,7 @@ transform: translateX(0);
 }
 button{
     cursor: pointer;
-    width: 5rem;
+    width: 9rem;
     height: 2rem;
     border-radius: 20px;
     background-color: #183446;
@@ -404,11 +409,11 @@ button{
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     overflow: hidden;
     text-align: center;
-    min-height: 400px;
-    max-height: 430px;
+    min-height: 430px;
+    max-height: 460px;
 }
 .publicacion.expandida{
-  max-height: 570px;
+  max-height: 600px;
 }
             
             .publicacion img:not(.Comentarios):not(.Corazon)
@@ -448,8 +453,9 @@ button{
                 content: url("../Iconos/Iconocorazonlikeado.png");
             }
             .Comentarios{
-                width: 1rem;
-                height: 1rem;
+                padding: 5px;
+                width: 2rem;
+                height: 2rem;
                 display: flex;
                 align-self: flex-start;
             }
