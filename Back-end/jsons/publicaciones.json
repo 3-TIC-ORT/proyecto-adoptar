@@ -270,26 +270,5 @@
     "foto": "/Fotosmascotas/foto_1761570043842.jpeg",
     "creadorMail": "ramirolangsam@gmail.com",
     "creadorNombre": "Ramiro Langsam"
-  },
-  {
-    "id": 1761830626176,
-    "nombreMascota": "Bruno",
-    "tipo": "Perro",
-    "tamano": "Mediano",
-    "genero": "Masculino",
-    "color": "Mixto",
-    "raza": "De la calle",
-    "edad": "5 meses",
-    "enfermedad": "No",
-    "estado": "Para adoptar",
-    "descripcion": "a",
-    "telefono": "+5491169624578",
-    "lugar": "El Bordo, Salta",
-    "provincia": "Salta",
-    "localidad": "El Bordo",
-    "fecha": "2025-10-30",
-    "foto": "/Fotosmascotas/foto_1761830626231.jpeg",
-    "creadorMail": "bruno.ferro@outlook.com",
-    "creadorNombre": "Bruno Ferro"
   }
 ]
