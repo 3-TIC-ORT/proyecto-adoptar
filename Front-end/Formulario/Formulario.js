@@ -87,7 +87,6 @@ if (editarId) {
       document.querySelector("#estado").value = publicacion.estado || "";
       document.querySelector("#descripcion").value = publicacion.descripcion || "";
       document.querySelector("#lugar").value = publicacion.lugar || "";
-      document.querySelector("#fecha").value = publicacion.fecha || "";
     } else {
       mostrarPopup("Error", "No se encontró la publicación a editar.");
     }
@@ -121,7 +120,6 @@ botonEnviar.addEventListener("click", async (e) => {
   let lugar = localidadSeleccionada && provinciaSeleccionada
     ? `${localidadSeleccionada}, ${provinciaSeleccionada}`
     : localidadSeleccionada || provinciaSeleccionada || "";
-  let fecha = document.querySelector("#fecha").value;
   let fotoInput = document.querySelector("#foto");
 
   let imagenBase64 = "";
@@ -132,7 +130,7 @@ botonEnviar.addEventListener("click", async (e) => {
   }
 
   let nuevaPublicacion = {
-    id: editarId ? Number(editarId) : null,
+    id: editarId ? Number(editarId) : Date.now(), // Generar un ID único si no hay editarId
     nombreMascota,
     tipo,
     tamano,
@@ -147,7 +145,6 @@ botonEnviar.addEventListener("click", async (e) => {
     lugar,
     provincia: provinciaSeleccionada,
     localidad: localidadSeleccionada,
-    fecha,
     foto: imagenBase64,
     creadorMail,
     creadorNombre,
@@ -156,7 +153,7 @@ botonEnviar.addEventListener("click", async (e) => {
   let todas = JSON.parse(localStorage.getItem("publicaciones")) || [];
 
   if (editarId) {
-    // Actualizar existente
+    // Actualizar publicación existente
     todas = todas.map(pub => pub.id === parseInt(editarId) ? nuevaPublicacion : pub);
     localStorage.setItem("publicaciones", JSON.stringify(todas));
 
@@ -179,10 +176,10 @@ botonEnviar.addEventListener("click", async (e) => {
     postEvent("crearPublicacion", nuevaPublicacion, (resp) => {
       console.log("Respuesta del servidor:", resp);
       if (resp && resp.id) {
-        nuevaPublicacion.id = resp.id; // sincronizar ID real
+        nuevaPublicacion.id = resp.id;
         todas[todas.length - 1].id = resp.id;
         localStorage.setItem("publicaciones", JSON.stringify(todas));
-    
+
         mostrarPopup("¡Publicación creada con éxito!");
         setTimeout(() => {
           window.location.href = "../Pantallaprincipal/Pantallaprincipal.html";

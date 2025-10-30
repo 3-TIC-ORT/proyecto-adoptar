@@ -46,5 +46,13 @@
     "mensaje": "Bruno Ferro 2 escribió en la publicación de Camila.",
     "idPublicacion": 1760662277311,
     "leida": false
+  },
+  {
+    "id": 1761835340796,
+    "destinatarioMail": "brunoferro2010@gmail.com",
+    "remitenteMail": "echu@gmail.com",
+    "mensaje": "Ezequiel Nuner está interesado en Camila. Tel: No especificado",
+    "idPublicacion": 1760662277311,
+    "leida": false
   }
 ]
