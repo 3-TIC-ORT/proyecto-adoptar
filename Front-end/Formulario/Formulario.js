@@ -87,7 +87,6 @@ if (editarId) {
       document.querySelector("#enfermedad").value = publicacion.enfermedad || "";
       document.querySelector("#estado").value = publicacion.estado || "";
       document.querySelector("#descripcion").value = publicacion.descripcion || "";
-      document.querySelector("#telefono").value = publicacion.telefono || "";
       document.querySelector("#lugar").value = publicacion.lugar || "";
       document.querySelector("#fecha").value = publicacion.fecha || "";
     } else {
@@ -95,7 +94,9 @@ if (editarId) {
     }
   });
 }
-
+let usuario = JSON.parse(localStorage.getItem("usuarioActual")) || null;
+let creadorMail = usuario?.mail || usuario?.email || null;
+let creadorNombre = usuario?.nombre || creadorMail || "Anónimo";
 // Botón enviar
 botonEnviar.addEventListener("click", async (e) => {
   e.preventDefault();
@@ -115,7 +116,7 @@ botonEnviar.addEventListener("click", async (e) => {
   let enfermedad = document.querySelector("#enfermedad").value;
   let estado = document.querySelector("#estado").value;
   let descripcion = document.querySelector("#descripcion").value;
-  let telefono = document.querySelector("#telefono").value;
+  let telefono = usuario?.telefono || "";
   let provinciaSeleccionada = selectProvincia.options[selectProvincia.selectedIndex]?.text || "";
   let localidadSeleccionada = selectLocalidad.options[selectLocalidad.selectedIndex]?.text || "";
   let lugar = localidadSeleccionada && provinciaSeleccionada
@@ -131,12 +132,8 @@ botonEnviar.addEventListener("click", async (e) => {
     imagenBase64 = publicacionActual.foto;
   }
 
-  let usuario = JSON.parse(localStorage.getItem("usuarioActual")) || null;
-  let creadorMail = usuario?.mail || usuario?.email || null;
-  let creadorNombre = usuario?.nombre || creadorMail || "Anónimo";
-
   let nuevaPublicacion = {
-    id: editarId || Date.now(),
+    id: editarId ? Number(editarId) : null,
     nombreMascota,
     tipo,
     tamano,
@@ -183,6 +180,10 @@ botonEnviar.addEventListener("click", async (e) => {
     postEvent("crearPublicacion", nuevaPublicacion, (resp) => {
       console.log("Respuesta del servidor:", resp);
       if (resp && resp.id) {
+        nuevaPublicacion.id = resp.id; // sincronizar ID real
+        todas[todas.length - 1].id = resp.id;
+        localStorage.setItem("publicaciones", JSON.stringify(todas));
+    
         mostrarPopup("¡Publicación creada con éxito!");
         setTimeout(() => {
           window.location.href = "../Pantallaprincipal/Pantallaprincipal.html";
