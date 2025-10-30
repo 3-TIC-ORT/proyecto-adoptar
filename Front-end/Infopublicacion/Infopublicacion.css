@@ -76,6 +76,10 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  gap: 1rem;
+  max-width: 25rem;
+  color: #183446;
+  font-size: 20px;
 }
 .Boton {
   background-color:#183446;

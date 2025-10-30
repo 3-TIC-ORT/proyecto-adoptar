@@ -57,11 +57,11 @@ if (postId) {
     <div class=fotoyboton>
       <img src="${fotoUrl}" class="fotoUrl" alt="${publiData.nombreMascota || "Foto de mascota"}">
         <button class="Boton">¡Me interesa!</button>
+        <p class="publicador">Publicado por: <strong>${creador}</strong></p>
+        <p>Descripción: ${publiData.descripcion || "No especificada"}</p>
         </div>
       <div class="Info">
-        <p class="publicador">Publicado por: <strong>${creador}</strong></p>
-        <div class="linea"></div>
-        <h3>${publiData.nombreMascota || "Sin nombre"}</h3>
+      <h3>${publiData.nombreMascota || "Sin nombre"}</h3>
         <div class="linea"></div>
         <p>Estado: ${publiData.estado || "No especificado"}</p>
         <div class="linea"></div>
@@ -76,8 +76,6 @@ if (postId) {
         <p>Raza: ${publiData.raza || "No especificada"}</p>
         <div class="linea"></div>
         <p>Edad: ${publiData.edad || "No especificada"}</p>
-        <div class="linea"></div>
-        <p>Descripción: ${publiData.descripcion || "No especificada"}</p>
         <div class="linea"></div>
         <p>Teléfono: ${publiData.telefono || "No especificado"}</p>
         <div class="linea"></div>
