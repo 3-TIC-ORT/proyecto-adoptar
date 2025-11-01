@@ -28,27 +28,6 @@
     "foto": "/Fotosmascotas/foto_1760402528593.jpeg"
   },
   {
-    "id": "1760553600945",
-    "nombreMascota": "Kiko y Tobi",
-    "tipo": "Perro",
-    "tamano": "Mediano",
-    "genero": "Masculino",
-    "color": "Mixto",
-    "raza": "Pug y bull dog",
-    "edad": "2 años / 4 meses",
-    "enfermedad": "No",
-    "estado": "Para adoptar",
-    "descripcion": "Ellos no se separan, son los dos o ninguno. Se quieren mucho",
-    "lugar": "Col. Popular, Chaco",
-    "fecha": "2025-03-25",
-    "foto": "/Fotosmascotas/foto_1761830741208.jpeg",
-    "creadorMail": "bruno.ferro@outlook.com",
-    "creadorNombre": "Bruno Ferro",
-    "telefono": "+5491169624578",
-    "provincia": "Chaco",
-    "localidad": "Col. Popular"
-  },
-  {
     "id": 1760625454138,
     "nombreMascota": "Jose",
     "tipo": "Perro",

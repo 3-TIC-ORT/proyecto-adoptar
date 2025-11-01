@@ -54,5 +54,37 @@
     "mensaje": "Ezequiel Nuner está interesado en Camila. Tel: No especificado",
     "idPublicacion": 1760662277311,
     "leida": false
+  },
+  {
+    "id": 1762022902835,
+    "destinatarioMail": "bruno.ferro@outlook.com",
+    "remitenteMail": "bruno.ferro@outlook.com",
+    "mensaje": "Bruno Ferro está interesado en Julian. Tel: No especificado",
+    "idPublicacion": 1762022836706,
+    "leida": false
+  },
+  {
+    "id": 1762022973017,
+    "destinatarioMail": "bruno.ferro@outlook.com",
+    "remitenteMail": "bruno.ferro@outlook.com",
+    "mensaje": "Bruno Ferro está interesado en Julian. Tel: 5491169624578",
+    "idPublicacion": 1762022836706,
+    "leida": false
+  },
+  {
+    "id": 1762023047978,
+    "destinatarioMail": "brunoferro2010@gmail.com",
+    "remitenteMail": "bruno.ferro@outlook.com",
+    "mensaje": "Bruno Ferro escribió en la publicación de Jose.",
+    "idPublicacion": 1760625454138,
+    "leida": false
+  },
+  {
+    "id": 1762023285837,
+    "destinatarioMail": "bruno.ferro@outlook.com",
+    "remitenteMail": "brunoprueba4@outlook.com",
+    "mensaje": "Bruno Ferro pruba 4 está interesado en Poxirrán. Tel: 54910000000",
+    "idPublicacion": 1760733380076,
+    "leida": false
   }
 ]

@@ -5,7 +5,7 @@ botonvolver.addEventListener("click", () => {
   window.location.href = "../Pantallaprincipal/Pantallaprincipal.html";
 });
 
-function mostrarPopup(titulo = "Aviso", mensaje = "Mensaje", onOk = null) {
+function mostrarPopup(titulo = "Aviso", mensaje = "", onOk = null) {
   const popup = document.getElementById("popup");
   const popupTitle = document.getElementById("popup-title");
   const popupMessage = document.getElementById("popup-message");

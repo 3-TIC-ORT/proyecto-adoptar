@@ -41,7 +41,6 @@ function mostrarDatosUsuario() {
   document.getElementById("email").innerText = "Email: " + (usuarioActual.mail || "No especificado");
   document.getElementById("ubicacion").innerText = "Ubicación: " + (usuarioActual.ubicacion || "No especificada");
   document.getElementById("telefono").innerText = "Teléfono: " + (usuarioActual.telefono || "No registrado");
-  document.getElementById("Añodenacimiento").innerText = "Edad: " + (usuarioActual.edad || "No especificado");
   document.getElementById("DescripcionUsuario").innerText = "Descripción: " + (usuarioActual.descripcion || "No agregada");
 
   if (usuarioActual.fotoPerfil) {

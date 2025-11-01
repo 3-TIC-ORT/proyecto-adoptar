@@ -81,8 +81,8 @@ function mostrarPublicaciones(publicaciones) {
     publi.innerHTML = `
      
       <div class="Editores">
+      <img src="../Iconos/Iconoeliminar.png" id="eliminar" class="eliminar"title="Eliminar">
         <img src="../Iconos/Iconoeditar.png" id="editar" class="editar" title="Editar">
-        <img src="../Iconos/Iconoeliminar.png" id="eliminar" class="eliminar"title="Eliminar">
       </div>
       <p><strong>Publicado por:</strong> ${creador}</p>
       <img src="../../Back-end/${publiData.foto || "https://via.placeholder.com/150"}" alt="${publi.nombreMascota}">

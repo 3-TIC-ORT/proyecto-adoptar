@@ -16,9 +16,15 @@
         "respuesta": "si"
       }
     ],
-    "favoritos": [],
+    "favoritos": [
+      1760401909511,
+      1760733380076,
+      1762022836706,
+      1761569528163,
+      1761225814034
+    ],
     "ubicacion": "No especificada",
-    "telefono": "+5491169624578",
+    "telefono": "5491169624578",
     "descripcion": "No agregada"
   },
   {
@@ -245,6 +251,19 @@
     "fotoPerfil": null,
     "edad": 0,
     "telefono": "111222334445",
+    "ubicacion": "",
+    "descripcion": "",
+    "respuestas": [],
+    "favoritos": []
+  },
+  {
+    "id": 1762023113670,
+    "nombre": "Bruno Ferro pruba 4",
+    "mail": "brunoprueba4@outlook.com",
+    "password": "Soyyo2010",
+    "fotoPerfil": null,
+    "edad": 0,
+    "telefono": "54910000000",
     "ubicacion": "",
     "descripcion": "",
     "respuestas": [],
