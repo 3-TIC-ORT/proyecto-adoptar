@@ -109,12 +109,19 @@ p {
 
 .contenedor {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
     gap: 40px;
     max-width: 1000px;
     margin: auto;
     padding: 20px;
+}
+.foto-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
 }
 
 .Textos {
@@ -152,9 +159,8 @@ form {
 
 .perfil-container {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    gap: 12px;
+    gap: 10rem;
     background-color: #f6fdfe66;
     padding: 25px;
     border-radius: 15px;
@@ -197,7 +203,9 @@ form {
 .botones{
     display: flex;
     flex-direction: column;
-    gap:0.5rem
+    justify-self: last baseline;
+    align-self: center;
+    gap: 0.5rem
 }
 .botoneditar {
     margin-top: 15px;
