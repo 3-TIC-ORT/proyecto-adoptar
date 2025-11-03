@@ -95,82 +95,88 @@ function mostrarPublicaciones(publicaciones) {
       </div>
     `;
 
-    let comentarios = document.createElement("img");
-    comentarios.src = "../Iconos/Iconocomentarios.png";
-    comentarios.classList.add("Comentarios");
-    publi.appendChild(comentarios);
+   let parteArriba = document.createElement("div");
+parteArriba.classList.add("partearribacomentarios");
 
-    let lista = document.createElement("div");
-    lista.classList.add("lista-comentarios");
-    publi.appendChild(lista);
+let comentarios = document.createElement("img");
+comentarios.src = "../Iconos/Iconocomentarios.png";
+comentarios.classList.add("Comentarios");
 
-    let textarea = document.createElement("textarea");
-    textarea.classList.add("Inputcomentarios");
-    textarea.placeholder = "Escribe un comentario...";
-    publi.appendChild(textarea);
+let listaComentarios = document.createElement("div");
+listaComentarios.classList.add("lista-comentarios");
 
-    let enviarBtn = document.createElement("button");
-    enviarBtn.textContent = "ENVIAR";
-    enviarBtn.classList.add("EnviarComentario");
-    publi.appendChild(enviarBtn);
+parteArriba.appendChild(comentarios);
+parteArriba.appendChild(listaComentarios);
+publi.appendChild(parteArriba);
+
+let textarea = document.createElement("textarea");
+textarea.classList.add("Inputcomentarios");
+textarea.placeholder = "Escribe un comentario...";
 textarea.addEventListener("click", (e) => e.stopPropagation());
-enviarBtn.addEventListener("click", (e) => e.stopPropagation());
-    comentarios.addEventListener("click", (e) => {
-      e.stopPropagation();
-      textarea.classList.toggle("show");
-      enviarBtn.classList.toggle("show");
-      lista.classList.toggle("show");
-      publi.classList.toggle("expandida");
-      if (lista.classList.contains("show")) {
-        lista.innerHTML = "<p>Cargando comentarios...</p>";
-        postEvent("obtenerComentarios", { idPublicacion: publiData.id }, (data) => {
-          lista.innerHTML = "";
-          if (Array.isArray(data)) {
-            data.forEach(com => {
-              let p = document.createElement("p");
-              p.textContent = `${com.usuario}: ${com.texto}`;
-              lista.appendChild(p);
-            });
-          } else {
-            lista.innerHTML = "<p>No hay comentarios.</p>";
-          }
+publi.appendChild(textarea);
+
+let enviarBtn = document.createElement("button");
+enviarBtn.textContent = "ENVIAR";
+enviarBtn.classList.add("EnviarComentario");
+publi.appendChild(enviarBtn);
+
+comentarios.addEventListener("click", (e) => {
+  e.stopPropagation();
+
+  textarea.classList.toggle("show");
+  enviarBtn.classList.toggle("show");
+  listaComentarios.classList.toggle("show");
+publi.classList.toggle("expandida");
+
+  if (listaComentarios.classList.contains("show")) {
+    listaComentarios.innerHTML = "<p>Cargando comentarios...</p>";
+
+    postEvent("obtenerComentarios", { idPublicacion: publiData.id }, (data) => {
+      if (Array.isArray(data)) {
+        listaComentarios.innerHTML = "";
+        data.forEach(com => {
+          let p = document.createElement("p");
+          p.textContent = `${com.usuario}: ${com.texto}`;
+          listaComentarios.appendChild(p);
         });
+      } else {
+        listaComentarios.innerHTML = "<p>No se pudieron cargar los comentarios.</p>";
       }
     });
-
-    enviarBtn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      if (textarea.value.trim() !== "") {
-        let nombreUsuario = usuario?.nombre || usuario?.mail || "Anónimo";
-        let nuevoComentario = document.createElement("p");
-        nuevoComentario.textContent = `${nombreUsuario}: ${textarea.value}`;
-        lista.appendChild(nuevoComentario);
-
-        postEvent("guardarComentario", {
-          idPublicacion: publiData.id,
-          texto: textarea.value,
-          usuario: nombreUsuario
-        });
-
-        textarea.value = "";
-      }
- postEvent(
-  "enviarNotificacion",
-  {
-    destinatarioMail: publiData.creadorMail,
-    remitenteMail: usuario.mail,
-    mensaje: `${usuario.nombre || usuario.mail} escribió en la publicación de ${publiData.nombreMascota || "tu publicación"}.`,
-    idPublicacion: publiData.id
-  },
-  (res) => {
-    if (res?.ok) {
-      mostrarPopup("Tu comentario se envió");
-    } else {
-      mostrarPopup("Error al enviar la notificación");
-    }
   }
-);
+});
+
+enviarBtn.addEventListener("click", (e) => {
+  e.stopPropagation();
+  if (textarea.value.trim() !== "") {
+    let nombreUsuario = usuario?.nombre || usuario?.mail || "Anónimo";
+    let nuevoComentario = document.createElement("p");
+    nuevoComentario.textContent = `${nombreUsuario}: ${textarea.value}`;
+    listaComentarios.appendChild(nuevoComentario); // ✅ era lista
+
+    postEvent("guardarComentario", {
+      idPublicacion: publiData.id,
+      texto: textarea.value,
+      usuario: nombreUsuario
     });
+
+    textarea.value = "";
+  }
+
+  postEvent(
+    "enviarNotificacion",
+    {
+      destinatarioMail: publiData.creadorMail,
+      remitenteMail: usuario.mail,
+      mensaje: `${usuario.nombre || usuario.mail} escribió en la publicación de ${publiData.nombreMascota || "tu publicación"}.`,
+      idPublicacion: publiData.id
+    },
+    (res) => {
+      if (res?.ok) mostrarPopup("Tu comentario se envió");
+      else mostrarPopup("Error al enviar la notificación");
+    }
+  );
+});
 
     publi.addEventListener("click", (e) => {
       if (!e.target.closest(".Iconotrespuntitos") && !e.target.closest(".Editores")) {

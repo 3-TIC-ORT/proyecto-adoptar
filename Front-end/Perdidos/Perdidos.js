@@ -96,50 +96,55 @@ function mostrarPublicaciones(lista, favoritosIds = []) {
     });
 
     // Comentarios
-    let comentarios = document.createElement("img");
-    comentarios.src = "../Iconos/Iconocomentarios.png";
-    comentarios.classList.add("Comentarios");
-    div.appendChild(comentarios);
+let parteArriba = document.createElement("div");
+parteArriba.classList.add("partearribacomentarios");
 
-    let listaComentarios = document.createElement("div");
-    listaComentarios.classList.add("lista-comentarios");
-    div.appendChild(listaComentarios);
+let comentarios = document.createElement("img");
+comentarios.src = "../Iconos/Iconocomentarios.png";
+comentarios.classList.add("Comentarios");
 
-    let textarea = document.createElement("textarea");
-    textarea.classList.add("Inputcomentarios");
-    textarea.placeholder = "Escribe un comentario...";
-    div.appendChild(textarea);
+let listaComentarios = document.createElement("div");
+listaComentarios.classList.add("lista-comentarios");
 
-    let enviarBtn = document.createElement("button");
-    enviarBtn.textContent = "ENVIAR";
-    enviarBtn.classList.add("EnviarComentario");
-    div.appendChild(enviarBtn);
+parteArriba.appendChild(comentarios);
+parteArriba.appendChild(listaComentarios);
+div.appendChild(parteArriba);
 
-    comentarios.addEventListener("click", (e) => {
-      e.stopPropagation();
+let textarea = document.createElement("textarea");
+textarea.classList.add("Inputcomentarios");
+textarea.placeholder = "Escribe un comentario...";
+div.appendChild(textarea);
 
-      textarea.classList.toggle("show");
-      enviarBtn.classList.toggle("show");
-      listaComentarios.classList.toggle("show");
-      div.classList.toggle("expandida");
+let enviarBtn = document.createElement("button");
+enviarBtn.textContent = "ENVIAR";
+enviarBtn.classList.add("EnviarComentario");
+div.appendChild(enviarBtn);
 
-      if (listaComentarios.classList.contains("show")) {
-        listaComentarios.innerHTML = "<p>Cargando comentarios...</p>";
+comentarios.addEventListener("click", (e) => {
+  e.stopPropagation();
 
-        postEvent("obtenerComentarios", { idPublicacion: publi.id }, (data) => {
-          if (Array.isArray(data)) {
-            listaComentarios.innerHTML = "";
-            data.forEach(com => {
-              let p = document.createElement("p");
-              p.textContent = `${com.usuario}: ${com.texto}`;
-              listaComentarios.appendChild(p);
-            });
-          } else {
-            listaComentarios.innerHTML = "<p>No se pudieron cargar los comentarios.</p>";
-          }
+  textarea.classList.toggle("show");
+  enviarBtn.classList.toggle("show");
+  listaComentarios.classList.toggle("show");
+  div.classList.toggle("expandida");
+
+  if (listaComentarios.classList.contains("show")) {
+    listaComentarios.innerHTML = "<p>Cargando comentarios...</p>";
+
+    postEvent("obtenerComentarios", { idPublicacion: publi.id }, (data) => {
+      if (Array.isArray(data)) {
+        listaComentarios.innerHTML = "";
+        data.forEach(com => {
+          let p = document.createElement("p");
+          p.textContent = `${com.usuario}: ${com.texto}`;
+          listaComentarios.appendChild(p);
         });
+      } else {
+        listaComentarios.innerHTML = "<p>No se pudieron cargar los comentarios.</p>";
       }
     });
+  }
+});
 
     enviarBtn.addEventListener("click", (e) => {
       e.stopPropagation();

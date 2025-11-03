@@ -516,6 +516,7 @@ button{
             .lista-comentarios {
                 display: flex;
                 flex-direction: column-reverse;
+                border: 1px solid black;
                 gap: 10px;
                 width: 100%;
                 height: 40px;
