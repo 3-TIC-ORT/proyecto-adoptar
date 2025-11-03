@@ -419,7 +419,7 @@ button{
             .publicacion img:not(.Comentarios):not(.Corazon)
             {
                 width: 200px;
-                height: 175px;
+                min-height: 175px;
                 object-fit: cover;
                 border-radius: 20px;
                 margin-bottom: 10px;
