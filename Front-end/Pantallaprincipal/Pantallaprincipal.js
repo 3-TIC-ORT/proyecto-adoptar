@@ -168,14 +168,19 @@ function mostrarPublicaciones(publicaciones) {
     });
 
     // Comentarios
+    let parteArriba = document.createElement("div");
+    parteArriba.classList.add("partearribacomentarios");
+    
     let iconoComentarios = document.createElement("img");
     iconoComentarios.src = "../Iconos/Iconocomentarios.png";
     iconoComentarios.classList.add("Comentarios");
-    publi.appendChild(iconoComentarios);
-
+    
     let lista = document.createElement("div");
     lista.classList.add("lista-comentarios");
-    publi.appendChild(lista);
+    
+    parteArriba.appendChild(iconoComentarios);
+    parteArriba.appendChild(lista);
+    publi.appendChild(parteArriba);
 
     let textarea = document.createElement("textarea");
     textarea.classList.add("Inputcomentarios");

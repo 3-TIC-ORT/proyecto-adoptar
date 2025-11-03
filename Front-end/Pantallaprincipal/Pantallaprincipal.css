@@ -409,8 +409,8 @@ button{
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     overflow: hidden;
     text-align: center;
-    min-height: 430px;
-    max-height: 460px;
+    min-height: 370px;
+    max-height: 400px;
 }
 .publicacion.expandida{
   max-height: 600px;
@@ -453,9 +453,8 @@ button{
                 content: url("../Iconos/Iconocorazonlikeado.png");
             }
             .Comentarios{
-                padding: 5px;
-                width: 2rem;
-                height: 2rem;
+                width: 1.7rem;
+                height: 1.7rem;
                 display: flex;
                 align-self: flex-start;
             }
@@ -463,6 +462,13 @@ button{
                 background-color: grey;
                 cursor: pointer;
             }
+            .partearribacomentarios{
+                    display: flex;
+                    align-items: center;
+                    justify-content: flex-start;
+                    gap: 10px;
+                    width: 100%;
+                }
             .Inputcomentarios,
 .EnviarComentario {
     opacity: 0;
@@ -514,7 +520,7 @@ button{
                 height: 40px;
                 margin-bottom: 10px;
                 background-color: white;
-                padding: 5px 8px;
+                padding: 5px 2px;
                 border-radius: 5px;
                 font-size: 13px;
                 text-align: left;
