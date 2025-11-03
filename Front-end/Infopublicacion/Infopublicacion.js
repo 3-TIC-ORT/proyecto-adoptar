@@ -16,7 +16,6 @@ function mostrarPopup(titulo = "Aviso", mensaje = "") {
 
   document.getElementById("popup-ok").onclick = () => popup.style.display = "none";
 
-
   popup.onclick = (e) => {
     if (e.target === popup) popup.style.display = "none";
   };
@@ -40,7 +39,6 @@ if (postId) {
     const publi = document.createElement("div");
     publi.classList.add("publicacion");
 
-    // Foto
     let fotoUrl = "https://via.placeholder.com/200";
     if (publiData.foto) {
       if (publiData.foto.startsWith("/")) {
@@ -84,37 +82,52 @@ if (postId) {
     `;
 
     contenedor.appendChild(publi);
-  const boton = publi.querySelector(".Boton");
-     let interesados = JSON.parse(localStorage.getItem("interesados")) || [];
+    const boton = publi.querySelector(".Boton");
+    let textoDefault = "¡Me interesa!";
+    let textoSeleccionado = "¡Interesado!";
+
+    const estado = publiData.estado?.toLowerCase();
+
+    if (estado === "perdido") {
+      textoDefault = "¡Lo encontré!";
+      textoSeleccionado = "¡Reportado!";
+    } else if (estado === "encontrado") {
+      textoDefault = "¡Es mío!";
+      textoSeleccionado = "¡Reclamado!";
+    }
+
+    boton.textContent = textoDefault;
+
+    let interesados = JSON.parse(localStorage.getItem("interesados")) || [];
     let yaInteresado = interesados.includes(publiData.id);
 
     if (yaInteresado) {
       boton.classList.add("seleccionado");
-      boton.textContent = "¡Interesado!";
+      boton.textContent = textoSeleccionado;
     }
 
-    //Evento del botón
+    // Evento botón
     boton.addEventListener("click", (e) => {
       e.stopPropagation();
 
-      let usuario =
-        JSON.parse(localStorage.getItem("usuarioActual")) ||
-        null;
+      let usuario = JSON.parse(localStorage.getItem("usuarioActual")) || null;
 
       if (!usuario || !usuario.mail) {
         mostrarPopup("Debes iniciar sesión para contactar al publicador.");
         return;
       }
+
       if (boton.classList.contains("seleccionado")) {
         boton.classList.remove("seleccionado");
-        boton.textContent = "¡Me interesa!";
+        boton.textContent = textoDefault;
         interesados = interesados.filter((id) => id !== publiData.id);
       } else {
         boton.classList.add("seleccionado");
-        boton.textContent = "¡Interesado!";
+        boton.textContent = textoSeleccionado;
         if (!interesados.includes(publiData.id)) {
           interesados.push(publiData.id);
         }
+
         postEvent(
           "enviarNotificacion",
           {
@@ -132,6 +145,7 @@ if (postId) {
           }
         );
       }
+
       localStorage.setItem("interesados", JSON.stringify(interesados));
     });
   });

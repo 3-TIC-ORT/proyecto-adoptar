@@ -166,5 +166,29 @@
     "mensaje": "Ramiro Langsam escribió en la publicación de Rocco.",
     "idPublicacion": 1762168685338,
     "leida": false
+  },
+  {
+    "id": 1762204828501,
+    "destinatarioMail": "ramirolangsam@gmail.com",
+    "remitenteMail": "ramirolangsam@gmail.com",
+    "mensaje": "Ramiro Langsam está interesado en Facundo. Tel: +54 911 1111 2222",
+    "idPublicacion": 1762169160675,
+    "leida": false
+  },
+  {
+    "id": 1762204833479,
+    "destinatarioMail": "ramirolangsam@gmail.com",
+    "remitenteMail": "ramirolangsam@gmail.com",
+    "mensaje": "Ramiro Langsam está interesado en Karen. Tel: +54 911 1111 2222",
+    "idPublicacion": 1762168912753,
+    "leida": false
+  },
+  {
+    "id": 1762204838188,
+    "destinatarioMail": "ramirolangsam@gmail.com",
+    "remitenteMail": "ramirolangsam@gmail.com",
+    "mensaje": "Ramiro Langsam está interesado en Desconocido. Tel: +54 911 1111 2222",
+    "idPublicacion": 1762169332835,
+    "leida": false
   }
 ]
