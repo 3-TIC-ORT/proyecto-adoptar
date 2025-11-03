@@ -215,11 +215,7 @@ window.addEventListener("DOMContentLoaded", () => {
   let contenedor = document.querySelector(".publicaciones");
 
   usuario =
-    JSON.parse(localStorage.getItem("usuarioLogueado")) ||
     JSON.parse(localStorage.getItem("usuarioActual")) ||
-    JSON.parse(localStorage.getItem("user")) ||
-    JSON.parse(localStorage.getItem("usuario")) ||
-    JSON.parse(localStorage.getItem("datosUsuario")) ||
     null;
 
   getEvent("obtenerPublicaciones", (publicaciones) => {
@@ -342,10 +338,6 @@ campana.addEventListener("click", (e) => {
 
   let usuario =
     JSON.parse(localStorage.getItem("usuarioActual")) ||
-    JSON.parse(localStorage.getItem("usuarioLogueado")) ||
-    JSON.parse(localStorage.getItem("user")) ||
-    JSON.parse(localStorage.getItem("usuario")) ||
-    JSON.parse(localStorage.getItem("datosUsuario")) ||
     null;
 
   if (!usuario || !usuario.mail) {

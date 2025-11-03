@@ -152,7 +152,7 @@ enviarBtn.addEventListener("click", (e) => {
     let nombreUsuario = usuario?.nombre || usuario?.mail || "Anónimo";
     let nuevoComentario = document.createElement("p");
     nuevoComentario.textContent = `${nombreUsuario}: ${textarea.value}`;
-    listaComentarios.appendChild(nuevoComentario); // ✅ era lista
+    listaComentarios.appendChild(nuevoComentario); 
 
     postEvent("guardarComentario", {
       idPublicacion: publiData.id,
