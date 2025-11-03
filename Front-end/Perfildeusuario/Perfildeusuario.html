@@ -20,31 +20,30 @@
     </header>
     <div class="linea"></div>
     <div class="contenedor">
-        <div class="Textos">
+        <div class="perfil-container">
+          <div class="foto-area">
+          <div class="circuloperfil">
+              <img id="preview" alt="Foto de perfil">
+          </div>
+          <form action="subir.php" method="post" enctype="multipart/form-data" class="foto-form">
+            <label for="foto">Selecciona una imagen:</label>
+            <input type="file" name="foto" id="foto" accept="image/*" required>
+        </form>
+          </div>
+          <div class="botones">
+            <button class="botoneditar" id="editarPerfil">EDITAR PERFIL</button>
+            <button class="Cerrarsesion">CERRAR SESIÓN</button>
+            </div>
+          <div class="Textos">
             <h2 id="saludarusuario">Hola nombre usuario</h2>
             <p id="NombreUsuario">Nombre: x</p> 
             <p id="email">Email: X@gmail.com</p>
             <p id="ubicacion">Ubicación: x</p>    
             <p id="telefono">Teléfono: x</p>
             <p id="DescripcionUsuario">Descripcion: x</p>
-            <div class="botones">
-            <button class="botoneditar" id="editarPerfil">Editar información</button>
-            <button class="Cerrarsesion">Cerrar sesión</button>
-            </div>
-          
         </div>
-
-        <div class="perfil-container">
-          <div class="circuloperfil">
-              <img id="preview" alt="Foto de perfil">
-          </div>
-          <form action="subir.php" method="post" enctype="multipart/form-data" class="foto-form">
-              <label for="foto">Selecciona una imagen:</label>
-              <input type="file" name="foto" id="foto" accept="image/*" required>
-              
-          </form>
       </div>
-    </div>
+
                 <div id="popup" class="popup">
   <div class="popup-content">
     <h3 id="popup-title">Aviso</h3>
