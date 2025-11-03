@@ -6,5 +6,69 @@
     "mensaje": "Bruno Ferro escribió en la publicación de Jose.",
     "idPublicacion": 1760625454138,
     "leida": false
+  },
+  {
+    "id": 1762168707310,
+    "destinatarioMail": "ramirolangsam@gmail.com",
+    "remitenteMail": "ramirolangsam@gmail.com",
+    "mensaje": "Ramiro Langsam escribió en la publicación de Rocco.",
+    "idPublicacion": 1762168685338,
+    "leida": false
+  },
+  {
+    "id": 1762170107215,
+    "destinatarioMail": "ramirolangsam@gmail.com",
+    "remitenteMail": "ramirolangsam@gmail.com",
+    "mensaje": "Ramiro Langsam escribió en la publicación de Karen.",
+    "idPublicacion": 1762168912753,
+    "leida": false
+  },
+  {
+    "id": 1762170113448,
+    "destinatarioMail": "ramirolangsam@gmail.com",
+    "remitenteMail": "ramirolangsam@gmail.com",
+    "mensaje": "Ramiro Langsam escribió en la publicación de Facundo.",
+    "idPublicacion": 1762169160675,
+    "leida": false
+  },
+  {
+    "id": 1762170124341,
+    "destinatarioMail": "ramirolangsam@gmail.com",
+    "remitenteMail": "ramirolangsam@gmail.com",
+    "mensaje": "Ramiro Langsam escribió en la publicación de Desconocido.",
+    "idPublicacion": 1762169332835,
+    "leida": false
+  },
+  {
+    "id": 1762170138782,
+    "destinatarioMail": "ramirolangsam@gmail.com",
+    "remitenteMail": "ramirolangsam@gmail.com",
+    "mensaje": "Ramiro Langsam escribió en la publicación de agata.",
+    "idPublicacion": 1762169553732,
+    "leida": false
+  },
+  {
+    "id": 1762170196807,
+    "destinatarioMail": "ramirolangsam@gmail.com",
+    "remitenteMail": "ramirolangsam@gmail.com",
+    "mensaje": "Ramiro Langsam escribió en la publicación de Marcos.",
+    "idPublicacion": 1762169672310,
+    "leida": false
+  },
+  {
+    "id": 1762170226128,
+    "destinatarioMail": "ramirolangsam@gmail.com",
+    "remitenteMail": "ramirolangsam@gmail.com",
+    "mensaje": "Ramiro Langsam escribió en la publicación de Andrea.",
+    "idPublicacion": 1762169861697,
+    "leida": false
+  },
+  {
+    "id": 1762170268743,
+    "destinatarioMail": "ramirolangsam@gmail.com",
+    "remitenteMail": "ramirolangsam@gmail.com",
+    "mensaje": "Ramiro Langsam escribió en la publicación de Desconocido.",
+    "idPublicacion": 1762170027050,
+    "leida": false
   }
 ]
