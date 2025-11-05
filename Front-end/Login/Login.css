@@ -62,14 +62,14 @@ body {
   }
   
   .login-box {
+    position: relative;
     background-color: rgba(255, 255, 255, 0.95);
     border-radius: 15px;
-    padding: 20px 35px; 
+    padding: 15px 40px; 
     width: 350px;
     box-shadow: 0 0 10px rgba(0,0,0,0.3);
     text-align: center;
-    position: relative;
-    padding-top: 80px;
+    padding-top: 80px; 
   }
   .user-icon {
     width: 110px;
