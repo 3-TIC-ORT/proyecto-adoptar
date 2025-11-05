@@ -230,5 +230,13 @@
     "mensaje": "Ramiro Langsam está interesado en Facundo. Tel: +54 911 1111 2222",
     "idPublicacion": 1762169160675,
     "leida": false
+  },
+  {
+    "id": 1762347852162,
+    "destinatarioMail": "ramirolangsam@gmail.com",
+    "remitenteMail": "ramirolangsam@gmail.com",
+    "mensaje": "Ramiro Langsam está interesado en Facundo. Tel: +54 911 1111 2222",
+    "idPublicacion": 1762169160675,
+    "leida": false
   }
 ]
