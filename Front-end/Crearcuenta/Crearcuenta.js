@@ -74,3 +74,16 @@ function calcularEdad(fechaNacimiento) {
 document.getElementById('EspacioTelefono').addEventListener('input', function () {
   this.value = this.value.replace(/[^0-9 +]/g, '');
 });
+document.addEventListener("DOMContentLoaded", () => {
+  const togglePassword = document.getElementById("togglePassword");
+  const passwordInput = document.getElementById("password");
+
+  togglePassword.addEventListener("click", () => {
+    const esPassword = passwordInput.getAttribute("type") === "password";
+
+    passwordInput.setAttribute("type", esPassword ? "text" : "password");
+    togglePassword.src = esPassword
+      ? "https://cdn-icons-png.flaticon.com/512/709/709586.png" 
+      : "https://cdn-icons-png.flaticon.com/512/709/709612.png"; 
+  });
+});
