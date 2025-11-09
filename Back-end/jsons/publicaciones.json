@@ -158,5 +158,25 @@
     "foto": "/Fotosmascotas/foto_1762170027068.jpeg",
     "creadorMail": "ramirolangsam@gmail.com",
     "creadorNombre": "Ramiro Langsam"
+  },
+  {
+    "id": 1762702586725,
+    "nombreMascota": "Laia",
+    "tipo": "Perro",
+    "tamano": "Pequeño",
+    "genero": "Femenino",
+    "color": "Mixto",
+    "raza": "Pomerania",
+    "edad": "3 meses",
+    "enfermedad": "No",
+    "estado": "Para adoptar",
+    "descripcion": "No dejen las ojotas a su alcance",
+    "telefono": "5491169624578",
+    "lugar": "Churruca, Buenos Aires-GBA",
+    "provincia": "Buenos Aires-GBA",
+    "localidad": "Churruca",
+    "foto": "/Fotosmascotas/foto_1762702586723.jpeg",
+    "creadorMail": "bruno.ferro@outlook.com",
+    "creadorNombre": "Bruno Ferro"
   }
 ]

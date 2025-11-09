@@ -406,8 +406,8 @@ button{
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     overflow: hidden;
     text-align: center;
-    min-height: 390px;
-    max-height: 410px;
+    min-height: 410px;
+    max-height: 430px;
 }
 .publicacion.expandida{
   max-height: 600px;

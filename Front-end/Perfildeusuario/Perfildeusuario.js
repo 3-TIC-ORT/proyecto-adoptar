@@ -66,7 +66,7 @@ botonEditar.addEventListener("click", () => {
         }
       }
     });
-    botonEditar.textContent = "Guardar cambios";
+    botonEditar.textContent = "GUARDAR CAMBIOS";
     editando = true;
   } else {
     campos.forEach(campo => {
@@ -92,7 +92,7 @@ botonEditar.addEventListener("click", () => {
       }
     });
 
-    botonEditar.textContent = "Editar información";
+    botonEditar.textContent = "EDITAR INFORMACIÓN";
     editando = false;
   }
 });
