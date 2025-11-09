@@ -90,10 +90,10 @@ if (postId) {
 
     if (estado === "perdido") {
       textoDefault = "¡Lo encontré!";
-      textoSeleccionado = "¡Reportado!";
+      textoSeleccionado = "¡El usuario a sido notificado!";
     } else if (estado === "encontrado") {
       textoDefault = "¡Es mío!";
-      textoSeleccionado = "¡Reclamado!";
+      textoSeleccionado = "¡El usuario a sido notificado!";
     }
 
     boton.textContent = textoDefault;

@@ -62,25 +62,28 @@ body {
   }
   
   .login-box {
+    position: relative;
     background-color: rgba(255, 255, 255, 0.95);
     border-radius: 15px;
-    padding: 40px 50px;
+    padding: 15px 40px; 
     width: 350px;
     box-shadow: 0 0 10px rgba(0,0,0,0.3);
     text-align: center;
+    padding-top: 80px; 
   }
-  
   .user-icon {
-    width: 80px;
-    height: 80px;
-    background-color: #d9e6f2;
-    border-radius: 50%;
-    margin: 0 auto 20px auto;
+    width: 110px;
+    height: 110px;
     background-image: url("https://cdn-icons-png.flaticon.com/512/847/847969.png");
-    background-size: 50%;
+    background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-  }
+    border-radius: 50%;
+    position: absolute;
+    top: -55px;
+    left: 50%;
+    transform: translateX(-50%);
+  } 
   .containertitulo{
     margin-left: 2em;
     display: flex;
@@ -196,5 +199,15 @@ body {
     padding-left: 40px; 
     font-size: 14px;
     background-color: #f0f0f0;
+  }
+  .toggle-icon {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    opacity: 0.8;
+    cursor: pointer;
   }
   

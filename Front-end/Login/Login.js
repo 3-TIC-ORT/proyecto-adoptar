@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
       password: passwordInput.value,
     };
 
-    // Enviamos los datos al backend
+    
     postEvent("loginUsuario", datosLogin, (respuesta) => {
       if (respuesta.error) {
         mostrarPopup("Error", respuesta.error);
@@ -46,9 +46,24 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Redirección a crear cuenta
+
   let iracrear = document.getElementById("Nocuenta");
   iracrear.addEventListener("click", () => {
     window.location.href = "../Crearcuenta/Crearcuenta.html";
+  });
+});
+document.addEventListener("DOMContentLoaded", () => {
+  const togglePassword = document.getElementById("togglePassword");
+  const passwordInput = document.getElementById("password");
+
+  togglePassword.addEventListener("click", () => {
+    const tipo = passwordInput.getAttribute("type") === "password" ? "text" : "password";
+    passwordInput.setAttribute("type", tipo);
+
+    if (tipo === "password") {
+      togglePassword.src = "https://cdn-icons-png.flaticon.com/512/709/709612.png"; 
+    } else {
+      togglePassword.src = "https://cdn-icons-png.flaticon.com/512/709/709586.png"; 
+    }
   });
 });
