@@ -35,6 +35,9 @@ body {
     align-items: center;
     flex-grow: 100%; 
 } 
+.linea2{
+    margin-left: 5rem;
+}
 .Logo-AdoptAR-Verde{
     width: 3rem;
     height: 3rem;
